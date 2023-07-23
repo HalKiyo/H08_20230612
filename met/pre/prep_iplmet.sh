@@ -1,12 +1,12 @@
 #!/bin/sh
 
 ############################################################
-# Settings
-############################################################
-YEARMIN=2010
-YEARMAX=2019
+# Setting
+##################################j##########################
+YEARMIN=2012
+YEARMAX=2012
 #VARS="LWdown__ SWdown__ Prcp____ PSurf___ Qair____ Wind____"
-VARS="LWdown__"
+VARS="SWdown__"
 ############################################################
 # Original data
 ############################################################
@@ -49,12 +49,18 @@ for VAR in $VARS; do
 #
                 BINGLB=${DIR}${PRJRUNMET}${YEAR}${MON}${DAY}${SUFGLB}
 #               htmaskrplc $ARGGLB $BINGLB $LNDMSKGLB eq 0 1.0E20 $BINGLB
-                htlinear $ARGGLB $ARGRGN $BINGLB ${DIR}temp${SUFRGN}
-                htformat $ARGRGN binary ascii3 ${DIR}temp${SUFRGN} ${DIR}temp.xyz
-                sed -e 's/1.0000000E+20/NaN/g' ${DIR}temp.xyz > ${DIR}temp2.xyz 
-                gmt surface ${DIR}temp2.xyz -R$RFLAG -I$IFLAG -G${DIR}grd -T0 -Ll0
+############################################################
+# save temp1, temp2, temp3 with identical name
+# so that parallel excecution will be possible
+# recommende to remove them after all calculation for storage 
+############################################################
+                ID=${YEAR}${MON}${DAY}
+                htlinear $ARGGLB $ARGRGN $BINGLB ${DIR}${ID}temp${SUFRGN}
+                htformat $ARGRGN binary ascii3 ${DIR}${ID}temp${SUFRGN} ${DIR}${ID}temp.xyz
+                sed -e 's/1.0000000E+20/NaN/g' ${DIR}${ID}temp.xyz > ${DIR}${ID}temp2.xyz 
+                gmt surface ${DIR}${ID}temp2.xyz -R$RFLAG -I$IFLAG -G${DIR}${ID}grd -T0 -Ll0
 #
-                XYZ=${DIR}temp3.xyz  
+                XYZ=${DIR}${ID}temp3.xyz  
                 BIN=${DIR}W5E5____${YEAR}${MON}${DAY}${SUFRGN}    ###Experiment
                 gmt grd2xyz ${DIR}grd > $XYZ
                 htformat   $ARGRGN ascii3 binary $XYZ $BIN

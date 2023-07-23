@@ -7,7 +7,7 @@ from datetime import date
 #------------------------------------
 
 GCM = 'W5E5____'
-yr_start = 1979
+yr_start = 1984
 yr_end   = 2019
 yr_END   = yr_end + 1
 #total_RAIN = 0
@@ -108,7 +108,7 @@ for j in range(yr_start,yr_END):
                 NC.extend(nc0)
 
             fname="/home/kajiyama/H08/H08_20230612/met/org/W5E5v2/daily/tas/" \
-                  f"tas{j}{m}{day}{b_name}.txt"
+                  f"tas{j}{m:02}{day:02}{b_name}.txt"
             fil=open(fname,'w')
             for n in range(LL):
                 tp0=NC[n]
@@ -149,7 +149,7 @@ for j in range(yr_start,yr_END):
                     NC.extend(nc0)
 
                 fname="/home/kajiyama/H08/H08_20230612/met/org/W5E5v2/daily/tas/" \
-                      f"tas{j}{m}{day}{b_name}.txt"
+                      f"tas{j}{m:02}{day:02}{b_name}.txt"
                 fil=open(fname,'w')
                 for n in range(LL):
                     tp0=NC[n]

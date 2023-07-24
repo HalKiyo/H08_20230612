@@ -7,8 +7,8 @@ from datetime import date
 #------------------------------------
 
 GCM = 'W5E5____'
-yr_start = 2010
-yr_end   = 2010
+yr_start = 1979
+yr_end   = 2009
 yr_END   = yr_end + 1
 #total_RAIN = 0
 num_yr   = yr_end - yr_start +1

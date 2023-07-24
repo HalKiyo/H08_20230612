@@ -3,7 +3,7 @@
 ############################################################
 #YEARMIN=2014
 #YEARMAX=2099
-YEARMIN=2019
+YEARMIN=2010
 YEARMAX=2019
 
 ############################################################
@@ -79,9 +79,14 @@ for VAR in $VARS; do
             while [ $DAY -le $DAYMAX ]; do
                 echo "$YEAR $MON $DAY"
                 DAY=`echo $DAY | awk '{printf("%2.2d",$1)}'` 
-                FILE="/home/kajiyama/H08/H08_20230612/met/org/W5E5v2/daily/${VAR}/${VAR}${YEAR}${MON}${DAY}.txt"
+                ###############################################
+                # modify file and htformat parameters 
+                ###############################################
+                #FILE="/home/kajiyama/H08/H08_20230612/met/org/W5E5v2/daily/${VAR}/${VAR}${YEAR}${MON}${DAY}.txt"
+                FILE="/home/kajiyama/H08/H08_20230612/met/org/W5E5v2/daily/${VAR}/${VAR}${YEAR}${MON}${DAY}_gl5.txt"
                 OUTPUT="/home/kajiyama/H08/H08_20230612/met/dat/${DIR}/${PRJ}${RUN}${YEAR}${MON}${DAY}${SUF}"
-                htformat 259200 720 360 $L2X $L2Y -180 180 -90 90 asciiu binary $FILE $OUTPUT
+                #htformat 259200 720 360 $L2X $L2Y -180 180 -90 90 asciiu binary $FILE $OUTPUT
+                htformat 9331200 4320 2160 $L2X $L2Y -180 180 -90 90 asciiu binary $FILE $OUTPUT
                 DAY=`expr $DAY + 01`
             done
             MON=`expr $MON + 01`

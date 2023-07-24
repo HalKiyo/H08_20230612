@@ -3,7 +3,7 @@
 ############################################################
 #YEARMIN=2014
 #YEARMAX=2099
-YEARMIN=1979
+YEARMIN=2019
 YEARMAX=2019
 
 ############################################################
@@ -14,10 +14,10 @@ RUN=____
 #VARS="Tair_b1beta Qair_b1beta Rainf_b1beta Snowf_b1beta SWdown_b1beta LWdown_b1beta PSurf_b1beta Wind_era"
 #GCMS="MIROC-ESM-CHEM NorESM1-M GFDL-ESM2M IPSL-CM5A-LR"
 #VARS="dlwrfsfc dswrfsfc precsfc pressfc spfh2m tave2m wind10m"
-VARS="tas huss pr prsn ps rlds rsds sfcWind"
+#VARS="tas huss pr prsn ps rlds rsds sfcWind"
 #VARS="tas huss pr prsn"
 #VARS="ps rlds rsds sfcWind"
-#VARS="tas"
+VARS="tas"
 #VARS="pr prsn sfcWind"
 #VARS="LWdown__ SWdown__ Prcp____ PSurf___ Qair____ Tair____ Wind____"
 ############################################################
@@ -27,10 +27,10 @@ VARS="tas huss pr prsn ps rlds rsds sfcWind"
 #L2X=../../map/dat/l2x_l2y_/l2x.hlf.txt
 #L2Y=../../map/dat/l2x_l2y_/l2y.hlf.txt
 #SUF=.hlf
-L=259200
-L2X=../../map/dat/l2x_l2y_/l2x.hlf.txt
-L2Y=../../map/dat/l2x_l2y_/l2y.hlf.txt
-SUF=.hlf
+L=9331200
+L2X=../../map/dat/l2x_l2y_/l2x.gl5.txt
+L2Y=../../map/dat/l2x_l2y_/l2y.gl5.txt
+SUF=.gl5
 ############################################################
 # Job (Convert ascii file into binary file)
 ############################################################

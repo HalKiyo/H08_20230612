@@ -7,8 +7,8 @@ import numpy as np
 #import math
 
 ## Map Dimention
-nx=240
-ny=192
+nx=360*12
+ny=180*12
 tag='.CMFH08'
 
 nextxy=np.fromfile('./nextxy.bin','int32'  ).reshape(2,ny,nx)
@@ -16,9 +16,6 @@ rivseq=np.fromfile('./rivseq.bin','int32'  ).reshape(ny,nx)
 rivnum=np.fromfile('./basin.bin', 'int32'  ).reshape(ny,nx)
 rivara=np.fromfile('./uparea.bin','float32').reshape(ny,nx)
 
-# edit your H08 path
-#H08='/work/a03/nyoden/H08_20210301/'
-#H08='/work/a03/nyoden/H08_20210301/'
 #=====================-calculation===============================-
 
 rivnxl=np.zeros((ny,nx))

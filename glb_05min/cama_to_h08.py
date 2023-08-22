@@ -10,19 +10,16 @@ import numpy as np
 nx=4320
 ny=2160
 tag='.CAMA.gl5'
-output='./'
 
-print(len('./rivseq.bin'))
 nextxy=np.fromfile('./nextxy.bin','int32'  ).reshape(2,ny,nx)
 rivseq=np.fromfile('./rivseq.bin','int32'  ).reshape(ny,nx)
 rivnum=np.fromfile('./basin.bin', 'int32'  ).reshape(ny,nx)
 rivara=np.fromfile('./uparea.bin','float32').reshape(ny,nx)
 elevtn=np.fromfile('./elevtn.bin','float32').reshape(ny,nx)
-print(rivseq)
 
 # edit your directory
-#H08='/work/a03/nyoden/H08_20210301'
-#H08='/home/kajiyama/H08/H08_20230612'
+outdir="/home/kajiyama/H08/H08_20230612/map"
+
 #=====================-calculation===============================-
 
 rivnxl=np.zeros((ny,nx))
@@ -88,10 +85,10 @@ for i in range(ny):
 
 #================write down the data========================
 
-#rivnxl.astype(np.float32).tofile('%s/riv_nxl_/rivnxl'%output+tag)
-#rivseq.astype(np.float32).tofile('%s/riv_seq_/rivseq'%output+tag)
-#lndmsk.astype(np.float32).tofile(f"{H08}/map/dat/lnd_ara_/lndmsk"+tag)
-#rivnum.astype(np.float32).tofile('%s/riv_num_/rivnum'%output+tag)
-#rivara.astype(np.float32).tofile('%s/riv_ara_/rivara'%output+tag)
-#rivmou.astype(np.float32).tofile('%s/rivmou'%output+tag)
-#elevtn.astype(np.float32).tofile('%s/elevtn'%output+tag)
+rivnxl.astype(np.float32).tofile('%s/out/riv_nxl_/rivnxl'%outdir+tag)
+rivseq.astype(np.float32).tofile('%s/out/riv_seq_/rivseq'%outdir+tag)
+rivnum.astype(np.float32).tofile('%s/out/riv_num_/rivnum'%outdir+tag)
+rivara.astype(np.float32).tofile('%s/out/riv_ara_/rivara'%outdir+tag)
+#rivmou.astype(np.float32).tofile('%s/out/rivmou'%outdir+tag)
+lndmsk.astype(np.float32).tofile('%s/dat/lnd_msk_/lndmsk'%outdir+tag)
+elevtn.astype(np.float32).tofile('%s/dat/elevtn__/elevtn'%outdir+tag)

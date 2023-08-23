@@ -3,10 +3,10 @@
 ############################################################
 # Setting
 ##################################j##########################
-YEARMIN=2010
-YEARMAX=2010
-#VARS="LWdown__ SWdown__ Prcp____ PSurf___ Qair____ Wind____"
-VARS="Wind____"
+YEARMIN=2019
+YEARMAX=2019
+#VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____"
+VARS="Snowf___"
 ############################################################
 # Original data
 ############################################################
@@ -62,7 +62,7 @@ for VAR in $VARS; do
 #
                 XYZ=${DIR}${ID}temp3.xyz  
                 BIN=${DIR}W5E5____${YEAR}${MON}${DAY}${SUFRGN}    ###Experiment
-                gmt grd2xyz ${DIR}grd > $XYZ
+                gmt grd2xyz ${DIR}${ID}grd > $XYZ
                 htformat   $ARGRGN ascii3 binary $XYZ $BIN
 #
                 DAY=`expr $DAY + 1`

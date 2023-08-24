@@ -6,7 +6,7 @@
 YEARMIN=2019
 YEARMAX=2019
 #VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____"
-VARS="Snowf___"
+VARS="Rainf___"
 ############################################################
 # Original data
 ############################################################

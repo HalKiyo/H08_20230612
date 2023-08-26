@@ -6,7 +6,8 @@
 YEARMIN=2019
 YEARMAX=2019
 #VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____"
-VARS="Rainf___"
+#VARS="Rainf___" # execute after prep_Rainf.sh
+VARS=""
 ############################################################
 # Original data
 ############################################################

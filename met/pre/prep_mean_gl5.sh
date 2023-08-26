@@ -20,12 +20,10 @@ YEARMIN=2019; YEARMAX=2019; YEAROUT=0000
 # Macro (Do not edit below unless you are an expert)
 ######################################################
 DIR=/home/kajiyama/H08/H08_20230612/met/dat
-#SUBDIRS="Prcp____"
-#SUBDIRS="Tair____ Qair____ PSurf___ Wind____ SWdown__ Snowf___"
+#SUBDIRS="Tair____ Qair____ PSurf___ Wind____ SWdown__ LWdown__ Snowf___ Prcp____ Rainf___"
 #SUBDIRS="Tair____"
-#SUBDIRS="Rainf___ Snowf___ Wind____"
-#SUBDIRS="Prcp____ Tair____"
-SUBDIRS="Prcp____"
+#SUBDIRS="Prcp____"
+SUBDIRS="LWdown__"
 ######################################################
 # Job
 ######################################################
@@ -33,7 +31,7 @@ for SUBDIR in $SUBDIRS; do
   echo $SUBDIR
   IN=${DIR}/${SUBDIR}/${PRJ}${RUN}${SUF}
   httime $L ${IN}${IDXORG} $YEARMIN $YEARMAX ${IN}MO
-  #httime $L ${IN}${IDXORG} $YEARMIN $YEARMAX ${IN}YR
+  httime $L ${IN}${IDXORG} $YEARMIN $YEARMAX ${IN}YR
   htmean $L ${IN}MO        $YEARMIN $YEARMAX $YEAROUT
   htmean $L ${IN}YR        $YEARMIN $YEARMAX $YEAROUT
 done

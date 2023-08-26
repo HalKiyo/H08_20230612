@@ -5,9 +5,10 @@
 ##################################j##########################
 YEARMIN=2019
 YEARMAX=2019
-#VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____"
+# Tair is calculated by downscaling_Tair.py
 #VARS="Rainf___" # execute after prep_Rainf.sh
-VARS=""
+#VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____"
+VARS="LWdown__"
 ############################################################
 # Original data
 ############################################################

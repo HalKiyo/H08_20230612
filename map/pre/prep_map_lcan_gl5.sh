@@ -13,7 +13,7 @@ MAP=.CAMA #WFDEI for gl5 @kajiyama
 ARG=$ARGGL5 #$ARGHLF
 #
 OPT=within          # within or nolimit
-MAX=2               # maximum distance of implicit canal
+MAX=6               # maximum distance of implicit canal
 ############################################################
 # in (edit here )
 ############################################################
@@ -28,10 +28,11 @@ RIVNXL=../../map/out/riv_nxl_/rivnxl${MAP}${SUF}
 # out
 ############################################################
 DIRELVMIN=../../map/dat/elv_min_
-ELVMINHLF=${DIRELVMIN}/ETOPO1__00000000.hlf
-ELVMINGL5=${DIRELVMIN}/ETOPO1__00000000${SUF} # for gl5 @menaka
+#ELVMINHLF=${DIRELVMIN}/ETOPO1__00000000.hlf
+#ELVMINGL5=${DIRELVMIN}/ETOPO1__00000000${SUF} # for gl5 @menaka
+
 #ELVMIN=${DIRELVMIN}/ETOPO1__00000000${SUF} # for gl5 @menaka
-ELVMIN=${DIRELVMIN}/elevtn${MAP}${SUF} # for gl5 @kajiyama
+ELVMINGL5=${DIRELVMIN}/elevtn${MAP}${SUF} # for gl5 @kajiyama
 
 DIRCANORG=../../map/out/can_org_   # origin of canal water
 DIRCANDES=../../map/out/can_des_   # destination of canal water
@@ -52,7 +53,7 @@ LOG=temp.log
 #echo $ARG
 #htformat $ARG asciiu binary ${ELVMINORG} ${ELVMIN} > $LOG
 # interpolate the elevation 
-htlinear $ARGHLF $ARGGL5 ${ELVMINHLF} ${ELVMINGL5} > $LOG
+#htlinear $ARGHLF $ARGGL5 ${ELVMINHLF} ${ELVMINGL5} > $LOG
 ############################################################
 # job
 ############################################################
@@ -66,7 +67,10 @@ if [ ! -d $DIRCANCNT ]; then  mkdir $DIRCANCNT; fi
 #
 #ELV=$ELVMINGL5
 #ELV=$ELVMINHLG
-prog_map_lcan $ARG $ELVMIN $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES >> $LOG
+#
+#prog_map_lcan $ARG $ELVMIN $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES >> $LOG
+prog_map_lcan $ARG $ELVMINGL5 $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES >> $LOG
+#
 #############################################################
 # check
 ############################################################

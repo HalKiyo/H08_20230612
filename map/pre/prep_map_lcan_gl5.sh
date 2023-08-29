@@ -30,10 +30,9 @@ RIVNXL=../../map/out/riv_nxl_/rivnxl${MAP}${SUF}
 DIRELVMIN=../../map/dat/elv_min_
 #ELVMINHLF=${DIRELVMIN}/ETOPO1__00000000.hlf
 #ELVMINGL5=${DIRELVMIN}/ETOPO1__00000000${SUF} # for gl5 @menaka
-
-#ELVMIN=${DIRELVMIN}/ETOPO1__00000000${SUF} # for gl5 @menaka
-ELVMINGL5=${DIRELVMIN}/elevtn${MAP}${SUF} # for gl5 @kajiyama
-
+#
+ELVMINGL5=${DIRELVMIN}/elevtn${MAP}${SUF} # cama for gl5 @kajiyama
+#
 DIRCANORG=../../map/out/can_org_   # origin of canal water
 DIRCANDES=../../map/out/can_des_   # destination of canal water
 DIRCANSCO=../../map/out/can_sco_   # score
@@ -62,11 +61,6 @@ if [ ! -d $DIRCANORG ]; then  mkdir $DIRCANORG; fi
 if [ ! -d $DIRCANDES ]; then  mkdir $DIRCANDES; fi
 if [ ! -d $DIRCANSCO ]; then  mkdir $DIRCANSCO; fi
 if [ ! -d $DIRCANCNT ]; then  mkdir $DIRCANCNT; fi
-#
-#prog_map_lcan $ARGHLF $ELVMINHLF $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES > $LOG
-#
-#ELV=$ELVMINGL5
-#ELV=$ELVMINHLG
 #
 #prog_map_lcan $ARG $ELVMIN $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES >> $LOG
 prog_map_lcan $ARG $ELVMINGL5 $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES >> $LOG

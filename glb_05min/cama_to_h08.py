@@ -59,6 +59,7 @@ rivnum=np.fromfile(f"{dir_map}/basin.bin", 'int32'  ).reshape(ny,nx)
 rivara=np.fromfile(f"{dir_map}/uparea.bin",'float32').reshape(ny,nx)
 rivnxd=np.fromfile(f"{dir_map}/nxtdst_grid.bin",'float32').reshape(ny,nx)
 lndara=np.fromfile(f"{dir_map}/grdare.bin", 'float32').reshape(ny, nx)
+elevtn=np.fromfile(f"{dir_map}/elevtn.bin", 'float32').reshape(ny, nx)
 
 # create empty arrays for output
 rivnxl=np.zeros((ny,nx))
@@ -140,10 +141,11 @@ for i in range(ny):
 lndara = np.where(lndara==-9999.0, 1.e20, lndara)
 
 #elevation data
-#for i in range(ny):
-#    for j in range(nx):
-#        if elevtn[i,j]==-9999:
+for i in range(ny):
+    for j in range(nx):
+        if elevtn[i,j]==-9999:
 #            elevtn[i,j]=1.e20
+            elevtn[i,j]=0
 
 #================write down the data========================
 rivnxl.astype(np.float32).tofile(f"{dir_h08}/map/out/riv_nxl_/rivnxl{tag}")
@@ -156,3 +158,4 @@ rivnxd.astype(np.float32).tofile(f"{dir_h08}/map/out/riv_nxd_/rivnxd{tag}")
 if not os.path.isdir(f"{dir_h08}/map/out/riv_mou_"):
     os.mkdir(f"{dir_h08}/map/out/riv_mou_")
 rivmou.astype(np.float32).tofile(f"{dir_h08}/map/out/riv_mou_/rivmou{tag}")
+elevtn.astype(np.float32).tofile(f"{dir_h08}/map/dat/elv_min_/elevtn{tag}")

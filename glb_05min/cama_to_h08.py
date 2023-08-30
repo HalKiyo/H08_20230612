@@ -150,7 +150,7 @@ for i in range(ny):
 #================write down the data========================
 rivnxl.astype(np.float32).tofile(f"{dir_h08}/map/out/riv_nxl_/rivnxl{tag}")
 rivseq.astype(np.float32).tofile(f"{dir_h08}/map/out/riv_seq_/rivseq{tag}")
-lndmsk.astype(np.float32).tofile(f"{dir_h08}/map/dat/lnd_msk_/lndmask{tag}")
+lndmsk.astype(np.float32).tofile(f"{dir_h08}/map/dat/lnd_msk_/lndmsk{tag}")
 lndara.astype(np.float32).tofile(f"{dir_h08}/map/dat/lnd_ara_/lndara{tag}")
 rivnum.astype(np.float32).tofile(f"{dir_h08}/map/out/riv_num_/rivnum{tag}")
 rivara.astype(np.float32).tofile(f"{dir_h08}/map/out/riv_ara_/rivara{tag}")

@@ -5,8 +5,6 @@
 ######################################################
 # Geography (Edit here)
 ######################################################
-#L=259200
-#SUF=.hlf
 L=9331200
 SUF=.gl5
 ######################################################
@@ -20,10 +18,7 @@ YEARMIN=2019; YEARMAX=2019; YEAROUT=0000
 # Macro (Do not edit below unless you are an expert)
 ######################################################
 DIR=/home/kajiyama/H08/H08_20230612/met/dat
-#SUBDIRS="Tair____ Qair____ PSurf___ Wind____ SWdown__ LWdown__ Snowf___ Prcp____ Rainf___"
-#SUBDIRS="Tair____"
-#SUBDIRS="Prcp____"
-SUBDIRS="LWdown__"
+SUBDIRS="Tair____ Qair____ PSurf___ Wind____ SWdown__ LWdown__ Snowf___ Prcp____ Rainf___"
 ######################################################
 # Job
 ######################################################

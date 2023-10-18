@@ -3,8 +3,8 @@
 ############################################################
 #YEARMIN=2014
 #YEARMAX=2099
-YEARMIN=1979
-YEARMAX=2009
+YEARMIN=2019
+YEARMAX=2019
 
 ############################################################
 # Settings (Do not change here basically)
@@ -14,23 +14,23 @@ RUN=____
 #VARS="Tair_b1beta Qair_b1beta Rainf_b1beta Snowf_b1beta SWdown_b1beta LWdown_b1beta PSurf_b1beta Wind_era"
 #GCMS="MIROC-ESM-CHEM NorESM1-M GFDL-ESM2M IPSL-CM5A-LR"
 #VARS="dlwrfsfc dswrfsfc precsfc pressfc spfh2m tave2m wind10m"
-#VARS="tas huss pr prsn ps rlds rsds sfcWind"
+VARS="tas huss pr prsn ps rlds rsds sfcWind"
 #VARS="tas huss pr prsn"
 #VARS="ps rlds rsds sfcWind"
-VARS="tas"
+#VARS="tas"
 #VARS="pr prsn sfcWind"
 #VARS="LWdown__ SWdown__ Prcp____ PSurf___ Qair____ Tair____ Wind____"
 ############################################################
 # Geopgraphy (Do not change here basically)
 ############################################################
-#L=259200
-#L2X=../../map/dat/l2x_l2y_/l2x.hlf.txt
-#L2Y=../../map/dat/l2x_l2y_/l2y.hlf.txt
-#SUF=.hlf
-L=9331200
-L2X=../../map/dat/l2x_l2y_/l2x.gl5.txt
-L2Y=../../map/dat/l2x_l2y_/l2y.gl5.txt
-SUF=.gl5
+L=259200
+L2X=../../map/dat/l2x_l2y_/l2x.hlf.txt
+L2Y=../../map/dat/l2x_l2y_/l2y.hlf.txt
+SUF=.hlf
+#L=9331200
+#L2X=../../map/dat/l2x_l2y_/l2x.gl5.txt
+#L2Y=../../map/dat/l2x_l2y_/l2y.gl5.txt
+#SUF=.gl5
 ############################################################
 # Job (Convert ascii file into binary file)
 ############################################################
@@ -82,11 +82,11 @@ for VAR in $VARS; do
                 ###############################################
                 # modify file and htformat parameters 
                 ###############################################
-                #FILE="/home/kajiyama/H08/H08_20230612/met/org/W5E5v2/daily/${VAR}/${VAR}${YEAR}${MON}${DAY}.txt"
-                FILE="/home/kajiyama/H08/H08_20230612/met/org/W5E5v2/daily/${VAR}/${VAR}${YEAR}${MON}${DAY}_gl5.txt"
+                FILE="/home/kajiyama/H08/H08_20230612/met/org/W5E5v2/daily/${VAR}/${VAR}${YEAR}${MON}${DAY}.txt"
+                #FILE="/home/kajiyama/H08/H08_20230612/met/org/W5E5v2/daily/${VAR}/${VAR}${YEAR}${MON}${DAY}_gl5.txt"
                 OUTPUT="/home/kajiyama/H08/H08_20230612/met/dat/${DIR}/${PRJ}${RUN}${YEAR}${MON}${DAY}${SUF}"
-                #htformat 259200 720 360 $L2X $L2Y -180 180 -90 90 asciiu binary $FILE $OUTPUT
-                htformat 9331200 4320 2160 $L2X $L2Y -180 180 -90 90 asciiu binary $FILE $OUTPUT
+                htformat 259200 720 360 $L2X $L2Y -180 180 -90 90 asciiu binary $FILE $OUTPUT
+                #htformat 9331200 4320 2160 $L2X $L2Y -180 180 -90 90 asciiu binary $FILE $OUTPUT
                 DAY=`expr $DAY + 01`
             done
             MON=`expr $MON + 01`

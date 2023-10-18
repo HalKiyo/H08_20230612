@@ -7,8 +7,8 @@ from datetime import date
 #------------------------------------
 
 GCM = 'W5E5____'
-yr_start = 1979
-yr_end   = 2009
+yr_start = 2019
+yr_end   = 2019
 yr_END   = yr_end + 1
 #total_RAIN = 0
 num_yr   = yr_end - yr_start +1
@@ -16,9 +16,9 @@ num_yr   = yr_end - yr_start +1
 # 20/12 ==> 300/180
 
 #hlf = np.fromfile('../../map/dat/elevtn__/ETOP01.hlf','float32').reshape(360,720)
-hlf = np.fromfile('/home/kajiyama/H08/H08_20230612/map/dat/elevtn__/elehlf2.hlf','float32').reshape(360,720)
+hlf = np.fromfile('/home/kajiyama/H08/H08_20230612/map/dat/elv_min_/ETOPO1__00000000.hlf','float32').reshape(360,720)
 #gl5 = np.zeros((2160,4320),dtype='float32')
-gl5 = np.fromfile('/home/kajiyama/H08/H08_20230612/map/dat/elevtn__/elevtn2.gl5','float32')
+gl5 = np.fromfile('/home/kajiyama/H08/H08_20230612/map/dat/elv_min_/ETOPO1__00000000.gl5','float32')
 #print gl5.shape
 
 #for a in range(0,360):

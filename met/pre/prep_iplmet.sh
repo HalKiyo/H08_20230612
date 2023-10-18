@@ -8,7 +8,7 @@ YEARMAX=2019
 # Tair is calculated by downscaling_Tair.py
 #VARS="Rainf___" # execute after prep_Rainf.sh
 #VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____"
-VARS="LWdown__"
+VARS="Tair____"
 ############################################################
 # Original data
 ############################################################
@@ -33,7 +33,8 @@ SUFRGN=.gl5
 ############################################################
 # input file
 ############################################################
-#LNDMSKGLB=/workm/Doi/H08_20190701/map/dat/lnd_msk_/lndmsk.WFDEI.hlf
+LNDMSKGLB=../../map/dat/lnd_msk_/lndmsk.WFDEI.hlf
+#LNDMSKGLB=../../map/dat/lnd_msk_/lndmsk.WFDEI.gl5
 #LNDMSKRGN=../../map/dat/lnd_msk_/lndmsk.CAMA.gl5
 ############################################################
 # Job
@@ -50,7 +51,7 @@ for VAR in $VARS; do
                 echo $DIR $YEAR $MON $DAY
 #
                 BINGLB=${DIR}${PRJRUNMET}${YEAR}${MON}${DAY}${SUFGLB}
-#               htmaskrplc $ARGGLB $BINGLB $LNDMSKGLB eq 0 1.0E20 $BINGLB
+                #htmaskrplc $ARGGLB $BINGLB $LNDMSKGLB eq 0 1.0E20 $BINGLB
 ############################################################
 # save temp1, temp2, temp3 with identical name
 # so that parallel excecution will be possible
@@ -60,11 +61,11 @@ for VAR in $VARS; do
                 htlinear $ARGGLB $ARGRGN $BINGLB ${DIR}${ID}temp${SUFRGN}
                 htformat $ARGRGN binary ascii3 ${DIR}${ID}temp${SUFRGN} ${DIR}${ID}temp.xyz
                 sed -e 's/1.0000000E+20/NaN/g' ${DIR}${ID}temp.xyz > ${DIR}${ID}temp2.xyz 
-                gmt surface ${DIR}${ID}temp2.xyz -R$RFLAG -I$IFLAG -G${DIR}${ID}grd -T0 -Ll0
+                gmt surface ${DIR}${ID}temp2.xyz -R$RFLAG -I$IFLAG -G${DIR}${ID}temp.grd -T0 -Ll0
 #
                 XYZ=${DIR}${ID}temp3.xyz  
                 BIN=${DIR}W5E5____${YEAR}${MON}${DAY}${SUFRGN}    ###Experiment
-                gmt grd2xyz ${DIR}${ID}grd > $XYZ
+                gmt grd2xyz ${DIR}${ID}temp.grd > $XYZ
                 htformat   $ARGRGN ascii3 binary $XYZ $BIN
 #
                 DAY=`expr $DAY + 1`

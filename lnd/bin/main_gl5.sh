@@ -10,7 +10,7 @@ RUN=LR__                # Run name
 YEARMIN=2019		# start year
 YEARMAX=2019		# end year  
 SECINT=86400            # interval
-LDBG=43420              # debugging point
+LDBG=3917287              # debugging point
 PRJMET=W5E5
 RUNMET=____
 ############################################################

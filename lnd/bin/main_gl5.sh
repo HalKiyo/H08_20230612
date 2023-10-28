@@ -1,8 +1,4 @@
-#!/bin/sh
-############################################################
-#to   run the land surface model
-#by   2010/03/31, hanasaki, NIES: H08ver1.0
-############################################################
+#
 # Basic Settings (edit here if you wish)
 ############################################################
 PRJ=W5E5		# Project name
@@ -10,7 +6,7 @@ RUN=LR__                # Run name
 YEARMIN=2019		# start year
 YEARMAX=2019		# end year  
 SECINT=86400            # interval
-LDBG=3917287              # debugging point
+LDBG=1290817            # debugging point
 PRJMET=W5E5
 RUNMET=____
 ############################################################

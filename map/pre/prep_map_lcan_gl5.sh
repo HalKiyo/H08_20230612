@@ -29,8 +29,8 @@ RIVNXL=../../map/out/riv_nxl_/rivnxl${MAP}${SUF}
 ############################################################
 DIRELVMIN=../../map/dat/elv_min_
 #ELVMINHLF=${DIRELVMIN}/ETOPO1__00000000.hlf
-ELVMINGL5=${DIRELVMIN}/ETOPO1__00000000${SUF} # for gl5 @menaka
-#ELVMINGL5=${DIRELVMIN}/elevtn${MAP}${SUF} # cama for gl5 @kajiyama
+#ELVMINGL5=${DIRELVMIN}/ETOPO1__00000000${SUF} # for gl5 @menaka
+ELVMINGL5=${DIRELVMIN}/elevtn${MAP}${SUF} # cama for gl5 @kajiyama
 #
 DIRCANORG=../../map/out/can_org_   # origin of canal water
 DIRCANDES=../../map/out/can_des_   # destination of canal water

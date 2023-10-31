@@ -25,7 +25,7 @@ PROG=./main_gl5
 # edit main.f and re-compile it.)
 ############################################################
 SUF=.gl5                # Suffix
-MAP=.WFDEI              # Map
+MAP=.CAMA              # Map
 ############################################################
 # Meteorological input (Edit here if you wish)
 ############################################################

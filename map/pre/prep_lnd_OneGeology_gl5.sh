@@ -14,7 +14,8 @@
 # For global 5min
 #
 IN=../org/OneGeology/GSC.gl5.txt
-LNDMSK=../../map/dat/lnd_msk_/lndmsk.WFDEI.gl5
+MAP=WFDEI
+LNDMSK=../../map/dat/lnd_msk_/lndmsk.${MAP}.gl5
 #
 L="9331200"
 XY="4320 2160"

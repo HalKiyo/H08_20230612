@@ -19,8 +19,8 @@ L2Y=../../map/dat/l2x_l2y_/l2y.hlf.txt
 LONLAT="-180 180 -90 90"
 ARG="$L $XY $L2X $L2Y $LONLAT"
 SUF=.hlf
-MAP=.WFDEI #.WATCH
-MAP1=.WFDEI
+MAP=.WFDEI #land mask for hlf
+MAP1=.CAMA
 ############################################################
 # Setting (Do not edit here unless you are an expert)
 ############################################################

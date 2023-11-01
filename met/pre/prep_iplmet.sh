@@ -8,7 +8,8 @@ YEARMAX=2019
 # Tair is calculated by downscaling_Tair.py
 #VARS="Rainf___" # execute after prep_Rainf.sh
 #VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____"
-VARS="Tair____"
+#VARS="Tair____"
+VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____ Tair____ Rainf___"
 ############################################################
 # Original data
 ############################################################
@@ -33,7 +34,7 @@ SUFRGN=.gl5
 ############################################################
 # input file
 ############################################################
-LNDMSKGLB=../../map/dat/lnd_msk_/lndmsk.WFDEI.hlf
+#LNDMSKGLB=../../map/dat/lnd_msk_/lndmsk.WFDEI.hlf
 #LNDMSKGLB=../../map/dat/lnd_msk_/lndmsk.WFDEI.gl5
 #LNDMSKRGN=../../map/dat/lnd_msk_/lndmsk.CAMA.gl5
 ############################################################

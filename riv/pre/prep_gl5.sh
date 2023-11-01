@@ -11,7 +11,7 @@ L2X=../../map/dat/l2x_l2y_/l2x.gl5.txt
 L2Y=../../map/dat/l2x_l2y_/l2y.gl5.txt
 LONLAT="-180 180 -90 90"
 SUF=.gl5
-MAP=.WFDEI
+MAP=.CAMA
 ############################################################
 # Settings (Edit here if you change settings)
 ############################################################

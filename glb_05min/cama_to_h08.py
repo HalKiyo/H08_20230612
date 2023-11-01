@@ -91,7 +91,7 @@ lndmsk = np.where(nextxy[0] == -9999, 0, 1)
 
 # river mouth mask
 rivmou = np.where(nextxy[0]==-9999, 0,
-                  np.where(nextxy[0]==-9, 9, 1))
+                  np.where((nextxy[0]==-9) | (nextxy[0]==-10), 9, 1))
 #for i in range(ny) :
 #    for j in range(nx) :
 #        if nextxy[0,i,j]==-9999:

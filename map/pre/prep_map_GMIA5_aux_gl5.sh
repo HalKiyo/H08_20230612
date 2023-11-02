@@ -33,9 +33,9 @@ FRCAEIG=${DIRFRCAEIG}/GMIA5___20050000${SUF}
  FIGFRCAAI=${DIRFRCAAI}/GMIA5___20050000.png
 FIGFRCAEIG=${DIRFRCAEIG}/GMIA5___20050000.png
 #
-AAIM=../../map/dat/aai_____/GMIA5___20050000${MAP}${SUF} # masked
-AEIM=../../map/dat/aei_____/GMIA5___20050000${MAP}${SUF} # masked
-FRCAEIGM=${DIRFRCAEIG}/GMIA5___20050000${MAP}${SUF}      # masked
+AAIM=../../map/dat/aai_____/GMIA5___20050000${SUF} # masked
+AEIM=../../map/dat/aei_____/GMIA5___20050000${SUF} # masked
+FRCAEIGM=${DIRFRCAEIG}/GMIA5___20050000${SUF}      # masked
 #
 LOG=temp.log
 ############################################################

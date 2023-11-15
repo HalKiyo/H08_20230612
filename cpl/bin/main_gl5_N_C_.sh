@@ -14,6 +14,7 @@ YEARMIN=2019            #
 YEARMAX=2019            # 
 SECINT=86400            # interval
 LDBG=80076              # debugging point (high plains)
+MAX=6
 #
 PRJMET=W5E5             # Project name of meteorological data
 RUNMET=____             # Run     name of meteorological data
@@ -166,7 +167,7 @@ LCAN=../../dam/dat/uniform.0.0.bin # must be 10 times larger than the binary.
 #
 # aqueduct settings shown in Hanasaki et al. 2018 
 #
-LCAN=../../map/out/can_des_/candes.l.merged.1${MAP}.bin
+LCAN=../../map/out/can_des_/candes.l.merged.${MAX}${MAP}.bin
 ############################################################
 # Input for water efficiency 1 (Edit here if you wish)
 ############################################################

@@ -73,14 +73,3 @@ iplmet Tair____ $YEAR &
 iplmet Rainf___ $YEAR &
 
 wait
-
-yes | rm /home/kajiyama/H08/H08_20230612/met/dat/LWdown__/*temp*
-yes | rm /home/kajiyama/H08/H08_20230612/met/dat/SWdown__/*temp*
-yes | rm /home/kajiyama/H08/H08_20230612/met/dat/Prcp____/*temp*
-yes | rm /home/kajiyama/H08/H08_20230612/met/dat/Snowf___/*temp*
-yes | rm /home/kajiyama/H08/H08_20230612/met/dat/PSurf___/*temp*
-yes | rm /home/kajiyama/H08/H08_20230612/met/dat/Qair____/*temp*
-yes | rm /home/kajiyama/H08/H08_20230612/met/dat/Wind____/*temp*
-yes | rm /home/kajiyama/H08/H08_20230612/met/dat/Tair____/*temp*
-yes | rm /home/kajiyama/H08/H08_20230612/met/dat/Rainf___/*temp*
-

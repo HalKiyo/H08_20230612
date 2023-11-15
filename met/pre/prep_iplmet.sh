@@ -3,8 +3,8 @@
 ############################################################
 # Setting
 ##################################j##########################
-YEARMIN=2019
-YEARMAX=2019
+YEARMIN=2010
+YEARMAX=2018
 # Tair is calculated by downscaling_Tair.py
 #VARS="Rainf___" # execute after prep_Rainf.sh
 #VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____"

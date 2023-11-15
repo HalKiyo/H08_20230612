@@ -222,7 +222,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
               r1salbedo(i0l)=r0salbedoc2
             else
               r1salbedo(i0l)
-     $             =( r1salbedoc1*(r0avgsurftc2-r1avgsurft(i0l))
+     $             =( r0salbedoc1*(r0avgsurftc2-r1avgsurft(i0l))
      $             +r0salbedoc2*(r1avgsurft(i0l)-r0avgsurftc1))
      $             /
      $             (r0avgsurftc2-r0avgsurftc1)

@@ -12,9 +12,9 @@
 MAP=.CAMA # @kajiyama
 MAX=6
 OPT=within
+SUF=.gl5
 ARG=$ARGGL5
 L=$LGL5
-SUF=.gl5 #.hlf #
 ############################################################
 # in
 ############################################################
@@ -106,8 +106,8 @@ if [ !  -d $DIRCANDES ]; then  mkdir -p $DIRCANDES; fi
 #echo prog_map_K14 $BININHLF $BINOUTHLF $LCANIMPORGHLF $LCANIMPDESHLF $RIVSEQHLF $LCANEXPORGHLF  $LCANEXPDESHLF $LCANMRGORGHLF $LCANMRGDESHLF $L2HLF $n0rec $n0recout >> $LOG
 #prog_map_K14 $BININHLF $BINOUTHLF $LCANIMPORGHLF $LCANIMPDESHLF $RIVSEQHLF                   $LCANEXPORGHLF  $LCANEXPDESHLF $LCANMRGORGHLF $LCANMRGDESHLF                    $LHLF $n0rec $n0recout >> $LOG
 
-n0rec=102
-n0recout=60
+#n0rec=102
+#n0recout=60
 #
-prog_map_K14 $BININ $BINOUT $LCANIMPORG $LCANIMPDES $RIVSEQ $LCANEXPORG $LCANEXPDES $LCANMRGORG $LCANMRGDES $LGL5 $n0rec $n0recout >> $LOG
+prog_map_K14_gl5 $BININ $BINOUT $LCANIMPORG $LCANIMPDES $RIVSEQ $LCANEXPORG $LCANEXPDES $LCANMRGORG $LCANMRGDES >> $LOG
 echo Log: $LOG

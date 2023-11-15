@@ -95,9 +95,9 @@ CRPTYP2=../../map/out/crp_typ2/M08_____20000000${SUF}
 DEMIND=../../map/dat/dem_ind_/AQUASTAT20000000${SUF}FX # Ind wat dem
 DEMDOM=../../map/dat/dem_dom_/AQUASTAT20000000${SUF}FX # Dom wat dem
 #
-FRCGWAGR=../../map/dat/aeigfrc_/GMIA5___20050000${MAP}${SUF} # gw fraction
-FRCGWIND=../../map/dat/frc_gwi_/D12${MAP}${SUF}              # gw fraction
-FRCGWDOM=../../map/dat/frc_gwd_/D12${MAP}${SUF}              # gw fraction
+FRCGWAGR=../../map/dat/aeigfrc_/GMIA5___20050000${SUF} # gw fraction
+FRCGWIND=../../map/dat/frc_gwi_/D12${SUF}              # gw fraction
+FRCGWDOM=../../map/dat/frc_gwd_/D12${SUF}              # gw fraction
 ############################################################
 # Input for environmental flow (Edit here if you wish)
 ############################################################

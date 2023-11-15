@@ -480,7 +480,7 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(14)
+!$omp parallel num_threads(45)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(r1dems(i0l).ne.p0mis)then
@@ -510,7 +510,7 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(14)
+!$omp parallel num_threads(45)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(r1dem(i0l).ne.p0mis)then
@@ -546,7 +546,7 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(14)
+!$omp parallel num_threads(45)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(r1dem(i0l).ne.p0mis)then
@@ -584,7 +584,7 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(14)
+!$omp parallel num_threads(45)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(r1dem(i0l).ne.p0mis)then
@@ -624,7 +624,7 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(14)
+!$omp parallel num_threads(45)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(r1dem(i0l).ne.p0mis)then
@@ -670,7 +670,7 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(14)
+!$omp parallel num_threads(45)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(r1dem(i0l).ne.p0mis)then

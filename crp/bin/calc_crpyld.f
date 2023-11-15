@@ -177,7 +177,7 @@ c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c Heat units or Growing stage
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-!$omp parallel num_threads(15)
+!$omp parallel num_threads(45)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then

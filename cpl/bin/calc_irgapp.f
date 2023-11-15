@@ -132,7 +132,7 @@ d     write(*,*) 'calc_irgapp: |-r1irgara   ',r1irgara(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c irrigation demand max
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-!$omp parallel num_threads(14)
+!$omp parallel num_threads(45)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgirg(i0l).eq.1)then
@@ -157,7 +157,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c demand/supply
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       r1demagr=0.0
-!$omp parallel num_threads(14)
+!$omp parallel num_threads(45)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgirg(i0l).eq.1.and.r1irgara(i0l).ne.0.0)then
@@ -187,7 +187,7 @@ c
           end do
         end if
 c
-!$omp parallel num_threads(14)
+!$omp parallel num_threads(45)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(r1irgara(i0l).ne.0.0)then !! bug fix

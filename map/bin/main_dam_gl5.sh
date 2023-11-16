@@ -70,7 +70,7 @@ if [ ! -d $DIRDAMDOM ]; then mkdir -p $DIRDAMDOM; fi
 ############################################################
 # Job (prepare log file)
 ############################################################
-DIRLOG=../log
+
 if [ ! -d $DIRLOG    ]; then
   mkdir $DIRLOG
 fi

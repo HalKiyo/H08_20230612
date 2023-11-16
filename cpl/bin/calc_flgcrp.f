@@ -67,7 +67,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c Reset target
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
         do i0c=1,n0c
-!$omp parallel num_threads(45)
+!$omp parallel num_threads(24)
 !$omp do private(i0l)
           do i0l=1,n0l
             if(i2flgcul(i0l,i0c).eq.0)then
@@ -118,7 +118,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c Raise flag of advance irrigation
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
         do i0c=1,n0c
-!$omp parallel num_threads(45)
+!$omp parallel num_threads(24)
 !$omp do private(i0l)
           do i0l=1,n0l
             if(i2pltdoy(i0l,i0c).ge.i0dayadvirg+1)then

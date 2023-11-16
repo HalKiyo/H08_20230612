@@ -38,7 +38,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       r1ara=p0mis
-!$omp parallel num_threads(45)
+!$omp parallel num_threads(24)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(r1lndara(i0l).ne.p0mis.and.r1arafrc(i0l).ne.p0mis)then

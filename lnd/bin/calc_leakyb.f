@@ -211,7 +211,7 @@ c     Calculate snow albedo
 c     - See Hanasaki et al., HESS, 12, 1007-1025, 2008a, Eq.B1
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 10    write(*,*) 'calculation start'
-!$omp parallel num_threads(45)
+!$omp parallel num_threads(24)
 !$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then

@@ -61,7 +61,7 @@ function iplmet() {
 #VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____ Tair____ Rainf___"
 #YEARS="2010 .. 2018"
 
-YEAR=2007
+YEAR=2006
 iplmet LWdown__ $YEAR &
 iplmet SWdown__ $YEAR &
 iplmet Prcp____ $YEAR &

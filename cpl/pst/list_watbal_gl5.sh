@@ -8,14 +8,14 @@
 
 PRJ="W5E5"                          # project
 RUN="LR__"                          # run
-#RUN="LECD"
+RUN="LECD"
 PRJMET=W5E5                         # project for meteorology
 #RUNMET=I___
 #PRJMET=wfde
 RUNMET=____                         # run     for meteorology
 PRJDEM=W5E5                         # project for water demand
 RUNDEM=N_C_                         # run     for water demand
-#RUNDEM=LECD_                         # run     for water demand
+RUNDEM=LECD_                         # run     for water demand
 PRJENV=W5E5                         # project for environmental flow
 RUNENV=LR__                         # run     for environmental flow
 #

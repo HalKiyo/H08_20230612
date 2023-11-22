@@ -44,15 +44,15 @@ c Harvesting (tentative)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
         if(c0opthvsdoy.eq.'fix')then
           do i0c=1,n0c
-!$omp parallel num_threads(15)
-!$omp do private(i0l)
+c!$omp parallel num_threads(20)
+c!$omp do private(i0l)
             do i0l=1,n0l
               if(i0doy.eq.i2hvsdoy(i0l,i0c))then
                 i2flgcul(i0l,i0c)=0
               end if
             end do
-!$omp end do
-!$omp end parallel
+c!$omp end do
+c!$omp end parallel
           end do    
         else if(c0opthvsdoy.eq.'free')then
           continue
@@ -67,16 +67,16 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c Reset target
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
         do i0c=1,n0c
-!$omp parallel num_threads(24)
-!$omp do private(i0l)
+c!$omp parallel num_threads(20)
+c!$omp do private(i0l)
           do i0l=1,n0l
             if(i2flgcul(i0l,i0c).eq.0)then
               i2flgirg(i0l,i0c)=0
               r2target(i0l,i0c)=0.0
             end if
           end do
-!$omp end do
-!$omp end parallel
+c!$omp end do
+c!$omp end parallel
         end do
 c       write(*,*) 'calc_flgcrp: i2flgirg(1):',i2flgirg(i0ldbg,1)
 c       write(*,*) 'calc_flgcrp: i2flgirg(2):',i2flgirg(i0ldbg,2)
@@ -118,8 +118,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c Raise flag of advance irrigation
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
         do i0c=1,n0c
-!$omp parallel num_threads(24)
-!$omp do private(i0l)
+c!$omp parallel num_threads(20)
+c!$omp do private(i0l)
           do i0l=1,n0l
             if(i2pltdoy(i0l,i0c).ge.i0dayadvirg+1)then
               if(i0doy.ge.i2pltdoy(i0l,i0c)-i0dayadvirg.and.
@@ -150,8 +150,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
               end if
             end if
           end do
-!$omp end do
-!$omp end parallel
+c!$omp end do
+c!$omp end parallel
         end do
 d       write(*,*) 'calc_flgcrp: i2pltdoy(1):',i2pltdoy(i0ldbg,1)
 d       write(*,*) 'calc_flgcrp: i2pltdoy(2):',i2pltdoy(i0ldbg,2)

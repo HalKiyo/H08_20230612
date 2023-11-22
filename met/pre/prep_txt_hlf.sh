@@ -3,8 +3,8 @@
 ############################################################
 #YEARMIN=2014
 #YEARMAX=2099
-YEARMIN=2010
-YEARMAX=2018
+YEARMIN=1979
+YEARMAX=2009
 
 ############################################################
 # Settings (Do not change here basically)

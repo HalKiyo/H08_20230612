@@ -480,15 +480,15 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(24)
-!$omp do private(i0l)
+c!$omp parallel num_threads(20)
+c!$omp do private(i0l)
       do i0l=1,n0l
         if(r1dems(i0l).ne.p0mis)then
           r1supdef(i0l)=r1dems(i0l)+r1demg(i0l)-r1sups(i0l)-r1supg(i0l)
         end if
       end do
-!$omp end do
-!$omp end parallel
+c!$omp end do
+c!$omp end parallel
 c
       end
 c
@@ -510,8 +510,8 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(24)
-!$omp do private(i0l)
+c!$omp parallel num_threads(20)
+c!$omp do private(i0l)
       do i0l=1,n0l
         if(r1dem(i0l).ne.p0mis)then
           if(r1dem(i0l)-r1sup(i0l).gt.0.0)then
@@ -522,8 +522,8 @@ c
           end if
         end if
       end do
-!$omp end do
-!$omp end parallel
+c!$omp end do
+c!$omp end parallel
 c
       end
 c
@@ -546,8 +546,8 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(24)
-!$omp do private(i0l)
+c!$omp parallel num_threads(20)
+c!$omp do private(i0l)
       do i0l=1,n0l
         if(r1dem(i0l).ne.p0mis)then
           if(i1despot(i0l).eq.1)then
@@ -560,8 +560,8 @@ c
           end if
         end if
       end do
-!$omp end do
-!$omp end parallel
+c!$omp end do
+c!$omp end parallel
 c
       end
 c
@@ -584,8 +584,8 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(24)
-!$omp do private(i0l)
+c!$omp parallel num_threads(20)
+c!$omp do private(i0l)
       do i0l=1,n0l
         if(r1dem(i0l).ne.p0mis)then
           if(i1rclpot(i0l).eq.1)then
@@ -598,8 +598,8 @@ c
           end if
         end if
       end do
-!$omp end do
-!$omp end parallel
+c!$omp end do
+c!$omp end parallel
 c
       end
 c
@@ -624,8 +624,8 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(24)
-!$omp do private(i0l)
+c!$omp parallel num_threads(20)
+c!$omp do private(i0l)
       do i0l=1,n0l
         if(r1dem(i0l).ne.p0mis)then
           if(r1dem(i0l)-r1sup(i0l).gt.0.0)then
@@ -643,8 +643,8 @@ c
           end if
         end if
       end do
-!$omp end do
-!$omp end parallel
+c!$omp end do
+c!$omp end parallel
 c
       end
 c
@@ -670,8 +670,8 @@ c output
 c local
       integer           i0l
 c
-!$omp parallel num_threads(24)
-!$omp do private(i0l)
+c!$omp parallel num_threads(20)
+c!$omp do private(i0l)
       do i0l=1,n0l
         if(r1dem(i0l).ne.p0mis)then
           if(r1dem(i0l)-r1sup(i0l).gt.0.0.and.
@@ -690,8 +690,8 @@ c
           end if
         end if
       end do
-!$omp end do
-!$omp end parallel
+c!$omp end do
+c!$omp end parallel
 c
       end
 c

@@ -13,7 +13,7 @@ MAP=.CAMA #WFDEI for gl5 @kajiyama
 ARG=$ARGGL5 #$ARGHLF
 #
 OPT=within          # within or nolimit
-MAX=6               # maximum distance of implicit canal
+MAX=3               # maximum distance of implicit canal
 ############################################################
 # in (edit here )
 ############################################################

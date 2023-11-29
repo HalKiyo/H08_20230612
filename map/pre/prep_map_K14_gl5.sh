@@ -10,7 +10,7 @@
 #settings
 ###########################################################
 MAP=.CAMA # @kajiyama
-MAX=6
+MAX=3 # maximum distance of explicit canal
 OPT=within
 SUF=.gl5
 ARG=$ARGGL5

@@ -46,8 +46,8 @@ c - outflow (See Eq.2 in Oki et al. 1999)
 c - flowing into the lower stream
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       do i0seq=1,int(r0rivseqmax)
-c!$omp parallel num_threads(20)
-c!$omp do private(i0l)
+!$omp parallel num_threads(18)
+!$omp do private(i0l)
         do i0l=1,n0l
           if(int(r1rivseq(i0l)).eq.i0seq) then
 c 
@@ -74,8 +74,8 @@ c
             end if
           end if
         end do
-c!$omp end do
-c!$omp end parallel
+!$omp end do
+!$omp end parallel
       end do
 c
       end

@@ -38,23 +38,23 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       r1ara=p0mis
-c!$omp parallel num_threads(20)
-c!$omp do private(i0l)
+!$omp parallel num_threads(18)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(r1lndara(i0l).ne.p0mis.and.r1arafrc(i0l).ne.p0mis)then
           r1ara(i0l)=r1lndara(i0l)*r1arafrc(i0l)
         end if
       end do
-c!$omp end do
-c!$omp do private(i0l)
+!$omp end do
+!$omp do private(i0l)
       do i0l=1,n0l
         if(r1ara(i0l).eq.0.0)then
           r1ara(i0l)=p0mis
         end if
       end do
-c!$omp end do
+!$omp end do
 c
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
 cbugfix17/04/26        if(r1ara(i0l).ne.p0mis)then
         if(r1ara(i0l).ne.p0mis.and.r1soilmoist_pr(i0l).gt.0.001)then
@@ -98,7 +98,7 @@ c          write(*,*) i0l,r1rainf(i0l),r1qsm(i0l),r1soilmoist_pr(i0l)
      $         +r1qsm(i0l)   *r0dt)
         end if
       end do
-c!$omp end do
-c!$omp end parallel
+!$omp end do
+!$omp end parallel
 c
       end

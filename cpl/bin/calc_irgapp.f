@@ -132,8 +132,8 @@ d     write(*,*) 'calc_irgapp: |-r1irgara   ',r1irgara(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c irrigation demand max
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp parallel num_threads(20)
-c!$omp do private(i0l)
+!$omp parallel num_threads(18)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgirg(i0l).eq.1)then
           if(i1crptyp(i0l).eq.12)then
@@ -147,8 +147,8 @@ c!$omp do private(i0l)
      $         *r0factor*1000.0*r1target(i0l)
         end if
       end do
-c!$omp end do
-c!$omp end parallel
+!$omp end do
+!$omp end parallel
 
 c
 d     write(*,*) 'calc_irgapp: |-r1smtarget ',r1soilmoisttarget(i0ldbg)
@@ -157,8 +157,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c demand/supply
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       r1demagr=0.0
-c!$omp parallel num_threads(20)
-c!$omp do private(i0l)
+!$omp parallel num_threads(18)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgirg(i0l).eq.1.and.r1irgara(i0l).ne.0.0)then
           if((r1soilmoist(i0l)).lt.r1soilmoisttarget(i0l))then
@@ -168,8 +168,8 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
-c!$omp end parallel
+!$omp end do
+!$omp end parallel
 c
         if(c0optlnduse.eq.'dci')then
           do i0l=1,n0l
@@ -187,8 +187,8 @@ c
           end do
         end if
 c
-c!$omp parallel num_threads(20)
-c!$omp do private(i0l)
+!$omp parallel num_threads(18)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(r1irgara(i0l).ne.0.0)then !! bug fix
           r1soilmoist(i0l)
@@ -197,8 +197,8 @@ c!$omp do private(i0l)
      $         /r1irgara(i0l)
         end if
       end do
-c!$omp end do
-c!$omp end parallel
+!$omp end do
+!$omp end parallel
 c
 d     write(*,*) 'calc_irgapp: after irrig. '
 d     write(*,*) 'calc_irgapp: |-i0secint   ',i0secint

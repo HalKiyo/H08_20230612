@@ -7,7 +7,7 @@
 ############################################################
 
 PRJ="W5E5"                          # project
-RUN="LR__"                          # run
+#RUN="LR__"                          # run
 RUN="LECD"
 PRJMET=W5E5                         # project for meteorology
 #RUNMET=I___

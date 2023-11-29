@@ -210,10 +210,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate snow albedo
 c     - See Hanasaki et al., HESS, 12, 1007-1025, 2008a, Eq.B1
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c10    write(*,*) 'calculation start'
-c!$omp parallel num_threads(20)
-c!$omp do private(i0l)
-10    do i0l=1,n0l
+10    write(*,*) 'calculation start'
+!$omp parallel num_threads(18)
+!$omp do private(i0l)
+      do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           if(r1swe_pr(i0l).gt.0.0)then
             if(r1avgsurft(i0l).le.r0avgsurftc1)then
@@ -232,13 +232,13 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1salbedo: ',r1salbedo(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate albedo
 c     - See Hanasaki et al., HESS, 12, 1007-1025, 2008a, Eq.B2
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           if(r1swe_pr(i0l).le.r0swec)then
@@ -251,27 +251,27 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1albedo: ',r1albedo(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate aerodynamic conductance
 c     - See Hanasaki et al., HESS, 12, 1007-1025, 2008a, Eq.B3
 c     - Caution!! Minimum wind speed (r0windmin)is assumed!!
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1acond(i0l)=r1cd(i0l)*max(r1wind(i0l),r0windmin)
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1acond: ',r1acond(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate density of air (rho)
 c     - See Kondo, Asakura Publ., 1994, pp130, Eq6.1
 c     - Also, Kondo, Asakura Publ., 1994, pp28, Eq2.19
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1rho(i0l)
@@ -279,13 +279,13 @@ c!$omp do private(i0l)
      $         *(1-0.378/0.622*r1qair(i0l))
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1rho: ',r1rho(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate saturated humidity (esat)
 c     - See Kondo, Asakura Publ., 1994, pp26, Eq2.14
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
 c     debug          if(r1avgsurft(i0l)-p0icepnt.lt.-50)then
@@ -304,13 +304,13 @@ c     debug          end if
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1esat: ',r1esat(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate saturated humidity (qsat)
 c     - See Kondo, Asakura Publ., 1994, pp28, Eq2.19
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1qsat(i0l)
@@ -319,7 +319,7 @@ c!$omp do private(i0l)
      $         (r1psurf(i0l)-0.378*r1esat(i0l))
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1qsat: ',r1qsat(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate delta (desat/dT)
@@ -327,7 +327,7 @@ c     - See Kondo, Asakura Publ., 1994, pp130, Eq6.8
 c     - Caution!! snow/snowfree separation omitted.
 c     - Caution!! now esat is calculated for Ts.
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1delta(i0l)
@@ -342,24 +342,24 @@ c!$omp do private(i0l)
      $         (r1psurf(i0l)/100-0.378*r1esat(i0l)/100)**2
         end if
       end do
-c!$omp end do
+!$omp end do
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate delta and zeta of Milly (1992)
 c     - See Milly, J of Clim, 5, 209-226, 1992, Eq18
 c     - Caution!! now esat is calculated for Ts.
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1zeta(i0l)=(p0l*r1rho(i0l)*r1acond(i0l)*r1delta(i0l))
      $         /(4*p0sigma*r1tair(i0l)**3+r1rho(i0l)*p0cp*r1acond(i0l))
         end if
       end do
-c!$omp end do
+!$omp end do
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate soil wetness 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1soilwet_pr(i0l)
@@ -368,13 +368,13 @@ c!$omp do private(i0l)
      $         *(r1w_fieldcap(i0l)-r1w_wilt(i0l)))
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1soilwet_pr: ',r1soilwet_pr(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate beta
 c     - See Hanasaki et al., HESS, 12, 1007-1025, 2008, Eq.B5
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           if(r1swe_pr(i0l).gt.0.0)then
@@ -388,14 +388,14 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1beta: ',r1beta(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate potential evapotranspiration
 c     - See Hanasaki et al., HESS, 12, 1007-1025, 2008, Eq.B3
 c     - See Milly, J of Clim, 5, 209-226, 1992, Eq.22
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           if(r1swe_pr(i0l).gt.0.0)then
@@ -410,13 +410,13 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1potevap: ',r1potevap(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate evaporation
 c     - See Hanasaki et al., HESS, 12, 1007-1025, 2008, Eq.B4
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           if(r1swe_pr(i0l).gt.0.0)then
@@ -435,14 +435,14 @@ c!$omp do private(i0l)
           r1evap(i0l)=r1et(i0l)+r1subsnow(i0l)
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1et:      ',r1et(i0ldbg)
 d     write(*,*) 'calc_leakyb: r1subsnow: ',r1subsnow(i0ldbg)
 d     write(*,*) 'calc_leakyb: r1evap:    ',r1evap(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate latent heat flux
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           if(r1swe_pr(i0l).gt.0.0)then
@@ -455,14 +455,14 @@ c     bug            r1qle(i0l)=p0l*r1evap(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1qle: ',r1qle(i0ldbg)
 d     write(*,*) 'calc_leakyb: r1qv:  ',r1qv(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate sensible heat flux
 c     - See Hanasaki et al., HESS, 12, 1007-1025, 2008, Eq.B6
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1qh(i0l)
@@ -470,35 +470,35 @@ c!$omp do private(i0l)
      $         *(r1avgsurft(i0l)-r1tair(i0l))
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1qh:  ',r1qh(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate shortwave net radiation
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1swnet(i0l)=r1swdown(i0l)*(1-r1albedo(i0l))
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1swnet:  ',r1swnet(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate longwave net radiation
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1lwnet(i0l)=r1lwdown(i0l)-p0sigma*r1avgsurft(i0l)**4
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1lwnet:  ',r1lwnet(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate soil temperature
 c     - See Hanasaki et al., HESS, 12, 1007-1025, 2008, Eq.B8 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1soiltemp(i0l)
@@ -510,13 +510,13 @@ c!$omp do private(i0l)
      $         (sqrt(365.0)+p0omega*real(i0secint))
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1soiltemp:  ',r1soiltemp(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate ground heat flux
 c     - Caution!! Checking incomplete!! (review FR carefully!)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1qg(i0l)
@@ -525,13 +525,13 @@ c!$omp do private(i0l)
      $         +r1cg(i0l)*p0omega*(r1avgsurft(i0l)-r1soiltemp(i0l))
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_leakyb: r1qg:  ',r1qg(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Calculate energy balance
 c     - See Hanasaki et al., HESS, 12, 1007-1025, 2008, Eq.B7
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcal(i0l).eq.1)then
           r1engbal(i0l)
@@ -539,8 +539,8 @@ c!$omp do private(i0l)
      $         -r1qg(i0l)-r1qf(i0l)-r1qv(i0l)
         end if
       end do
-c!$omp end do
-c!$omp end parallel
+!$omp end do
+!$omp end parallel
 d     write(*,*) 'calc_leakyb: r1engbal:  ',r1engbal(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     If i0flgfix = 0 

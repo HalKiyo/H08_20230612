@@ -177,8 +177,8 @@ c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c Heat units or Growing stage
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp parallel num_threads(20)
-c!$omp do private(i0l)
+!$omp parallel num_threads(18)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           if(i1crptyp(i0l).eq.1.or.
@@ -202,7 +202,7 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_crpyld: r1huna:   ',r1huna(i0ldbg)
 d     write(*,*) 'calc_crpyld: r1ihun:   ',r1ihun(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
@@ -224,7 +224,7 @@ c      end do
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c LAI (Modified LAI code)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           if(r1ihun(i0l).le.r1dlai(i1crptyp(i0l)))then
@@ -260,19 +260,19 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_crpyld: r1lai:',r1lai(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c Photosynthesis active radiation
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           r1par(i0l)=0.02092*r1swdown(i0l)*0.00143*60*24
      $         *(1-exp(-0.65*r1lai(i0l)))
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_crpyld: r1par:',r1par(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c water stress (original swim)
@@ -319,13 +319,13 @@ c - water use (wu)
 c - water stress
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       if(c0optws.eq.'no')then
-c!$omp do private(i0l)
+!$omp do private(i0l)
         do i0l=1,n0l
           r1ws(i0l)=1.0
         end do
-c!$omp end do
+!$omp end do
       else
-c!$omp do private(i0l)
+!$omp do private(i0l)
         do i0l=1,n0l
           if(i1flgcul(i0l).eq.1)then
             r1rd(i0l)=0.0
@@ -346,7 +346,7 @@ c
             end if
           end if
         end do
-c!$omp end do
+!$omp end do
       end if
 d     write(*,*) 'calc_crpyld: r1wup:',r1wup(i0ldbg)
 d     write(*,*) 'calc_crpyld: r1wu: ',r1wu(i0ldbg)
@@ -355,14 +355,14 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c temperature stress
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       if(c0optts.eq.'no')then
-c!$omp do private(i0l)
+!$omp do private(i0l)
         do i0l=1,n0l
           r1tsl(i0l)=1.0
           r1tsh(i0l)=1.0
         end do
-c!$omp end do
+!$omp end do
       else
-c!$omp do private(i0l)
+!$omp do private(i0l)
         do i0l=1,n0l
           if(i1flgcul(i0l).eq.1)then
             if(r1tair(i0l)-p0icepnt.lt.r1tb(i1crptyp(i0l)))then
@@ -396,7 +396,7 @@ c!$omp do private(i0l)
             end if
           end if
         end do
-c!$omp end do
+!$omp end do
       end if
 d     write(*,*) 'calc_crpyld: r1tsh:',r1tsh(i0ldbg)
 d     write(*,*) 'calc_crpyld: r1tsl:',r1tsl(i0ldbg)
@@ -404,22 +404,22 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c nitrogen stress
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       if(c0optns.eq.'no')then
-c!$omp do private(i0l)
+!$omp do private(i0l)
         do i0l=1,n0l
           r1ns(i0l)=1.0
         end do
-c!$omp end do
+!$omp end do
       end if
 d     write(*,*) 'calc_crpyld: r1ns:',r1ns(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c phosphorus stress
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       if(c0optps.eq.'no')then
-c!$omp do private(i0l)
+!$omp do private(i0l)
         do i0l=1,n0l
           r1ps(i0l)=1.0
         end do
-c!$omp end do
+!$omp end do
       end if
 d     write(*,*) 'calc_crpyld: r1ps:',r1ps(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
@@ -427,16 +427,16 @@ c Regurating factor
 c - get the primary stress
 c - save the stress
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           r1regf(i0l)
      $         =min(r1ws(i0l),r1tsl(i0l),r1tsh(i0l),r1ns(i0l),r1ps(i0l))
         end if
       end do
-c!$omp end do
+!$omp end do
 c
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           if     (r1regf(i0l).eq.r1ws(i0l) .and.
@@ -457,12 +457,12 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_crpyld: r1regf: ',r1regf(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c Total biomass
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           if(i1crptyp(i0l).eq.1.or.
@@ -478,14 +478,14 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_crpyld: r1bt:     ',r1bt(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c Above ground biomass
 c - 
 c - above ground biomass
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           r1rwt(i0l)=0.4-0.2*r1ihun(i0l)
@@ -493,22 +493,22 @@ c
           r1bag(i0l)=(1.0-r1rwt(i0l))*r1bt(i0l)
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_crpyld: r1rwt:    ',r1rwt(i0ldbg)
 d     write(*,*) 'calc_crpyld: r1bag:    ',r1bag(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c Harvest index / Yield
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           r1hia(i0l)=r1hvsti(i1crptyp(i0l))*100.0*r1ihun(i0l)
      $         /(100.0*r1ihun(i0l)+exp(11.1-10.0*r1ihun(i0l)))
         end if
       end do
-c!omp end do
+!omp end do
 c
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           if(r1ihun(i0l).gt.0.5.and.r1evap(i0l).gt.0.0)then
@@ -517,9 +517,9 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 c
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           if(c0optws.eq.'no')then
@@ -533,16 +533,16 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 c
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           r1hiad(i0l)=r1hia(i0l)*r1wsf(i0l)
      $         /(r1wsf(i0l)+exp(6.117-0.086*r1wsf(i0l)))
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_crpyld: r1hia:  ',r1hia(i0ldbg)
 d     write(*,*) 'calc_crpyld: r1swu:  ',r1swu(i0ldbg)
 d     write(*,*) 'calc_crpyld: r1swp:  ',r1swp(i0ldbg)
@@ -551,7 +551,7 @@ d     write(*,*) 'calc_crpyld: r1hiad: ',r1hiad(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c Virtual Water
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           if(c0optws.eq.'no')then
@@ -567,14 +567,14 @@ c!$omp do private(i0l)
           end if
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_crpyld: r1cwd:  ',r1cwd(i0ldbg)
 d     write(*,*) 'calc_crpyld: r1cws:  ',r1cws(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c Cropping end flag: due to autumn freeze
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       if(c0optfrz.eq.'yes')then
-c!$omp do private(i0l)
+!$omp do private(i0l)
         do i0l=1,n0l
           if(i1flgcul(i0l).eq.1)then
             if(i1crptyp(i0l).eq.1.or.
@@ -601,13 +601,13 @@ c
             end if
           end if
         end do
-c!$omp end do
+!$omp end do
       end if
 d     write(*,*) 'calc_crpyld: i1flgfrz:  ',i1flgfrz(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c Cropping end flag: due to too long cropping days
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           if(i1crpday(i0l).gt.i0crpdaymax)then
@@ -619,12 +619,12 @@ c!$omp do private(i0l)
           i1flgexc(i0l)=0
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_crpyld: i1flgexc:  ',i1flgexc(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c Cropping end flag: due to maturity
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           if(r1ihun(i0l).gt.r0ihunmat.and.
@@ -639,13 +639,13 @@ c!$omp do private(i0l)
           i1flgmat(i0l)=0
         end if
       end do
-c!$omp end do
+!$omp end do
 d     write(*,*) 'calc_crpyld: i1flgmat: ',i1flgmat(i0ldbg)
 d     write(*,*) 'calc_crpyld: r1yld:    ',r1yld(i0ldbg)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c Cropping end / Refreshing accumulative variables
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c!$omp do private(i0l)
+!$omp do private(i0l)
       do i0l=1,n0l
         if(i1flgcul(i0l).eq.1)then
           if(i1flgmat(i0l).eq.1.or.
@@ -688,8 +688,8 @@ c
           end if
         end if
       end do
-c!$omp end do
-c!$omp end parallel
+!$omp end do
+!$omp end parallel
 d     write(*,*) 'calc_crpyld: r1regfd:  ',r1regfd(i0ldbg)
 c
       end

@@ -73,7 +73,7 @@ htformat $ARG asciiu binary temp.txt $OUT1
 ############################################################
 # job2 (convert binary into list)
 ############################################################
-if [ -f $COD ]; then rm $COD; fi
+if [ -f COD ]; then rm $COD; fi
 NUM=1
 while [ $NUM -le 255 ]; do
   echo $NUM $NUM >> $COD
@@ -83,8 +83,10 @@ htbin2list $L $OUT1 $LNDMSK $COD temp$SUF.txt pergrid > $LOG
 ############################################################
 # job3 (draw)
 ############################################################
-IDMIN=`awk '{print $1}' temp$SUF.txt | head -1`
-IDMAX=`awk '{print $1}' temp$SUF.txt | tail -1`
+#IDMIN=`awk '{print $1}' temp$SUF.txt | head -1` # kajiyama
+#IDMAX=`awk '{print $1}' temp$SUF.txt | tail -1` # kajiyama
+IDMIN=1 # kajiyama
+IDMAX=255 #kajiyama
 gmt makecpt -T$IDMIN/$IDMAX/1 -Z > $CPT
 htdraw $ARG $OUT1 $CPT $EPS
 htconv $EPS $PNG1 rot

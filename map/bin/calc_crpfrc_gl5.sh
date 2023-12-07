@@ -12,7 +12,7 @@ L2Y=$L2YGL5 #../../map/dat/l2x_l2y_/l2y.hlf.txt
 LONLAT="-180 180 -90 90"
 ARG="$L $XY $L2X $L2Y $LONLAT"
 SUF=.gl5 #.hlf
-MAP=.WFDEI #.WATCH
+MAP=.CAMA #.WATCH
 ############################################################
 # Basic setting (Edit here if you wish)
 ############################################################

@@ -17,15 +17,14 @@ pop_d = (pop/area/1000./1000.)
 #-----------------------------------------------
 for num in range(1,901,1):   ##cheak city number##
 
-    tt = 1000
     tt_1 = 1000
     tt_2 = 2000
     tt_3 = 3000
-    location = np.fromfile('./cty_cnt_/city_%08d.gl5'%(num),'float32').reshape(2160,4320)
+    location = np.fromfile(f'../../map/dat/cty_cnt_/city_{num:08d}.gl5','float32').reshape(2160,4320)
     pop_city = pop_list[num-1]*1000
     city_name = name_list[num-1]
     x = np.where(location==1)[0]
-    y = np.where(location==1)[1] 
+    y = np.where(location==1)[1]
     x = x[0]
     y = y[0]
     tt_list = [1000,2000,3000]
@@ -35,8 +34,6 @@ for num in range(1,901,1):   ##cheak city number##
     thre_1 = tt_1*A
     thre_2 = tt_2*A
     thre_3 = tt_3*A
-
-    pop_mask = 0 
 
     mask_1 = np.zeros((2160,4320),'float32')
     mask_1[x,y] = 1
@@ -198,6 +195,7 @@ for num in range(1,901,1):   ##cheak city number##
     tt_best_2 = tt_list[best_index_2]
     thre_best_2 = thre_list[best_index_2]
 
+#-------------------ROUND 3----------------------
     if best_index_2==0:
         best_mask_2 = mask_4
     elif best_index_2==1:
@@ -205,7 +203,6 @@ for num in range(1,901,1):   ##cheak city number##
     elif best_index_2==2:
         best_mask_2 = mask_5
 
-#-------------------ROUND 3----------------------
     tt_6 = tt_best_2-250
     tt_7 = tt_best_2+250
 
@@ -291,65 +288,68 @@ for num in range(1,901,1):   ##cheak city number##
 
 #------------------------------------------------
     if tt_best_3 != 3750 and tt_best_3 != 250 and 0.8<=best_coverage_3<=1.2:
-        print(f"citynum {num}" \
-              f"threshold_1 {tt_best_3}" \
-              f"threshold_2 {thre_best_3}" \
-              f"pop_mask {pop_best_3}" \
-              f"pop_city {pop_city}" \
-              f"coverage {best_coverage_3}" \
-              f"OK grid_num {grid_num}" \
-              f"city_area {city_area}" \
-              f"{city_name}")
+        print(f"citynum {num}\n" \
+              f"threshold_1 {tt_best_3}\n" \
+              f"threshold_2 {thre_best_3}\n" \
+              f"pop_mask {pop_best_3}\n" \
+              f"pop_city {pop_city}\n" \
+              f"coverage {best_coverage_3}\n" \
+              f"OK grid_num {grid_num}\n" \
+              f"city_area {city_area}\n" \
+              f"{city_name}\n")
     elif tt_best_3 != 3750 and tt_best_3 != 250:
-        print(f"citynum {num}" \
-              f"threshold_1 {tt_best_3}" \
-              f"threshold_2 {thre_best_3}" \
-              f"pop_mask {pop_best_3}" \
-              f"pop_city {pop_city}" \
-              f"coverage {best_coverage_3}" \
-              f"NG grid_num {grid_num}" \
-              f"city_area {city_area}" \
-              f"{city_name}")
+        print(f"citynum {num}\n" \
+              f"threshold_1 {tt_best_3}\n" \
+              f"threshold_2 {thre_best_3}\n" \
+              f"pop_mask {pop_best_3}\n" \
+              f"pop_city {pop_city}\n" \
+              f"coverage {best_coverage_3}\n" \
+              f"NG grid_num {grid_num}\n" \
+              f"city_area {city_area}\n" \
+              f"{city_name}\n")
     elif tt_best_3 == 3750:
-        print(f"citynum {num}" \
-              f"threshold_1 {tt_best_3}" \
-              f"threshold_2 {thre_best_3}" \
-              f"pop_mask {pop_best_3}" \
-              f"pop_city {pop_city}" \
-              f"coverage {best_coverage_3}" \
-              f"high grid_num {grid_num}" \
-              f"city_area {city_area}" \
-              f"{city_name}")
+        print(f"citynum {num}\n" \
+              f"threshold_1 {tt_best_3}\n" \
+              f"threshold_2 {thre_best_3}\n" \
+              f"pop_mask {pop_best_3}\n" \
+              f"pop_city {pop_city}\n" \
+              f"coverage {best_coverage_3}\n" \
+              f"high grid_num {grid_num}\n" \
+              f"city_area {city_area}\n" \
+              f"{city_name}\n")
     elif tt_best_3 == 250:
         if 0.8<=best_coverage_3<=1.2:
-            print(f"citynum {num}" \
-                  f"threshold_1 {tt_best_3}" \
-                  f"threshold_2 {thre_best_3}" \
-                  f"pop_mask {pop_best_3}" \
-                  f"pop_city {pop_city}" \
-                  f"coverage {best_coverage_3}" \
-                  f"low_OK grid_num {grid_num}" \
-                  f"city_area {city_area}" \
-                  f"{city_name}")
+            print(f"citynum {num}\n" \
+                  f"threshold_1 {tt_best_3}\n" \
+                  f"threshold_2 {thre_best_3}\n" \
+                  f"pop_mask {pop_best_3}\n" \
+                  f"pop_city {pop_city}\n" \
+                  f"coverage {best_coverage_3}\n" \
+                  f"low_OK grid_num {grid_num}\n" \
+                  f"city_area {city_area}\n" \
+                  f"{city_name}\n")
         else:
-            print(f"citynum {num}" \
-                  f"threshold_1 {tt_best_3}" \
-                  f"threshold_2 {thre_best_3}" \
-                  f"pop_mask {pop_best_3}" \
-                  f"pop_city {pop_city}" \
-                  f"coverage {best_coverage_3}" \
-                  f"low_NG grid_num {grid_num}" \
-                  f"city_area {city_area}" \
-                  f"{city_name}")
+            print(f"citynum {num}\n" \
+                  f"threshold_1 {tt_best_3}\n" \
+                  f"threshold_2 {thre_best_3}\n" \
+                  f"pop_mask {pop_best_3}\n" \
+                  f"pop_city {pop_city}\n" \
+                  f"coverage {best_coverage_3}\n" \
+                  f"low_NG grid_num {grid_num}\n" \
+                  f"city_area {city_area}\n" \
+                  f"{city_name}\n")
 
     name = f'../../map/dat/cty_msk_/txt/city_{num}.txt'
-ff = open(name,'w')
-for l in range(0,2160,1):
-    line = best_mask_3[l,:]
-    aaa = line.tolist()
-    aaa = str(aaa)
-    aa1 = aaa.strip("[")
-    aa2 = aa1.strip("]")
-    aa2 = aa2.strip(",")
-    ff.write("\n%s"%aa2)
-ff.close()
+
+#------------------------------------------------
+
+    ff = open(name,'w')
+    for l in range(0,2160,1):
+        line = best_mask_3[l,:]
+        aaa = line.tolist()
+        aaa = str(aaa)
+        aa1 = aaa.strip("[")
+        aa2 = aa1.strip("]")
+        aa2 = aa2.strip(",")
+        ff.write("\n%s"%aa2)
+    ff.close()

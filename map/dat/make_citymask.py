@@ -265,7 +265,11 @@ def thres_loop(index):
     best_coverage = coverage_array[best_index]
     best_threshold = threshold_density_array[best_index]
 
+    print('#########################################')
+    print('#########################################')
     print(best_threshold, best_grid, best_coverage)
+    print('#########################################')
+    print('#########################################\n')
 
     #------------------------------------------------
     # SAVE FILE
@@ -295,7 +299,7 @@ def thres_loop(index):
 
 
 def main():
-    for index in range(300, 400):
+    for index in range(700, 800):
         thres_loop(index)
 
 

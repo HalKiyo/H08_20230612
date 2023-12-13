@@ -206,7 +206,7 @@ def thres_loop(index):
     error_rate = 0.05
 
     # population density threshold candidate
-    threshold_lst = np.arange(100, 2000, 100)
+    threshold_lst = np.arange(100, 10000, 100)
 
     # shape
     lat_shape = 2160
@@ -290,7 +290,7 @@ def thres_loop(index):
 
 
 def main():
-    for index in range(1, 10):
+    for index in range(1, 100):
         thres_loop(index)
 
 

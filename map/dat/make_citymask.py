@@ -1,7 +1,6 @@
 import numpy as np
 
 def explore_citymask(index, threshold_density=1000):
-    # index=23: Jakarta
 
     #-----------------------------------------------
     # Initialization
@@ -16,82 +15,108 @@ def explore_citymask(index, threshold_density=1000):
     # explore grid radius
     radius_max = 12
 
+    # shape
+    lat_shape = 2160
+    lon_shape = 4320
+
+    # date type
+    dtype= 'float32'
+
+    # h08 directory
+    h08dir = '/home/kajiyama/H08/H08_20230612'
+
+    # initialize variables
+    best_threshold = None
+    best_coverage = float('inf')
+    best_mask = None
+    best_masked_pop = None
+
     #-----------------------------------------------
-    # load true data (UN city list)
+    # load true data (UN city list) unit=[1000person]
     #-----------------------------------------------
 
-    pop_list = []
+    # true population and city name
+    un_pop_list = []
     name_list = []
-    inf_path = '/home/kajiyama/H08/H08_20230612/map/dat/cty_lst_/city_list03.txt'
+
+    # load data
+    inf_path = h08dir + '/map/dat/cty_lst_/city_list03.txt'
     for l in open(inf_path).readlines():
         data = l[:-1].split('	')
-        pop_list.append(int(data[4]))
+        un_pop_list.append(int(data[4]))
         name_list.append(data[5])
 
+    # get true UN city population
+    un_pop = un_pop_list[index-1]*1000
+
+    # get city name
+    city_name = name_list[index-1]
+
     #-----------------------------------------------
-    # load population and ared data
+    #  Get area(m2)
+    #-----------------------------------------------
+
+    area = np.fromfile(h08dir + f'/map/dat/lnd_ara_/lndara.{MAP}.gl5', dtype=dtype).reshape(lat_shape, lon_shape)
+
+    #-----------------------------------------------
+    # load gwp population data
     #-----------------------------------------------
 
     # population data(GWP4 2000)
-    pop = np.fromfile('/home/kajiyama/H08/H08_20230612/map/dat/pop_tot_/C05_a___20000000.gl5', 'float32').reshape(2160, 4320)
-    area = np.fromfile(f'/home/kajiyama/H08/H08_20230612/map/dat/lnd_ara_/lndara.{MAP}.gl5', 'float32').reshape(2160, 4320)
+    gwp_pop = np.fromfile(h08dir + '/map/dat/pop_tot_/C05_a___20000000.gl5', dtype=dtype).reshape(lat_shape, lon_shape)
+
+    # population density (person/km2)
+    gwp_pop_density = (gwp_pop / (area / 10**6))
 
     #-----------------------------------------------
     # load city_center coordinate
     #-----------------------------------------------
 
-    location = np.fromfile(f'/home/kajiyama/H08/H08_20230612/map/dat/cty_cnt_/city_{index:08d}.gl5','float32').reshape(2160,4320)
+    location = np.fromfile(h08dir + f'/map/dat/cty_cnt_/city_{index:08d}.gl5',dtype=dtype).reshape(lat_shape,lon_shape)
     x = np.where(location==1)[0]
     y = np.where(location==1)[1]
     x = x[0]
     y = y[0]
 
     #-----------------------------------------------
-    # check if city center is right
+    # check city center
     #-----------------------------------------------
-    org_cnt = pop[x, y]
-    circle=3
+
+    # original city center
+    org_cnt = gwp_pop[x, y]
+
+    # search radius
+    circle = 3
+
+    # if there is larger grid, center grid is replaced
     for a in range(x-circle, x+circle+1):
         for b in range(y-circle, y+circle+1):
-            candidate = pop[a, b]
+            candidate = gwp_pop[a, b]
             if candidate >= org_cnt:
                 org_cnt = candidate
                 x = a
                 y = b
-
-    #-----------------------------------------------
-    #  Get city population and city name
-    #-----------------------------------------------
-
-    pop_city = pop_list[index-1]*1000
-    city_name = name_list[index-1]
-
-    #-----------------------------------------------
-    #  Get area(km2) and population per grid
-    #-----------------------------------------------
-
-    A = area[x,y]/1000./1000.
-    threshold = threshold_density * A
+                print('city center is replaced')
 
     #-----------------------------------------------
     #  Make save array
     #-----------------------------------------------
 
     # mask array for saving
-    mask = np.zeros((2160,4320),'float32')
+    mask = np.zeros((lat_shape,lon_shape),dtype=dtype)
     mask[x,y] = 1
 
     # copy file of mask array
-    f_mask = np.zeros((2160,4320),'float32')
+    f_mask = np.zeros((lat_shape,lon_shape),dtype=dtype)
 
     #-----------------------------------------------
     #  Make explore array
     #-----------------------------------------------
 
     # explore file
-    search_1 = np.zeros((2160,4320),'float32')
+    search_1 = np.zeros((lat_shape,lon_shape),dtype=dtype)
     search_1[x,y] = 1
-    search_2 = np.zeros((2160,4320),'float32')
+    search_2 = np.zeros((lat_shape,lon_shape),dtype=dtype)
     search_2[x,y] = 1
 
     #-----------------------------------------------
@@ -108,64 +133,60 @@ def explore_citymask(index, threshold_density=1000):
     #  Explore start
     #-----------------------------------------------
 
-    while search_total_num>0 and radius<radius_max:
-        print(f"################## radius = {radius} ##################")
-        for a in range(2160):
-            for b in range(4320):
-                if search_2[a,b]==1:
-                    if pop[a,b]>threshold and radius<radius_max:
-                        # explore match grid
-                        if mask[a-1,b-1]==1 or mask[a,b-1]==1 or mask[a+1,b-1]==1 or mask[a-1,b]==1 or mask[a+1,b]==1 or mask[a-1,b+1]==1 or mask[a,b+1]==1 or mask[a+1,b+1]==1:
-                            mask[a,b] = 1
+    new_mask_added = True
+    coverage_flag = True
+    print(f'processing the city {city_name}...')
 
-                        # evaluate coverage
-                        mp = mask*pop
-                        pop_mask = np.sum(mp)
-                        coverage = float(pop_mask/pop_city)
+    while new_mask_added:
+        new_mask_added = False
+        for a in range(max(0, x - radius_max), min(x + radius_max + 1, lat_shape)):
+            for b in range(max(0, y - radius_max), min(y + radius_max + 1, lon_shape)):
+                if mask[a, b] == 1:
 
-                        # stop exploring
-                        if coverage >= 1.0:
-                            radius = radius_max
+                    # explore surrounded 8 grids
+                    for dx, dy in [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, 1)]:
+                        if coverage_flag is True:
+                            i, j = a + dx, b + dy
+                            # not explored yet
+                            if mask[i, j] == 0:
+                                # within grid range
+                                if 0 <= i < lat_shape and 0<= j < 4320:
+                                    # over threshold
+                                    if gwp_pop_density[i, j] > threshold_density:
+                                        mask[i, j] = 1
+                                        new_mask_added = True
 
+                            # evaluate coverage
+                            gwp_masked_pop = np.sum(mask * gwp_pop)
+                            coverage = float(gwp_masked_pop / un_pop)
 
-        # update radius
-        radius += 1
+                            # stop exploring
+                            if coverage >= 1.0:
+                                new_mask_added = False
+                                coverage_flag = False
 
-        # update search_1
-        search_1 = np.copy(search_2)
-
-        # search area with updated radius
-        for c in range(x-radius, x+radius+1):
-            for d in range(y-radius, y+radius+1):
-                search_2[c,d] = 1
-
-        # diffirence between previous radius and updated radius
-        search_2 = search_2-search_1
-
-        # increament in masks
-        search_total_num = np.sum(mask-f_mask)
-
-        # update mask copy
-        f_mask = np.copy(mask)
+    # update best mask
+    judge_value = abs(1 - coverage)
+    if judge_value < best_coverage:
+        best_threshold = threshold_density
+        best_coverage = coverage
+        best_mask = mask
+        best_masked_pop = gwp_masked_pop
+    grid_num = np.sum(best_mask)
 
     #-----------------------------------------------
     # Output result
     #-----------------------------------------------
 
-    grid_num = np.sum(mask)
-    city_A = mask*A
-    city_area = np.sum(city_A)
-
     print(f"cityindex {index}\n" \
-          f"threshold {threshold}\n" \
-          f"explored_pop {pop_mask}\n" \
-          f"true_pop {pop_city}\n" \
-          f"coverage {coverage}\n" \
+          f"threshold {best_threshold}\n" \
+          f"explored_pop {best_masked_pop}\n" \
+          f"true_pop {un_pop}\n" \
+          f"coverage {best_coverage}\n" \
           f"city_mask {grid_num}\n" \
-          f"city_area {city_area}\n" \
           f"{city_name}\n")
 
-    return city_name, mask, grid_num, coverage, threshold_density
+    return city_name, best_mask, grid_num, best_coverage, best_threshold
 
 
 def thres_loop(index):
@@ -174,8 +195,23 @@ def thres_loop(index):
     # Initialization
     #------------------------------------------------
 
-    error_rate = 0.01
+    # affordable coverage error
+    error_rate = 0.05
+
+    # population density threshold candidate
     threshold_lst = np.arange(100, 2000, 100)
+
+    # shape
+    lat_shape = 2160
+    lon_shape = 4320
+
+    # date type
+    dtype= 'float32'
+
+    # h08 directory
+    h08dir = '/home/kajiyama/H08/H08_20230612'
+
+    # empty list
     mask_lst = []
     grid_lst = []
     coverage_lst = []
@@ -185,13 +221,17 @@ def thres_loop(index):
     # threshold loop
     #------------------------------------------------
 
-    for i in threshold_lst:
-        print(f"threshold {i}")
-        city_name, mask, grid_num, coverage, threshold_density = explore_citymask(index, i)
-        mask_lst.append(mask)
-        grid_lst.append(grid_num)
-        coverage_lst.append(coverage)
-        threshold_density_lst.append(threshold_density)
+    threshold_add = True
+    while threshold_add:
+        for i in threshold_lst:
+            print(f"threshold {i}")
+            city_name, mask, grid_num, coverage, threshold_density = explore_citymask(index, i)
+            mask_lst.append(mask)
+            grid_lst.append(grid_num)
+            coverage_lst.append(coverage)
+            threshold_density_lst.append(threshold_density)
+            if np.abs(1-coverage) < error_rate:
+                threshold_add = False
 
     #------------------------------------------------
     # Threshold loop
@@ -219,10 +259,10 @@ def thres_loop(index):
     # SAVE FILE
     #------------------------------------------------
 
-    maskpath = f'/home/kajiyama/H08/H08_20230612/map/dat/cty_msk_/txt/city_{index}.txt'
+    maskpath = h08dir + f'/map/dat/cty_msk_/txt/city_{index}.txt'
 
     ff = open(maskpath,'w')
-    for l in range(0,2160):
+    for l in range(0, lat_shape):
         line = best_mask[l,:]
         aaa = line.tolist()
         aaa = str(aaa)
@@ -232,14 +272,18 @@ def thres_loop(index):
         ff.write("\n%s"%aa2)
     ff.close()
 
-    resultpath = f'/home/kajiyama/H08/H08_20230612/map/dat/result_citymask.txt'
+    resultpath = h08dir + f'/map/dat/result_citymask.txt'
 
-    with open(resultpath, 'w') as file:
-        file.write(f"{city_name}, {best_threshold}, {best_coverage}, {best_grid}\n")
+    if index == 1:
+        with open(resultpath, 'w') as file:
+            file.write(f"{city_name}, {best_threshold}, {best_coverage}, {best_grid}\n")
+    else:
+        with open(resultpath, 'a') as file:
+            file.write(f"{city_name}, {best_threshold}, {best_coverage}, {best_grid}\n")
 
 
 def main():
-    for index in range(1, 901):
+    for index in range(1, 10):
         thres_loop(index)
 
 

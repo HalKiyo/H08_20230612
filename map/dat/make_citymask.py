@@ -228,23 +228,28 @@ def thres_loop(index):
     # threshold loop
     #------------------------------------------------
 
-    threshold_add = True
-    while threshold_add:
-        for i in threshold_lst:
+    threshold_added = True
+
+    for i in threshold_lst:
+        if threshold_added is True:
+
             print(f"threshold {i}")
             city_name, mask, grid_num, coverage, threshold_density = explore_citymask(index, i)
             mask_lst.append(mask)
             grid_lst.append(grid_num)
             coverage_lst.append(coverage)
             threshold_density_lst.append(threshold_density)
-            if np.abs(1-coverage) < error_rate:
-                threshold_add = False
+
+            if np.abs(1 - coverage) > error_rate:
+                threshold_added = False
 
     #------------------------------------------------
     # Threshold loop
     #------------------------------------------------
 
     low_errors =  [index for index, value in enumerate(coverage_lst) if np.abs(1-value) < error_rate]
+    if not low_errors:
+        low_errors = [index for index, value in enumerate(coverage_lst)]
     grid_array = np.array(grid_lst)[low_errors]
     mask_array = np.array(mask_lst)[low_errors]
     coverage_array = np.array(coverage_lst)[low_errors]
@@ -290,7 +295,7 @@ def thres_loop(index):
 
 
 def main():
-    for index in range(1, 100):
+    for index in range(300, 400):
         thres_loop(index)
 
 

@@ -165,14 +165,21 @@ def explore_citymask(index, threshold_density=1000):
                                 new_mask_added = False
                                 coverage_flag = False
 
-    # update best mask
+    #-----------------------------------------------
+    #  update variables
+    #-----------------------------------------------
+
+    # judge
     judge_value = abs(1 - coverage)
-    if judge_value < best_coverage:
+    best_value = abs(1 - best_coverage)
+
+    # update
+    if judge_value < best_value:
         best_threshold = threshold_density
         best_coverage = coverage
         best_mask = mask
         best_masked_pop = gwp_masked_pop
-    grid_num = np.sum(best_mask)
+        grid_num = np.sum(best_mask)
 
     #-----------------------------------------------
     # Output result

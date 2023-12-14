@@ -89,6 +89,7 @@ def explore_citymask(index):
 
     # number of replacement
     replaced_num = 0
+    print(f'original center [x, y] = [{x, y}]')
 
     # if there is larger grid, center grid is replaced
     for a in range(x-circle, x+circle+1):
@@ -99,7 +100,7 @@ def explore_citymask(index):
                 x = a
                 y = b
                 replaced_num += 1
-                print(f'city center is replaced {replaced_num}')
+    print(f'replaced center [x, y] = [{x, y}]')
 
     #-----------------------------------------------
     #  Make save array

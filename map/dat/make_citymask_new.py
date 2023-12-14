@@ -16,7 +16,7 @@ def explore_citymask(index):
     circle = 3
 
     # lower limitation of population density
-    lowlim = 50
+    lowlim = 0
 
     # shape
     lat_shape = 2160
@@ -217,14 +217,14 @@ def explore_citymask(index):
 
     if index == 1:
         with open(resultpath, 'w') as file:
-            file.write(f"{city_name}, {best_coverage}, {grid_num}\n")
+            file.write(f"{index}| {city_name}| {best_masked_pop}| {un_pop}| {best_coverage}| {grid_num}\n")
     else:
         with open(resultpath, 'a') as file:
-            file.write(f"{city_name}, {best_coverage}, {grid_num}\n")
+            file.write(f"{index}| {city_name}| {best_masked_pop}| {un_pop}| {best_coverage}| {grid_num}\n")
 
 
 def main():
-    for index in range(70, 901):
+    for index in range(1, 901):
         explore_citymask(index)
 
 

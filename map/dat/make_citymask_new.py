@@ -151,7 +151,7 @@ def explore_citymask(index):
             sorted_search = sorted(search_lst, key=lambda x: x[0], reverse=True)
             largest = sorted_search[0]
             # if largest grid value is too small, stop exploring
-            if gwp_pop_density[largest[1], largest[2]] < lowlim:
+            if gwp_pop_density[largest[1], largest[2]] <= lowlim:
                 new_mask_added = False
                 coverage_flag = False
 

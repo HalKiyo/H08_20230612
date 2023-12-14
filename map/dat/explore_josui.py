@@ -1,3 +1,7 @@
+"""
+wsi_lst.npy will be saved in the same directory
+"""
+
 import os
 import numpy as np
 

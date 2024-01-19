@@ -23,10 +23,16 @@
 #SUF=.gl5
 
 #1min x 1min of globe (.gl1)
-L=233280000
-XY="21600 10800"
-LONLAT="-180 180 -90 90"
-SUF=.gl1
+#L=233280000
+#XY="21600 10800"
+#LONLAT="-180 180 -90 90"
+#SUF=.gl1
+
+#5minx5min of tokyo (.tk5)
+L=1296
+XY="36 36"
+LONLAT="138 141 34 37"
+SUF=.tk5
 
 ############################################################
 # Output (Do not edit here unless you are an expert)

@@ -42,35 +42,35 @@ if [ ! -d ${DIRRIVNXL} ]; then   mkdir -p ${DIRRIVNXL}; fi
 ########################################################
 htcreate $LTK5 0 $TMPNXL
 for i in $(seq 1 $LTK5); do
-    # obtain [lon lat] in tk5 coordinate
-    CRTTK5=`htid $ARGTK5 l $i`
-    IFS=' ' read -ra ARR <<< $CRTTK5
-    CURRENTLON=${ARR[0]}
-    CURRENTLAT=${ARR[1]}
+    echo $i
+
+    # obtain [lon lat] of [l(i) value] in tk5 coordinate
+    TMP1=`htid $ARGTK5 l $i`
+    IFS=' ' read -ra ARR1 <<< $TMP1
+    CURRENTLON=${ARR1[0]}
+    CURRENTLAT=${ARR1[1]}
 
     # obtain [river next l] value in gl5 coordinate at [lon lat]
-    LLLGL5=`htpoint $ARGGL5 lonlat $RIVNXL $CURRENTLON $CURRENTLAT`
-    INT_LLLGL5=$(echo "scale=0; ${LLLGL5//.*/}" | bc)
+    LCOORDINATEGL5=`htpoint $ARGGL5 lonlat $RIVNXL $CURRENTLON $CURRENTLAT`
+    INT_LCOORDINATEGL5=$(echo "scale=0; ${LCOORDINATEGL5//.*/}" | bc)
 
-    if [ "$INT_LLLGL5" -gt 0 ]; then
+    if [ "$INT_LCOORDINATEGL5" -gt 0 ]; then
         # obtain [nxtlon nxtlat] of [river next l] at [lon lat]
-        NXTGL5=`htid $ARGGL5 l $INT_LLLGL5`
-        IFS=' ' read -ra NXTARR <<< $NXTGL5
-        NEXTLON=${NXTARR[0]}
-        NEXTLAT=${NXTARR[1]}
+        TMP2=`htid $ARGGL5 l $INT_LCOORDINATEGL5`
+        IFS=' ' read -ra ARR2 <<< $TMP2
+        NEXTLON=${ARR2[0]}
+        NEXTLAT=${ARR2[1]}
 
-        # obtain [river next l] value in tk5 coordinate at [nxtlon nxtlat]
-        NXTTK5=`htid $ARGTK5 lonlat $NEXTLON $NEXTLAT`
-        IFS=' ' read -ra ARRIST <<< $NXTTK5
-        LLLTK5=${ARRIST[2]}
+        # obtain [l value] of [nxtlon nxtlat] value in tk5 coordinate
+        TMP3=`htid $ARGTK5 lonlat $NEXTLON $NEXTLAT`
+        IFS=' ' read -ra ARR3 <<< $TMP3
+        LCOORDINATETK5=${ARR3[2]}
 
         # print information
-        echo $i
-        echo $LLLTK5
         echo $CURRENTLON $CURRENTLAT
         echo $NEXTLON $NEXTLAT
 
-        # insert [river next l] value in tk5 coordinat at [lon lat]
-        htedit $ARGTK5 lonlat $TMPNXL $LLLTK5 $CURRENTLON $CURRENTLAT
+        # replace [river next l] value in tk5 coordinat at [lon lat]
+        htedit $ARGTK5 lonlat $TMPNXL $LCOORDINATETK5 $CURRENTLON $CURRENTLAT
     fi
 done

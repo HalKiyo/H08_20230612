@@ -30,8 +30,8 @@ MAPTK5=.CAMA
 ########################################################
 DIRRIVNXL=../../out/riv_nxl_
 #
-RIVNXL=$DIRRIVNXL/tmp${MAPGL5}${SUFGL5}
-TMPNXL=$DIRRIVNXL/tmp${MAPTK5}${SUFTK5}
+MSKNXL=$DIRRIVNXL/masked${MAPGL5}${SUFGL5}
+NEWNXL=$DIRRIVNXL/rivnxl${MAPTK5}${SUFTK5}
 
 ########################################################
 # Job (prepare output directory)
@@ -40,7 +40,7 @@ if [ ! -d ${DIRRIVNXL} ]; then   mkdir -p ${DIRRIVNXL}; fi
 ########################################################
 # Job (make files)
 ########################################################
-htcreate $LTK5 0 $TMPNXL
+htcreate $LTK5 0 $NEWNXL
 for i in $(seq 1 $LTK5); do
     echo $i
 
@@ -51,7 +51,7 @@ for i in $(seq 1 $LTK5); do
     CURRENTLAT=${ARR1[1]}
 
     # obtain [river next l] value in gl5 coordinate at [lon lat]
-    LCOORDINATEGL5=`htpoint $ARGGL5 lonlat $RIVNXL $CURRENTLON $CURRENTLAT`
+    LCOORDINATEGL5=`htpoint $ARGGL5 lonlat $MSKNXL $CURRENTLON $CURRENTLAT`
     INT_LCOORDINATEGL5=$(echo "scale=0; ${LCOORDINATEGL5//.*/}" | bc)
 
     if [ "$INT_LCOORDINATEGL5" -gt 0 ]; then
@@ -71,6 +71,6 @@ for i in $(seq 1 $LTK5); do
         echo $NEXTLON $NEXTLAT
 
         # replace [river next l] value in tk5 coordinat at [lon lat]
-        htedit $ARGTK5 lonlat $TMPNXL $LCOORDINATETK5 $CURRENTLON $CURRENTLAT
+        htedit $ARGTK5 lonlat $NEWNXL $LCOORDINATETK5 $CURRENTLON $CURRENTLAT
     fi
 done

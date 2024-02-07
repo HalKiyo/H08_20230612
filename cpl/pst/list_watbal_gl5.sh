@@ -8,8 +8,8 @@
 
 PRJ="W5E5"                          # project
 #RUN="LR__"                          # run
-#RUN="N_C_"
-RUN="LECD"
+RUN="N_C_"
+#RUN="LECD"
 #RUN="NECD"
 PRJMET=W5E5                         # project for meteorology
 #RUNMET=I___

@@ -2164,6 +2164,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     
               do i0l=1,n0l
                 if(r1demagr(i0l).ne.p0mis)then
+c debug hanasaki
+             write(*,*) i0l,r1demagr(i0l),r1frcgwagr(i0l),r1irgeffs(i0l)
                   r1demagrs(i0l)=r1demagr(i0l)*(1.0-r1frcgwagr(i0l))
      $                          /r1irgeffs(i0l)
                 else

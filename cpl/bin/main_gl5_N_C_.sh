@@ -13,7 +13,7 @@ RUN=N_C_               # Run name
 YEARMIN=2019            # 
 YEARMAX=2019            # 
 SECINT=86400            # interval
-LDBG=80076              # debugging point (high plains)
+LDBG=3163328              # debugging point (high plains)
 MAX=6
 #
 PRJMET=W5E5             # Project name of meteorological data

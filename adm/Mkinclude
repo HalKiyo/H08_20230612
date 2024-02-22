@@ -43,8 +43,8 @@ RM      = /bin/rm
 #
 # If you use intel fortran compiler on linux (top: debug; bottom: optimized)
 #
-FC  = ifort -assume byterecl -zero -DD -CB -traceback -fpe0 -g -heap-arrays -mcmodel=medium -shared-intel
-#FC  = ifort -assume byterecl -zero -O3 -heap-arrays -mcmodel=medium -shared-intel -qopenmp
+#FC  = ifort -assume byterecl -zero -DD -CB -traceback -fpe0 -g -heap-arrays -mcmodel=medium -shared-intel
+FC  = ifort -assume byterecl -zero -O3 -heap-arrays -mcmodel=medium -shared-intel -qopenmp
 #
 # If you use g95, enable below (top: debug; bottom: optimized)
 #

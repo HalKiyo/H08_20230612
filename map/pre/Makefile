@@ -3,7 +3,7 @@
 ############################################################
 include  ../../adm/Mkinclude
 DIRLIB = ../../lib/
-OBJS   = prog_grdara prog_damgrd prog_map_M08 prog_map_AQUASTAT prog_riv_WATCH prog_map_C05_nat prog_map_C05_pop prog_map_lcan prog_one2hlf prog_map_K14 prog_map_K14_gl5 prog_frcgw prog_map_cstlin prog_map_IGRAC prog_hlf2gl5 prog_natwat # edited @doi
+OBJS   = prog_grdara prog_damgrd prog_map_M08 prog_map_AQUASTAT prog_riv_WATCH prog_map_C05_nat prog_map_C05_pop prog_map_lcan prog_one2hlf prog_map_K14 prog_map_K14_gl5 prog_frcgw prog_map_cstlin prog_map_IGRAC prog_hlf2gl5 prog_natwat prog_map_cstlin_gl5 # edited @doi
 ############################################################
 #
 ############################################################
@@ -71,6 +71,10 @@ COMPONENT19 = ${DIRLIB}read_binary.o ${DIRLIB}wrte_binary.o \
               ${DIRLIB}igetnxx.o    ${DIRLIB}igetnxy.o   
 TARGET20    = prog_map_K14_gl5
 COMPONENT20 = ${DIRLIB}read_binary.o ${DIRLIB}wrte_binary.o 
+TARGET21    = prog_map_cstlin_gl5
+COMPONENT21 = ${DIRLIB}read_binary.o ${DIRLIB}wrte_binary.o \
+              ${DIRLIB}read_i1l2xy.o ${DIRLIB}read_asciiu.o \
+              ${DIRLIB}conv_r1tor2.o ${DIRLIB}conv_r2tor1.o
 ############################################################
 # make
 ############################################################
@@ -106,6 +110,8 @@ $(TARGET19) : $(TARGET19).o $(COMPONENT19)
 	$(FC) -o $@ $@.o $(COMPONENT19)
 $(TARGET20) : $(TARGET20).o $(COMPONENT20)
 	$(FC) -o $@ $@.o $(COMPONENT20)
+$(TARGET21) : $(TARGET21).o $(COMPONENT21)
+	$(FC) -o $@ $@.o $(COMPONENT21)
 
 ############################################################
 # commands

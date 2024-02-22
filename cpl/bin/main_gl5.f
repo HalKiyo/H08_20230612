@@ -2164,8 +2164,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     
               do i0l=1,n0l
                 if(r1demagr(i0l).ne.p0mis)then
-c debug hanasaki
-             write(*,*) i0l,r1demagr(i0l),r1frcgwagr(i0l),r1irgeffs(i0l)
                   r1demagrs(i0l)=r1demagr(i0l)*(1.0-r1frcgwagr(i0l))
      $                          /r1irgeffs(i0l)
                 else
@@ -2337,6 +2335,9 @@ c update rgw
               end do
 c
               do i0l=1,n0l
+c debug hanasaki
+c             write(*,*) i0l,r2arafrc(i0l,3),r2arafrc(i0l,4)
+
                 if(r3rgw(i0l,0,n0m).gt.0.0)then
                   do i0m=1,n0m
                     if(r3rgw(i0l,0,i0m).ne.p0mis)then
@@ -2391,10 +2392,16 @@ c
                       r3rgw(i0l,0,i0m-1)=r3rgw(i0l,0,i0m-1)
      $               +min(0.0,r3rgw(i0l,0,i0m))
      $               *r2arafrc(i0l,i0m)/r2arafrc(i0l,i0m-1)
+cdebug hanasaki (temporary ignore negative gw) 
+           else if(i0m.eq.2)then
+               continue
             else if(i0m-2.ge.1.and.r2arafrc(i0l,i0m-2).gt.0.0)then
                       r3rgw(i0l,0,i0m-2)=r3rgw(i0l,0,i0m-2)
      $               +min(0.0,r3rgw(i0l,0,i0m))
      $               *r2arafrc(i0l,i0m)/r2arafrc(i0l,i0m-2)
+cdebug hanasaki (temporary ignore negative gw) 
+           else if(i0m.eq.3)then
+               continue
             else if(i0m-3.ge.1.and.r2arafrc(i0l,i0m-3).gt.0.0)then
                       r3rgw(i0l,0,i0m-3)=r3rgw(i0l,0,i0m-3)
      $               +min(0.0,r3rgw(i0l,0,i0m))

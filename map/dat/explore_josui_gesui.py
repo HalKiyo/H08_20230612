@@ -325,7 +325,8 @@ def explore(target_index, remove_grid, innercity_grid, width, save_flag=False):
 #   Update unique river basin number after 2 removing process (unique_values_B)
 #---------------------------------------------------------------------------------------------------------------
 
-    unique_values_B, _ = np.unique(riv_path_city_B, return_counts=True)
+    # compressed()を行わないとマスク値がunique_valueとしてカウントされてしまう
+    unique_values_B, _ = np.unique(riv_path_city_B.compressed(), return_counts=True)
 
 #---------------------------------------------------------------------------------------------------------------
 #   都市マスク内に存在する流域を全範囲で取得(Rivnum_B_array)
@@ -350,7 +351,7 @@ def explore(target_index, remove_grid, innercity_grid, width, save_flag=False):
         # 同じrivnumの位置を取得
         matching_positions = np.where(Rivnum_A_array_citymasked == rivnum_id)
         # これらの位置におけるrivaraの最大値の位置を取得
-        max_rivara_position = np.argmax(g_rivara_cropped[max_rivara_position])
+        max_rivara_position = np.argmax(g_rivara_cropped[matching_positions])
         # 最大のrivaraの位置に対応するrivnumを新しい配列に保存する
         rivara_max_array_B[matching_positions[0][max_rivara_position], matching_positions[1][max_rivara_position]] = rivnum_id
 

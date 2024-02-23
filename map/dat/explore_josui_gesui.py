@@ -2,88 +2,66 @@ import os
 import numpy as np
 
 #---------------------------------------------------------------------------------------------------------------
-# PATH
+# MODULES
 #---------------------------------------------------------------------------------------------------------------
+
 def l_coordinate_to_tuple(lcoordinate, a=2160, b=4320):
     lat_l = a - ((lcoordinate - 1) // b)
     lon_l = (lcoordinate) % b - 1
     return (lat_l, lon_l)
 
 #---------------------------------------------------------------------------------------------------------------
+# Main function
+#---------------------------------------------------------------------------------------------------------------
+
+def explore(target_index, remove_grid, width, latgrd, longrd):
+
+#---------------------------------------------------------------------------------------------------------------
 # PATH
 #---------------------------------------------------------------------------------------------------------------
-root_dir = "/home/kajiyama/H08/H08_20230612"
-# lonlat data
-file_path = f"{root_dir}/map/dat/cty_lst_/city_list03.txt"
-# city mask data
-cmsk_path = f"{root_dir}/map/dat/cty_msk_"
-# riv data
-rivnum_path = f"{root_dir}/map/out/riv_num_/rivnum.CAMA.gl5"
-rivara_path = f"{root_dir}/map/out/riv_ara_/rivara.CAMA.gl5"
-rivnxl_path = f"{root_dir}/map/out/riv_nxl_/rivnxl.CAMA.gl5"
+
+    # root directory
+    root_dir = "/home/kajiyama/H08/H08_20230612"
+    # lonlat data
+    city_path = f"{root_dir}/map/dat/cty_lst_/city_list03.txt"
+    # city mask data
+    cmsk_dir = f"{root_dir}/map/dat/cty_msk_"
+    # riv data
+    rivnum_path = f"{root_dir}/map/out/riv_num_/rivnum.CAMA.gl5"
+    rivara_path = f"{root_dir}/map/out/riv_ara_/rivara.CAMA.gl5"
+    rivnxl_path = f"{root_dir}/map/out/riv_nxl_/rivnxl.CAMA.gl5"
 
 #---------------------------------------------------------------------------------------------------------------
-# Initialization
-#---------------------------------------------------------------------------------------------------------------
-main_city_list_4 = ["London", "Tokyo", "Paris", "LosAngeles-LongBeach-SantaAna"]
-remove_grid = 7
-loop_num = 900 # number of the city
-width = 1
-a = 2160
-b = 4320
-
-#---------------------------------------------------------------------------------------------------------------
-# Input Data
-#---------------------------------------------------------------------------------------------------------------
-# city_list.txtを開いてデータを読み取る
-with open(file_path, "r") as input_file:
-    lines = input_file.readlines() 
-
-# 新しいデータをcityrange_list.txtに書き込む
-city_path = f"{root_dir}/map/dat/cty_lst_/cityrange_list_temp.txt"
-with open(city_path, "w") as output_file:
-    for line in lines:
-        parts = line.split()  # 各行をスペースで分割
-        col3 = float(parts[2])
-        col4 = float(parts[3])
-        # widthを使用して新しいデータを計算
-        new_col1 = col3 - width
-        new_col2 = col3 + width
-        new_col3 = col4 - width
-        new_col4 = col4 + width
-        # 新しいデータを行に追加
-        new_line = f"{line.strip()} {new_col1} {new_col2} {new_col3} {new_col4} \n"
-        output_file.write(new_line)
-
-#---------------------------------------------------------------------------------------------------------------
-# load city information 
+#   City Lon Lat Information
 #---------------------------------------------------------------------------------------------------------------
 
-# open city information text
-with open(city_path, 'r') as file:
-    all_lines = file.readlines()
+    """
+    first line of all_lines
+    1 1088 139.6917 35.6895 34450 Tokyo 138.6917000 140.6917000 34.6895000 36.6895000
+    """
 
-#---------------------------------------------------------------------------------------------------------------
-# city loop start 
-#---------------------------------------------------------------------------------------------------------------
+    target_index = 0 # tokyo (city_num)=1
 
-# city loop
-for idx, line in enumerate(all_lines[:loop_num]):  # loop_numまでの行のみを処理
-    line = line.strip()
-    if not line:
-        break
-    parts = line.split()
-    #city_num = parts[0].zfill(3)
-    city_num = parts[0]
-    city_num = int(city_num)
-    city = parts[5].replace("\"", "").replace("?", "").replace("/", "")
-    lonmin = float(parts[6])
-    lonmax = float(parts[7])
-    latmin = float(parts[8])
-    latmax = float(parts[9])
+    # city_list.txtを開いてデータを読み取る
+    with open(city_path, "r") as input_file:
+        lines = input_file.readlines()
+
+    line = lines[target_index] # 対象となる都市の情報行を参照
+    parts = line.split() # 各行をスペースで分割
+    city_num = int(parts[0]) # 都市番号
+    city_name = parts[5].replace("\"", "").replace("?", "").replace("/", "") # 都市名
+    cnt_lon = float(parts[2]) # 都市中心の経度
+    cnt_lat = float(parts[3]) # 都市中心の緯度
+    # widthを使用して外枠の座標を計算
+    lonmin = float(cnt_lon - width)
+    lonmax = float(cnt_lon + width)
+    latmin = float(cnt_lat - width)
+    latmax = float(cnt_lat + width)
 
     print(f"city_num {city_num}")
-    print(city)
+    print(city_name)
+
+def tmp():
 
 #---------------------------------------------------------------------------------------------------------------
 #   Get Lon Lat 
@@ -93,8 +71,8 @@ for idx, line in enumerate(all_lines[:loop_num]):  # loop_numまでの行のみ�
     # West from UK is negative 0 <= lon <= -180
     # East from UK is positive 0 <= lon <= 180
     # small value to larger value (34-36, 138-140)
-    lat = np.linspace(-90, 90, a+1)
-    lon = np.linspace(-180, 180, b+1)
+    lat = np.linspace(-90, 90, latgrd+1)
+    lon = np.linspace(-180, 180, longrd+1)
 
     ### Calculate the indices corresponding to the desired latitudes and longitudes
     lat_start, lat_end = np.searchsorted(lat, [latmin, latmax])
@@ -123,7 +101,7 @@ for idx, line in enumerate(all_lines[:loop_num]):  # loop_numまでの行のみ�
 #   Load city mask data (g_mask_cropped)
 #---------------------------------------------------------------------------------------------------------------
 
-    g_mask = np.fromfile(f'{cmsk_path}/city_{city_num:08d}.gl5', 'float32').reshape(a, b)
+    g_mask = np.fromfile(f'{cmsk_dir}/city_{city_num:08d}.gl5', 'float32').reshape(latgrd, longrd)
     g_mask = np.flipud(g_mask)
     g_mask = np.ma.masked_where(g_mask >= 1E20, g_mask)
     g_mask_cropped = g_mask[lat_start:lat_end, lon_start:lon_end]
@@ -133,7 +111,7 @@ for idx, line in enumerate(all_lines[:loop_num]):  # loop_numまでの行のみ�
 #   Load basin data (Rivnum_A_array)
 #---------------------------------------------------------------------------------------------------------------
 
-    g_rivnum = np.fromfile(rivnum_path, 'float32').reshape(a, b)
+    g_rivnum = np.fromfile(rivnum_path, 'float32').reshape(latgrd, longrd)
     g_rivnum = np.flipud(g_rivnum)
     g_rivnum = np.ma.masked_where(g_rivnum >= 1E20, g_rivnum)
     Rivnum_A_array = g_rivnum[lat_start:lat_end, lon_start:lon_end]
@@ -144,7 +122,7 @@ for idx, line in enumerate(all_lines[:loop_num]):  # loop_numまでの行のみ�
 #   Load upper river catchment area (g_rivara_cropped)
 #---------------------------------------------------------------------------------------------------------------
 
-    g_rivara = np.fromfile(rivara_path, 'float32').reshape(a, b)
+    g_rivara = np.fromfile(rivara_path, 'float32').reshape(latgrd, longrd)
     g_rivara = np.flipud(g_rivara)
     g_rivara = np.ma.masked_where(g_rivara >= 1E20, g_rivara)
     g_rivara_cropped = g_rivara[lat_start:lat_end, lon_start:lon_end]
@@ -155,7 +133,7 @@ for idx, line in enumerate(all_lines[:loop_num]):  # loop_numまでの行のみ�
 #   Load river's next l coordinate data (g_rivnxl_cropped)
 #---------------------------------------------------------------------------------------------------------------
 
-    g_rivnxl = np.fromfile(rivnxl_path, 'float32').reshape(a, b)
+    g_rivnxl = np.fromfile(rivnxl_path, 'float32').reshape(latgrd, longrd)
     g_rivnxl = np.flipud(g_rivnxl)
     g_rivnxl = np.ma.masked_where(g_rivnxl >= 1E20, g_rivnxl)
     g_rivnxl_cropped = g_rivnxl[lat_start:lat_end, lon_start:lon_end]
@@ -374,8 +352,32 @@ for idx, line in enumerate(all_lines[:loop_num]):  # loop_numまでの行のみ�
 
     # 保存するときは世界地図をひっくり返して，正しい向きにしておく
     # city purification plant
-    num = idx+1 # city ID
-    save_path = f'/home/kajiyama/H08/H08_20230612/map/dat/cty_prf_/city_{num:08d}.gl5'
+    save_path = f'/home/kajiyama/H08/H08_20230612/map/dat/cty_prf_/city_{city_num:08d}.gl5'
     josui_for_save = np.flipud(josui_for_save)
-    josui_for_save.astype(np.float32).tofile(save_path)
-    print(f"{save_path} saved")
+    #josui_for_save.astype(np.float32).tofile(save_path)
+    #print(f"{save_path} saved")
+
+#---------------------------------------------------------------------------------------------------------------
+# Main loop
+#---------------------------------------------------------------------------------------------------------------
+
+def main():
+
+#---------------------------------------------------------------------------------------------------------------
+#   Initialization
+#---------------------------------------------------------------------------------------------------------------
+
+    target_index = 0 # target city index
+    remove_grid = 7 # number of grids in one basin
+    width = 1 # lonlat delta degree from city center
+    latgrd = 2160 # sum of latitude grids (y)
+    longrd = 4320 # sum of longitude grids (x)
+
+    #loop_num = 900 # number of the city (1-900)
+    #main_city_list_4 = ["London", "Tokyo", "Paris", "LosAngeles-LongBeach-SantaAna"]
+
+    explore(target_index, remove_grid, width, latgrd, longrd)
+
+
+if __name__ == '__main__':
+    main()

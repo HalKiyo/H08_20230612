@@ -9,30 +9,31 @@ import numpy as np
 #################################################################################################################
 # INIT
 #################################################################################################################
-root_dir = "/mnt/c/Users/tsimk/Downloads/research/H08/kakiuchi" # @kajiyama
-savefile = 'city_water_intake.txt'
+root_dir = "/home/kajiyama/H08/H08_20230612" # @kajiyama
+savefile = '/map/dat/cty_int_/city_water_intake.txt'
+NAME='W5E5'
 SUF = "gl5"
-year_start = 2002
-year_end = 2003
+year_start = 2019
+year_end = 2020
 sum_year = year_end - year_start
 lat_num = 2160
 lon_num = 4320
-loop_num = 10
+loop_num = 900
 can_exp = 2
 exp_range = 12 # 6
 
 # runoff data
 for y in range(year_start, year_end, 1):
-    riv_dis_1 = np.fromfile(f'{root_dir}/EWEMLR__{y}0000.{SUF}','float32').reshape(lat_num, lon_num)
+    riv_dis_1 = np.fromfile(f'{root_dir}/riv/out/riv_out_/{NAME}LR__{y}0000.{SUF}','float32').reshape(lat_num, lon_num)
     if y == year_start:
-        riv_dis = np.fromfile(f'{root_dir}/EWEMLR__{y}0000.{SUF}','float32').reshape(lat_num, lon_num)
+        riv_dis = np.fromfile(f'{root_dir}/riv/out/riv_out_/{NAME}LR__{y}0000.{SUF}','float32').reshape(lat_num, lon_num)
     else:
         riv_dis = riv_dis + riv_dis_1
 riv_dis = riv_dis/sum_year # average runoff
 
 # canal map
-can_in = np.fromfile(f'{root_dir}/can_in__20000000.{SUF}','float32').reshape(lat_num, lon_num)
-can_out = np.fromfile(f'{root_dir}/can_out_20000000.{SUF}','float32').reshape(lat_num, lon_num)
+can_in = np.fromfile(f'{root_dir}/map/org/K14/in__3___20000000.{SUF}','float32').reshape(lat_num, lon_num)
+can_out = np.fromfile(f'{root_dir}/map/org/K14/out_3___20000000.{SUF}','float32').reshape(lat_num, lon_num)
 
 #################################################################################################################
 # JOB
@@ -41,10 +42,8 @@ can_out = np.fromfile(f'{root_dir}/can_out_20000000.{SUF}','float32').reshape(la
 # city number loop
 for num in range(1, loop_num+1, 1):   ##cheak city number##
     # city center indices is sotred to x & y
-    name_num = f"{num}"
-    name_num = name_num.zfill(8)
-    city_mask = np.fromfile(f'{root_dir}/cty_msk_/city_{name_num}.{SUF}','float32').reshape(lat_num, lon_num)
-    city_center = np.fromfile(f'{root_dir}/cty_cnt_/city_{name_num}.{SUF}','float32').reshape(lat_num, lon_num)
+    city_mask = np.fromfile(f'{root_dir}/map/dat/cty_msk_/city_{num:08}.{SUF}','float32').reshape(lat_num, lon_num)
+    city_center = np.fromfile(f'{root_dir}/map/dat/cty_cnt_/city_{num:08}.{SUF}','float32').reshape(lat_num, lon_num)
     x = np.where(city_center==1)[0]
     y = np.where(city_center==1)[1]
     x = int(x[0])
@@ -140,7 +139,7 @@ for num in range(1, loop_num+1, 1):   ##cheak city number##
 # SAVE
 #################################################################################################################
 
-ff = open(f'{root_dir}/{savefile}', 'w')
+ff = open(f'{root_dir}{savefile}', 'w')
 
 for l in range(0, loop_num, 1):
     line = LIST[l, :]

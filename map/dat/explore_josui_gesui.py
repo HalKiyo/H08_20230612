@@ -14,7 +14,9 @@ def l_coordinate_to_tuple(lcoordinate, a=2160, b=4320):
 # Main function
 #---------------------------------------------------------------------------------------------------------------
 
-def explore(target_index, remove_grid, width, latgrd, longrd):
+def explore(target_index, remove_grid, innercity_grid, width):
+    latgrd = 2160 # sum of latitude grids (y)
+    longrd = 4320 # sum of longitude grids (x)
 
 #---------------------------------------------------------------------------------------------------------------
 # PATH
@@ -40,8 +42,6 @@ def explore(target_index, remove_grid, width, latgrd, longrd):
     1 1088 139.6917 35.6895 34450 Tokyo 138.6917000 140.6917000 34.6895000 36.6895000
     """
 
-    target_index = 0 # tokyo (city_num)=1
-
     # city_list.txtを開いてデータを読み取る
     with open(city_path, "r") as input_file:
         lines = input_file.readlines()
@@ -61,24 +61,24 @@ def explore(target_index, remove_grid, width, latgrd, longrd):
     print(f"city_num {city_num}")
     print(city_name)
 
-def tmp():
-
 #---------------------------------------------------------------------------------------------------------------
-#   Get Lon Lat 
+#   Get Lon Lat
 #---------------------------------------------------------------------------------------------------------------
 
-    ### Define the latitudes and longitudes
+    """Define the latitudes and longitudes"""
     # West from UK is negative 0 <= lon <= -180
     # East from UK is positive 0 <= lon <= 180
     # small value to larger value (34-36, 138-140)
     lat = np.linspace(-90, 90, latgrd+1)
     lon = np.linspace(-180, 180, longrd+1)
 
-    ### Calculate the indices corresponding to the desired latitudes and longitudes
+    """Calculate the indices corresponding to the desired latitudes and longitudes"""
     lat_start, lat_end = np.searchsorted(lat, [latmin, latmax])
     lon_start, lon_end = np.searchsorted(lon, [lonmin, lonmax])
 
-    # adjust to 0.25 grid (lonlat)
+    # adjust to 0.25 grid
+    # 緯度経度の始点グリッドのインデックス
+    # lat
     if lat_start%3 == 0:
         lat_start = lat_start
     elif lat_start%3 == 1:
@@ -92,8 +92,11 @@ def tmp():
         lon_start -= 1
     elif lon_start%3 == 2:
         lon_start += 1
-    # 24 grid x 24 grid
+
+    # 計算領域である正方形の一辺に含まれるグリッド数 (1degree = 12 grids x 12 grids)
     width_grid = width * 12 * 2
+
+    # 緯度経度の終点グリッドのインデックス
     lat_end = lat_start + width_grid
     lon_end = lon_start + width_grid
 
@@ -108,15 +111,15 @@ def tmp():
     g_mask_cropped = np.flipud(g_mask_cropped)
 
 #---------------------------------------------------------------------------------------------------------------
-#   Load basin data (Rivnum_A_array)
+#   Load basin data (g_rivnum_cropped)
 #---------------------------------------------------------------------------------------------------------------
 
     g_rivnum = np.fromfile(rivnum_path, 'float32').reshape(latgrd, longrd)
     g_rivnum = np.flipud(g_rivnum)
     g_rivnum = np.ma.masked_where(g_rivnum >= 1E20, g_rivnum)
-    Rivnum_A_array = g_rivnum[lat_start:lat_end, lon_start:lon_end]
-    Rivnum_A_array = np.flipud(Rivnum_A_array)
-    Rivnum_A_array = np.ma.masked_where(~np.isfinite(Rivnum_A_array) | (Rivnum_A_array == 0), Rivnum_A_array)
+    g_rivnum_cropped = g_rivnum[lat_start:lat_end, lon_start:lon_end]
+    g_rivnum_cropped = np.flipud(g_rivnum_cropped)
+    g_rivnum_cropped = np.ma.masked_where(~np.isfinite(g_rivnum_cropped) | (g_rivnum_cropped == 0), g_rivnum_cropped)
 
 #---------------------------------------------------------------------------------------------------------------
 #   Load upper river catchment area (g_rivara_cropped)
@@ -141,14 +144,14 @@ def tmp():
     g_rivnxl_cropped = np.ma.masked_where(~np.isfinite(g_rivnxl_cropped) | (g_rivnxl_cropped == 0), g_rivnxl_cropped)
 
 #---------------------------------------------------------------------------------------------------------------
-#   Basin data only where city mask exists (Rivnum_A_array_city)
+#   Basin data only where city mask exists (g_rivnum_cropped_city)
 #---------------------------------------------------------------------------------------------------------------
 
-    Rivnum_A_array_city = np.where(g_mask_cropped == 1, Rivnum_A_array, np.nan)
-    Rivnum_A_array_city = np.ma.masked_where(~np.isfinite(Rivnum_A_array_city) | (Rivnum_A_array_city == 0), Rivnum_A_array_city)
+    g_rivnum_cropped_city = np.where(g_mask_cropped == 1, g_rivnum_cropped, np.nan)
+    g_rivnum_cropped_city = np.ma.masked_where(~np.isfinite(g_rivnum_cropped_city) | (g_rivnum_cropped_city == 0), g_rivnum_cropped_city)
 
 #---------------------------------------------------------------------------------------------------------------
-#  　Basin over 7 grids (Rivnum_B_array)
+#   3D array consists of g_rivara_cropped + g_rivnum_cropped (g_ara_num_cropped)
 #---------------------------------------------------------------------------------------------------------------
 
     # g_ara_num_croppedを構造化配列として作成
@@ -157,13 +160,17 @@ def tmp():
 
     # rivaraとrivnumのデータをg_ara_num_croppedに追加
     g_ara_num_cropped['rivara'] = g_rivara_cropped
-    g_ara_num_cropped['rivnum'] = Rivnum_A_array
+    g_ara_num_cropped['rivnum'] = g_rivnum_cropped
+
+#---------------------------------------------------------------------------------------------------------------
+#  　Basin over remove_grid (Rivnum_A_array)
+#---------------------------------------------------------------------------------------------------------------
 
     # g_ara_num_croppedのrivnumをマスク付き配列として取得
-    Rivnum_A_array_masked = np.ma.masked_array(g_ara_num_cropped['rivnum'], np.isnan(g_ara_num_cropped['rivnum']))
+    g_rivnum_cropped_masked = np.ma.masked_array(g_rivnum_cropped, np.isnan(g_rivnum_cropped))
 
     # マスクされていない要素(Nanじゃない値)のユニークな値とその出現回数を取得
-    unique_values, counts = np.unique(Rivnum_A_array_masked.compressed(), return_counts=True)
+    unique_values, counts = np.unique(g_rivnum_cropped_masked.compressed(), return_counts=True)
     value_counts_dict = dict(zip(unique_values, counts))
 
     # 値（個数）の多い順にソート
@@ -172,89 +179,76 @@ def tmp():
 
     # 値（個数）がremove grid以上の項目のみを持つ新しい辞書を作成
     # 流域が小さい物は削除する作業に該当
-    filtered_dict_g12 = {key: value for key, value in sorted_dict_by_value_descending.items() if value >= remove_grid}
+    filtered_dict_A = {key: value for key, value in sorted_dict_by_value_descending.items() if value >= remove_grid}
 
     # 空っぽのマスク配列(24x24を作る)
-    Rivnum_B_array = np.ma.masked_all(Rivnum_A_array_masked.shape, dtype='float32')
+    Rivnum_A_array = np.ma.masked_all(g_rivnum_cropped_masked.shape, dtype='float32')
 
-    # filtered_dict_g12のキー(流域ID)に対して繰り返し処理を行い、
-    # それぞれのrivnumがRivnum_A_array_maskedに存在する位置を特定します。
-    for rivnum_id in filtered_dict_g12.keys():
+    # filtered_dict_Aのキー(流域ID)に対して繰り返し処理を行い、
+    # それぞれのrivnumがg_rivnum_cropped_maskedに存在する位置を特定します。
+    for rivnum_id in filtered_dict_A.keys():
         # 同じrivnumの位置を取得
-        matching_positions = np.where(Rivnum_A_array_masked.data == rivnum_id)
+        matching_positions = np.where(g_rivnum_cropped_masked.data == rivnum_id)
         # これらの位置に新しい配列にrivnumを設定
-        Rivnum_B_array[matching_positions] = rivnum_id
+        Rivnum_A_array[matching_positions] = rivnum_id
 
     # 0 or 非有限数の要素をマスクする
     # Rivnum_B_arrayは都市マスクなしのすべての流域
-    Rivnum_B_array = np.ma.masked_where(~np.isfinite(Rivnum_B_array) | (Rivnum_B_array == 0), Rivnum_B_array)
+    Rivnum_A_array = np.ma.masked_where(~np.isfinite(Rivnum_A_array) | (Rivnum_A_array == 0), Rivnum_A_array)
 
 #---------------------------------------------------------------------------------------------------------------
-#   Basin over 7 grids within city mask (Rivnum_B_array_citymasked)
+#   Basin over remove_grid within city mask (Rivnum_A_array_citymasked)
 #---------------------------------------------------------------------------------------------------------------
 
-    # Rivnum_B_arrayの値が存在しないか、値が0の場所をTrueとするマスクを作成
-    invalid_mask = np.isnan(Rivnum_B_array) | (Rivnum_B_array == 0)
+    # Rivnum_A_arrayの値が存在しないか、値が0の場所をTrueとするマスクを作成
+    invalid_mask = np.isnan(Rivnum_A_array) | (Rivnum_A_array == 0)
     # g_mask_croppedが1でない場所、または上記のマスクがTrueの場所をマスクとして指定
-    cityarea_with_rivnum_b_array = np.ma.masked_where((g_mask_cropped != 1) | invalid_mask, Rivnum_B_array)
-
-    # Rivnum_B_arrayで都市マスク内以外の値をnp.nanに変更
-    Rivnum_B_array_citymasked = np.where(g_mask_cropped == 1, Rivnum_B_array, np.nan)
-    # 欠損値 or 非有限数の要素をマスクする
-    Rivnum_B_array_citymasked = np.ma.masked_where(~np.isfinite(Rivnum_B_array_citymasked) | (Rivnum_B_array_citymasked >= 1E20), Rivnum_B_array_citymasked)
-
-    #二つの処理はほぼ同じであり，rivnum_B_array_citymaskedは都市マスクの外にnan値を持つ
+    Rivnum_A_array_citymasked = np.ma.masked_where((g_mask_cropped != 1) | invalid_mask, Rivnum_A_array)
 
 #---------------------------------------------------------------------------------------------------------------
-#   rivaraを使って河口グリッドを探索する (rivnum_max_array)
+#   rivaraを使って河口グリッドを探索する (rivara_max_array)
 #---------------------------------------------------------------------------------------------------------------
-
-    # g_ara_num_croppedを構造化配列として作成
-    dtype = [('rivara', 'float32'), ('rivnum', 'float32')]
-    g_ara_num_cropped = np.empty(g_rivara_cropped.shape, dtype=dtype)
-
-    # rivaraとrivnumのデータをg_ara_num_croppedに追加
-    g_ara_num_cropped['rivara'] = g_rivara_cropped
-    g_ara_num_cropped['rivnum'] = Rivnum_B_array_citymasked
 
     # マスクされていない要素のユニークな値とその出現回数を取得
     # 都市マスク内の流域グリッド数で出現回数が多い物を探索している
-    unique_values, counts = np.unique(cityarea_with_rivnum_b_array.compressed(), return_counts=True)
-    value_counts_dict = dict(zip(unique_values, counts))
+    unique_values_A, counts_A = np.unique(Rivnum_A_array_citymasked.compressed(), return_counts=True)
+    value_counts_dict_A = dict(zip(unique_values_A, counts_A))
 
     # データ型とサイズに基づいて新しい配列を作成
-    rivnum_max_array = np.ma.masked_all(g_ara_num_cropped.shape, dtype='float32')
+    rivara_max_array = np.ma.masked_all(g_ara_num_cropped.shape, dtype='float32')
 
-    for rivnum_id in value_counts_dict.keys():
+    for rivnum_id in value_counts_dict_A.keys():
         # 同じrivnumの位置を取得
-        matching_positions = np.where(g_ara_num_cropped['rivnum'] == rivnum_id) 
+        matching_positions = np.where(Rivnum_A_array_citymasked == rivnum_id)
         # これらの位置におけるrivaraの最大値の位置を取得
-        max_rivara_position = np.argmax(g_ara_num_cropped['rivara'][matching_positions])       
+        max_rivara_position = np.argmax(g_rivara_cropped[matching_positions])
         # 最大のrivaraの位置に対応するrivnumを新しい配列に保存する
         # 河口グリッドに該当
-        rivnum_max_array[matching_positions[0][max_rivara_position], matching_positions[1][max_rivara_position]] = rivnum_id
+        rivara_max_array[matching_positions[0][max_rivara_position], matching_positions[1][max_rivara_position]] = rivnum_id
 
 #---------------------------------------------------------------------------------------------------------------
-#   riv nxtl -> lonlat coordinate array 24x24x2 (result_2424)
+#   riv nxtl -> lonlat coordinate array 24x24x2 (riv_nxlonlat_cropped)
 #---------------------------------------------------------------------------------------------------------------
 
     # l coordiate to lonlat coordinate
     vfunc = np.vectorize(l_coordinate_to_tuple, otypes=[tuple])
-    result = np.empty(g_rivnxl_cropped.shape, dtype=tuple)
+    riv_nxlonlat = np.empty(g_rivnxl_cropped.shape, dtype=tuple)
     mask = ~np.isnan(g_rivnxl_cropped)
-    result[mask] = vfunc(g_rivnxl_cropped[mask])
-    result_shape = (result.shape[0], result.shape[1], 2)
+    riv_nxlonlat[mask] = vfunc(g_rivnxl_cropped[mask])
+    riv_nxlonlat_shape = (riv_nxlonlat.shape[0], riv_nxlonlat.shape[1], 2)
 
-    result_list = []
-    for row in result:
+    riv_nxlonlat_lst = []
+    for row in riv_nxlonlat:
         for x, y in row:
             # width_grid = cropped scale(24x24)
             modified_x = width_grid - (x - lat_start)
             modified_y = y - lon_start
-            result_list.append((modified_x, modified_y))
+            riv_nxlonlat_lst.append((modified_x, modified_y))
 
-    result_2424 = np.array(result_list).reshape(result_shape)
-    result_2424 = result_2424.astype(int)
+    riv_nxlonlat_cropped = np.array(riv_nxlonlat_lst).reshape(riv_nxlonlat_shape)
+    riv_nxlonlat_cropped = riv_nxlonlat_cropped.astype(int)
+
+    # ここまでリファクタリング終わり
 
 #---------------------------------------------------------------------------------------------------------------
 #   各流域の経路座標　(results_dict)
@@ -263,13 +257,13 @@ def tmp():
 
     results_dict = {}
     # マスク内に存在する流域ID
-    unique_ids = np.unique(rivnum_max_array.compressed())
-    riv_path_array = np.ma.masked_all(rivnum_max_array.shape, dtype='float32')
+    unique_ids = np.unique(rivara_max_array.compressed())
+    riv_path_array = np.ma.masked_all(rivara_max_array.shape, dtype='float32')
     visited_coords = set()
 
     for uid in unique_ids:
         # 河口グリッドのインデックス
-        coords_a = np.argwhere(rivnum_max_array == uid)
+        coords_a = np.argwhere(rivara_max_array == uid)
         riv_path_array[coords_a[0][0], coords_a[0][1]] = uid
         if coords_a.size > 0:
             target_coord = tuple(coords_a[0]) 
@@ -278,8 +272,8 @@ def tmp():
                 if target_coord in visited_coords:
                     break
                 visited_coords.add(target_coord)
-                # result_2424はrivnxlのlonlat表示なので，target_coordを次のセルに指し示すrivnxlのインデックスを取得
-                matched_coords = np.argwhere(np.all(target_coord == result_2424, axis=2))
+                # riv_nxlonlat_croppedはrivnxlのlonlat表示なので，target_coordを次のセルに指し示すrivnxlのインデックスを取得
+                matched_coords = np.argwhere(np.all(target_coord == riv_nxlonlat_cropped, axis=2))
                 if len(matched_coords) == 0:
                     break
                 # マッチしたインデックスの中でrivaraが最大のものを選ぶ
@@ -362,21 +356,25 @@ def tmp():
 #---------------------------------------------------------------------------------------------------------------
 
 def main():
+    """
+    loop_num = 900 # number of the city (1-900)
+    main_city_list_4 = ["London", "Tokyo", "Paris", "LosAngeles-LongBeach-SantaAna"]
+    """
 
 #---------------------------------------------------------------------------------------------------------------
 #   Initialization
 #---------------------------------------------------------------------------------------------------------------
 
     target_index = 0 # target city index
-    remove_grid = 7 # number of grids in one basin
+    remove_grid = 5 # minimum number of grids in one basin
+    innercity_grid = 3 # minimum number of main river grid within city mask
     width = 1 # lonlat delta degree from city center
-    latgrd = 2160 # sum of latitude grids (y)
-    longrd = 4320 # sum of longitude grids (x)
 
-    #loop_num = 900 # number of the city (1-900)
-    #main_city_list_4 = ["London", "Tokyo", "Paris", "LosAngeles-LongBeach-SantaAna"]
+#---------------------------------------------------------------------------------------------------------------
+#   loop start
+#---------------------------------------------------------------------------------------------------------------
 
-    explore(target_index, remove_grid, width, latgrd, longrd)
+    explore(target_index, remove_grid, innercity_grid, width)
 
 
 if __name__ == '__main__':

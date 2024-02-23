@@ -1,6 +1,10 @@
 """
 Author Doi @ 20210331
 modified by Kajiyama @20230913
+modified by kajiyama @20240224
++ intake point should be higher than nearest city mask grid
++ inter basin water transfer should be prepared using shumilova 2018
++ intake point should be .gl5 file for each cities
 
 explore maximum intake point around city mask automatically
 """

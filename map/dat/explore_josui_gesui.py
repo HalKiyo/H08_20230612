@@ -446,10 +446,10 @@ def explore(target_index, remove_grid, innercity_grid, width, save_flag=False):
     josui_for_save = np.where(josui_for_save > 0, 1, josui_for_save)
 
     # debug用
-    josui_cropped = josui_for_save[lat_start:lat_end, lon_start:lon_end]
-    josui_cropped = np.flipud(josui_cropped)
-    plt.imshow(josui_cropped)
-    plt.show()
+    #josui_cropped = josui_for_save[lat_start:lat_end, lon_start:lon_end]
+    #josui_cropped = np.flipud(josui_cropped)
+    #plt.imshow(josui_cropped)
+    #plt.show()
 
     # 保存するときは世界地図をひっくり返して，正しい向きにしておく
     josui_for_save = np.flipud(josui_for_save)
@@ -462,8 +462,45 @@ def explore(target_index, remove_grid, innercity_grid, width, save_flag=False):
         josui_for_save.astype(np.float32).tofile(save_path)
         print(f"{save_path} saved")
     else:
-        print('save_flag is false')
+        print('josui save_flag is false')
 
+#---------------------------------------------------------------------------------------------------------------
+#   Save file (gesui_array=rivara_max_array_B)
+#---------------------------------------------------------------------------------------------------------------
+
+    """
+    croppするときは必ずひっくり返す
+    保存・描写するときにもとに戻す
+    """
+
+    # 保存用ファイル作成
+    gesui_for_save = np.ma.masked_all(g_rivara.shape, dtype='float32')
+
+    #　cropp区間の値を変換(世界地図はひっくり返っている)
+    gesui_for_save[lat_start:lat_end, lon_start:lon_end] = np.flipud(rivara_max_array_B)
+
+    # 浄水場を1, それ以外を0とするバイナリーファイルに変換
+    gesui_for_save = np.ma.filled(gesui_for_save, fill_value=0)
+    gesui_for_save = np.where(gesui_for_save > 0, 1, gesui_for_save)
+
+    # debug用
+    #gesui_cropped = gesui_for_save[lat_start:lat_end, lon_start:lon_end]
+    #gesui_cropped = np.flipud(gesui_cropped)
+    #plt.imshow(gesui_cropped)
+    #plt.show()
+
+    # 保存するときは世界地図をひっくり返して，正しい向きにしておく
+    gesui_for_save = np.flipud(gesui_for_save)
+
+    # city purification plant
+    save_path = f'/home/kajiyama/H08/H08_20230612/map/dat/cty_swg_/city_{city_num:08d}.gl5'
+
+    # save_flag
+    if save_flag is True:
+        gesui_for_save.astype(np.float32).tofile(save_path)
+        print(f"{save_path} saved")
+    else:
+        print('gesui save_flag is false')
 
 #---------------------------------------------------------------------------------------------------------------
 # Main loop
@@ -479,6 +516,7 @@ def main():
 #   Initialization
 #---------------------------------------------------------------------------------------------------------------
 
+    save_flag = False
     target_index = 0 # target city index
     remove_grid = 5 # minimum number of grids in one basin
     innercity_grid = 3 # minimum number of main river grid within city mask
@@ -488,8 +526,8 @@ def main():
 #   loop start
 #---------------------------------------------------------------------------------------------------------------
 
-    explore(target_index, remove_grid, innercity_grid, width)
-
+    for target_index in range(900):
+        explore(target_index, remove_grid, innercity_grid, width, save_flag=save_flag)
 
 if __name__ == '__main__':
     main()

@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def explore_citymask(index):
 
@@ -228,19 +229,21 @@ def explore_citymask(index):
     # SAVE FILE
     #------------------------------------------------
 
-    maskpath = h08dir + f'/map/dat/cty_msk_/txt/city_{index}.txt'
+    # text file save (depricated)
+    #maskpath_txt = h08dir + f'/map/dat/cty_msk_/txt/city_{index}.txt'
 
-    ff = open(maskpath,'w')
-    for l in range(0, lat_shape):
-        line = best_mask[l,:]
-        aaa = line.tolist()
-        aaa = str(aaa)
-        aa1 = aaa.strip("[")
-        aa2 = aa1.strip("]")
-        aa2 = aa2.strip(",")
-        ff.write("\n%s"%aa2)
-    ff.close()
+    #ff = open(maskpath_txt,'w')
+    #for l in range(0, lat_shape):
+    #    line = best_mask[l,:]
+    #    aaa = line.tolist()
+    #    aaa = str(aaa)
+    #    aa1 = aaa.strip("[")
+    #    aa2 = aa1.strip("]")
+    #    aa2 = aa2.strip(",")
+    #    ff.write("\n%s"%aa2)
+    #ff.close()
 
+    # result path save
     resultpath = h08dir + f'/map/dat/cty_lst_/result_citymask.txt'
 
     if index == 1:
@@ -250,8 +253,12 @@ def explore_citymask(index):
         with open(resultpath, 'a') as file:
             file.write(f"{index}| {city_name}| {best_masked_pop}| {un_pop}| {best_coverage}| {grid_num}\n")
 
+    # binary file saved (latest version)
+    maskpath_bin = h08dir + f'/map/dat/cty_msk_/city_{index:08}.txt'
+    best_mask.astype(np.float32).tofile(maskpath_bin)
 
-def summary():
+
+def summarize():
     # shape
     lat_shape = 2160
     lon_shape = 4320
@@ -269,14 +276,29 @@ def summary():
     summary = np.empty((lat_shape, lon_shape))
 
     for index in range(1, 901):
-        mask_name = 
+        mask_name = f"{h08dir}/map/dat/cty_msk_/city_{index:08}.gl5"
         tmp = np.fromfile(mask_name, dtype=dtype).reshape(lat_shape, lon_shape)
         summary[tmp == 1] = 1
 
+    # save file
+    summary.astype(np.float32).tofile(savename)
+    print(f'{savename} is saved')
+
+    return summary
+
 
 def main():
-    for index in range(1, 901):
-        explore_citymask(index)
+    # first round
+    #for index in range(1, 901):
+    #    explore_citymask(index)
+
+    # second round
+    summary = summarize()
+
+    # debug
+    plt.imshow(summary)
+    plt.show()
+
 
 
 if __name__ == '__main__':

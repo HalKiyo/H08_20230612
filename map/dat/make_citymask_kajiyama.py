@@ -81,7 +81,7 @@ def explore_citymask(index):
     # load city_center coordinate
     #-----------------------------------------------
 
-    center_path = f'/map/dat/cty_cnt_/city_{index:08d}.gl5'
+    center_path = f'{h08dir}/map/dat/cty_cnt_/city_{index:08d}.gl5'
     location = np.fromfile(center_path, dtype=dtype).reshape(lat_shape,lon_shape)
     x = np.where(location==1)[0]
     y = np.where(location==1)[1]
@@ -123,7 +123,7 @@ def explore_citymask(index):
     # overwrite city center file if changed
     #-----------------------------------------------
 
-    new_center_path = f'/map/dat/cty_cnt_/modified/city_{index:08d}.gl5'
+    new_center_path = f'{h08dir}/map/dat/cty_cnt_/modified/city_{index:08d}.gl5'
     mask.astype(np.float32).tofile(new_center_path)
 
     #-----------------------------------------------

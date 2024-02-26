@@ -8,60 +8,58 @@ modified by kajiyama @20240224
 explore maximum intake point around city mask automatically
 """
 import numpy as np
+import matplotlib.pyplot as plt
 
-#################################################################################################################
-# INIT
-#################################################################################################################
+def explore(city_num):
 
-root_dir = '/home/kajiyama/H08/H08_20230612' # @kajiyama
-savefile = 'map/dat/cty_int_/city_water_intake.txt'
+#----------------------------------------------------------------------------------------
+#   Init
+#----------------------------------------------------------------------------------------
 
-NAME= 'W5E5'
-MAP= '.CAMA'
-SUF = '.gl5'
-dtype= 'float32'
-year_start = 2019
-year_end = 2020
-lat_num = 2160
-lon_num = 4320
-loop_num = 900 # total city number (1-900)
-can_exp = 2    # grid radius for canal grid modification exploring
-exp_range = 12 # grid radius of exploring square area
+    root_dir = '/home/kajiyama/H08/H08_20230612' # @kajiyama
 
-# river discharge data
-for y in range(year_start, year_end, 1):
+    NAME= 'W5E5'
+    MAP= '.CAMA'
+    SUF = '.gl5'
+    dtype= 'float32'
+    year_start = 2019
+    year_end = 2020
+    lat_num = 2160
+    lon_num = 4320
+    can_exp = 2    # grid radius for canal grid modification exploring
+    exp_range = 18 # grid radius of exploring square area
 
-    dis_path = f"{root_dir}/riv/out/riv_out_/{NAME}LR__{y}0000{SUF}"
-    riv_dis_tmp = np.fromfile(dis_path, dtype=dtype).reshape(lat_num, lon_num)
+    # river discharge data
+    for y in range(year_start, year_end, 1):
 
-    if y == year_start:
-        riv_dis = riv_dis_tmp
-    else:
-        riv_dis = riv_dis + riv_dis_tmp
+        dis_path = f"{root_dir}/riv/out/riv_out_/{NAME}LR__{y}0000{SUF}"
+        riv_dis_tmp = np.fromfile(dis_path, dtype=dtype).reshape(lat_num, lon_num)
 
-# annual average discharge
-riv_dis = riv_dis/(year_end - year_start)
+        if y == year_start:
+            riv_dis = riv_dis_tmp
+        else:
+            riv_dis = riv_dis + riv_dis_tmp
 
-# canal map
-can_in_path = f"{root_dir}/map/org/K14/in__3___20000000{SUF}"
-can_in = np.fromfile(can_in_path, dtype=dtype).reshape(lat_num, lon_num)
-can_out_path = f"{root_dir}/map/org/K14/out_3___20000000{SUF}"
-can_out = np.fromfile(can_out_path, dtype=dtype).reshape(lat_num, lon_num)
+    # annual average discharge
+    riv_dis = riv_dis/(year_end - year_start)
 
-# elevation map
-elv_path = f"{root_dir}/map/dat/elv_min_/elevtn{MAP}{SUF}"
-elv = np.fromfile(elv_path, dtype=dtype).reshape(lat_num, lon_num)
+    # canal map
+    can_in_path = f"{root_dir}/map/org/K14/in__3___20000000{SUF}"
+    can_in = np.fromfile(can_in_path, dtype=dtype).reshape(lat_num, lon_num)
+    can_out_path = f"{root_dir}/map/org/K14/out_3___20000000{SUF}"
+    can_out = np.fromfile(can_out_path, dtype=dtype).reshape(lat_num, lon_num)
 
-# water shed number map
-rivnum_path = f"{root_dir}/map/out/riv_num_/rivnum{MAP}{SUF}"
-rivnum = np.fromfile(rivnum_path, dtype=dtype).reshape(lat_num, lon_num)
+    # elevation map
+    elv_path = f"{root_dir}/map/dat/elv_min_/elevtn{MAP}{SUF}"
+    elv = np.fromfile(elv_path, dtype=dtype).reshape(lat_num, lon_num)
 
-#################################################################################################################
-# JOB
-#################################################################################################################
+    # water shed number map
+    rivnum_path = f"{root_dir}/map/out/riv_num_/rivnum{MAP}{SUF}"
+    rivnum = np.fromfile(rivnum_path, dtype=dtype).reshape(lat_num, lon_num)
 
-# city number loop
-for city_num in range(1, loop_num+1, 1):   ##cheak city number##
+#-------------------------------------------------------------------------------------------
+#   JOB
+#-------------------------------------------------------------------------------------------
 
     # city mask data
     msk_path = f"{root_dir}/map/dat/cty_msk_/city_{city_num:08}{SUF}"
@@ -73,12 +71,12 @@ for city_num in range(1, loop_num+1, 1):   ##cheak city number##
 
     # purification plant location
     prf_path = f"{root_dir}/map/dat/cty_prf_/city_{city_num:08}{SUF}"
-    intake = np.fromfile(prf_path, dtype=dtype).reshape(lat_num, lon_num)
+    prf = np.fromfile(prf_path, dtype=dtype).reshape(lat_num, lon_num)
 
-    # intake water basin
-    cty_rivnum = np.unique(rivnum[intake == 1])
-    cty_rivnum = [rnu for rnu in cty_rivnum if rnu > 0]
-    #print(cty_rivnum) # [848.0, 2718.0, 4850.0, 6065.0]
+    # prf watershed
+    rivnum_unq = np.unique(rivnum[prf == 1])
+    cty_rivnum = [i for i in rivnum_unq]
+    #print(cty_rivnum) # [848.0, 2718.0, 4850.0, 6065.0, 0]
 
     # city center data
     cnt_path = f"{root_dir}/map/dat/cty_cnt_/modified/city_{city_num:08}{SUF}"
@@ -124,14 +122,14 @@ for city_num in range(1, loop_num+1, 1):   ##cheak city number##
                         Y = can_ind[1, C] + q
                         # maximum or not check
                         if riv_dis[X,Y]/1000. > riv_max:
-                            # update riv_max to explore maximum intake point
+                            # update riv
                             riv_max = riv_dis[X,Y]/1000.
-                            # LON LAT
-                            LON = 0.08333333*Y-180+(0.0833333*0.5)
-                            LAT = 90-0.08333333*X-(0.08333333*0.5)
+                            XX = X
+                            YY = Y
 
     # if no canal
     else:
+        display_data = np.zeros((lat_num, lon_num))
         canal = 'canal_no'
 
         # explore grids
@@ -142,6 +140,7 @@ for city_num in range(1, loop_num+1, 1):   ##cheak city number##
                 X = x + p
                 Y = y + q
                 #print(x, y) # 651 3836
+                display_data[X, Y] = 1
 
                 # out of city mask
                 if city_mask[X, Y] != 1:
@@ -151,20 +150,48 @@ for city_num in range(1, loop_num+1, 1):   ##cheak city number##
 
                         # river num (watershed) is not overlapped with that of inner city
                         if rivnum[X, Y] not in cty_rivnum:
+                            display_data[X, Y] = 2
 
                             # check if maximum
-                            if riv_dis[X,Y]/1000.>riv_max:
-                                print(riv_dis[X, Y], elv[X, Y], rivnum[X, Y])
+                            if riv_dis[X,Y]/1000. > riv_max:
                                 # update riv
                                 riv_max = riv_dis[X,Y]/1000.
-                                LON = 0.08333333*Y-180+(0.0833333*0.5)
-                                LAT = 90-0.08333333*X-(0.08333333*0.5)
+                                #print(f'riv_max {X}, {Y} updated {riv_max}')
+                                XX = X
+                                YY = Y
 
-    exit()
+    if riv_max > 0:
 
-    # make save file
-    ext = [int(city_num), float(riv_max), float(LON), float(LAT), canal]
-    print(ext)
+        # save file for display check
+        print(XX)
+        display_data[rivnum == rivnum[XX, YY]] = 3
+        display_data[city_mask == 1] =           4
+        display_data[city_center == 1] =         5
+        display_data[XX, YY] =                   6
+        #display_data.astype(np.float32).tofile('./cty_int_/intake_display.gl5')
+
+        # save file for binary
+        intake = np.zeros((lat_num, lon_num))
+        intake[XX, YY] = 1
+        savepath = f"{root_dir}/map/dat/cty_int_/city_{city_num:08}{SUF}"
+        intake.astype(np.float32).tofile(savepath)
+        print(f"city_num {city_num}\n"
+              f"riv_max  {riv_max}\n"
+              f"{canal}")
+        print(f"{savepath} saved")
+
+    else:
+        print('no potential intake point')
+        intake = np.zeros((lat_num, lon_num))
+        savepath = f"{root_dir}/map/dat/cty_int_/city_{city_num:08}{SUF}"
+        intake.astype(np.float32).tofile(savepath)
+
+
+def save_txt(ext, city_num):
+    """
+    this is deprecated
+    """
+    #ext = [int(city_num), float(riv_max), float(X), float(Y), canal]
     if city_num==1:
         LIST = ext
     elif city_num==2:
@@ -174,21 +201,29 @@ for city_num in range(1, loop_num+1, 1):   ##cheak city number##
         list_len = LIST.shape[0]
         LIST = np.insert(LIST, list_len, ext, axis=0)
 
-#################################################################################################################
-# SAVE
-#################################################################################################################
+    savefile_txt = '/home/kajiyama/H08/H08_20230612/map/dat/cty_int_/city_water_intake.txt'
+    ff = open(f"{savefile_txt}", 'w')
 
-ff = open(f"{root_dir}{savefile}", 'w')
+    # LIST loop must be done before
+    for l in range(0, 900, 1):
+        line = LIST[l, :]
+        aaa = line.tolist()
+        aaa = str(aaa)
+        aa1 = aaa.strip("[")
+        aa2 = aa1.strip("]")
+        aa2 = aa2.strip(",")
+        modified = aa2.replace("'", "")
+        space = modified.replace(",", " ")
+        print(space)
+        ff.write("\n%s"%space)
+    ff.close()
 
-for l in range(0, loop_num, 1):
-    line = LIST[l, :]
-    aaa = line.tolist()
-    aaa = str(aaa)
-    aa1 = aaa.strip("[")
-    aa2 = aa1.strip("]")
-    aa2 = aa2.strip(",")
-    modified = aa2.replace("'", "")
-    space = modified.replace(",", " ")
-    print(space)
-    ff.write("\n%s"%space)
-ff.close()
+
+def main():
+    loop_num = 900 # total city number (1-900)
+    for city_num in range(1, 901, 1):   ##cheak city number##
+        explore(city_num)
+
+
+if __name__ == '__main__':
+    main()

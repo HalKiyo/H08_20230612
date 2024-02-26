@@ -251,6 +251,29 @@ def explore_citymask(index):
             file.write(f"{index}| {city_name}| {best_masked_pop}| {un_pop}| {best_coverage}| {grid_num}\n")
 
 
+def summary():
+    # shape
+    lat_shape = 2160
+    lon_shape = 4320
+
+    # date type
+    dtype= 'float32'
+
+    # homedir
+    h08dir = '/home/kajiyama/H08/H08_20230612'
+
+    # savefilename
+    savename = f"{h08dir}/map/dat/cty_msk_/city_00000000.gl5"
+
+    # make save array
+    summary = np.empty((lat_shape, lon_shape))
+
+    for index in range(1, 901):
+        mask_name = 
+        tmp = np.fromfile(mask_name, dtype=dtype).reshape(lat_shape, lon_shape)
+        summary[tmp == 1] = 1
+
+
 def main():
     for index in range(1, 901):
         explore_citymask(index)

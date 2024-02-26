@@ -526,7 +526,7 @@ def main():
 #   loop start
 #---------------------------------------------------------------------------------------------------------------
 
-    for target_index in range(900):
+    for target_index in range(0, 900):
         explore(target_index, remove_grid, innercity_grid, width, save_flag=save_flag)
 
 if __name__ == '__main__':

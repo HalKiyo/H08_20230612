@@ -63,14 +63,16 @@ def explore_citymask(index):
     #  Get area(m2)
     #-----------------------------------------------
 
-    area = np.fromfile(h08dir + f'/map/dat/lnd_ara_/lndara.{MAP}.gl5', dtype=dtype).reshape(lat_shape, lon_shape)
+    area_path = f'{h08dir}/map/dat/lnd_ara_/lndara.{MAP}.gl5'
+    area = np.fromfile(area_path, dtype=dtype).reshape(lat_shape, lon_shape)
 
     #-----------------------------------------------
     # load gwp population data
     #-----------------------------------------------
 
     # population data(GWP4 2000)
-    gwp_pop = np.fromfile(h08dir + '/map/dat/pop_tot_/C05_a___20000000.gl5', dtype=dtype).reshape(lat_shape, lon_shape)
+    pop_path = f'{h08dir}/map/dat/pop_tot_/C05_a___20000000.gl5'
+    gwp_pop = np.fromfile(pop_path, dtype=dtype).reshape(lat_shape, lon_shape)
 
     # population density (person/km2)
     gwp_pop_density = (gwp_pop / (area / 10**6))
@@ -79,7 +81,8 @@ def explore_citymask(index):
     # load city_center coordinate
     #-----------------------------------------------
 
-    location = np.fromfile(h08dir + f'/map/dat/cty_cnt_/city_{index:08d}.gl5',dtype=dtype).reshape(lat_shape,lon_shape)
+    center_path = f'/map/dat/cty_cnt_/city_{index:08d}.gl5'
+    location = np.fromfile(center_path, dtype=dtype).reshape(lat_shape,lon_shape)
     x = np.where(location==1)[0]
     y = np.where(location==1)[1]
     x = x[0]
@@ -109,12 +112,19 @@ def explore_citymask(index):
     print(f'replaced center [x, y] = [{x, y}]')
 
     #-----------------------------------------------
-    #  Make save array
+    #  Initialization of mask array
     #-----------------------------------------------
 
     # mask array for saving
     mask = np.zeros((lat_shape,lon_shape), dtype=dtype)
-    mask[x,y] = 1
+    mask[x, y] = 1
+
+    #-----------------------------------------------
+    # overwrite city center file if changed
+    #-----------------------------------------------
+
+    new_center_path = f'/map/dat/cty_cnt_/modified/city_{index:08d}.gl5'
+    mask.astype(np.float32).tofile(new_center_path)
 
     #-----------------------------------------------
     #  Explore start
@@ -159,7 +169,7 @@ def explore_citymask(index):
                         # not explored yet
                         if mask[i, j] == 0:
                             # within grid range
-                            if 0 <= i < lat_shape and 0<= j < 4320:
+                            if 0 <= i < lat_shape and 0<= j < lon_shape:
                                 search_lst.append([gwp_pop[i, j], i, j])
 
         ### add searched grid
@@ -270,7 +280,7 @@ def summarize():
     h08dir = '/home/kajiyama/H08/H08_20230612'
 
     # savefilename
-    savename = f"{h08dir}/map/dat/cty_msk_/city_00000000.gl5"
+    summary_path = f"{h08dir}/map/dat/cty_msk_/city_00000000.gl5"
 
     # make save array
     summary = np.empty((lat_shape, lon_shape))
@@ -281,16 +291,16 @@ def summarize():
         summary[tmp == 1] = 1
 
     # save file
-    summary.astype(np.float32).tofile(savename)
-    print(f'{savename} is saved')
+    summary.astype(np.float32).tofile(summary_path)
+    print(f'{summary_path} is saved')
 
     return summary
 
 
 def main():
     # first round
-    #for index in range(1, 901):
-    #    explore_citymask(index)
+    for index in range(1, 901):
+        explore_citymask(index)
 
     # second round
     summary = summarize()

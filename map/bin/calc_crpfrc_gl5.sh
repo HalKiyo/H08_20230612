@@ -18,16 +18,17 @@ MAP=.CAMA #.WATCH
 ############################################################
 OPT="double"     # double or single
 PRJRUNOUT=S05_____
+YEAR=2000
 ############################################################
 # Input (Edit here if you wish)
 ############################################################
-IRGARA=../../map/dat/irg_ara_/S05_____20000000${SUF}  # Irrigated area
+IRGARA=../../map/dat/irg_ara_/S05_____${YEAR}0000${SUF}  # Irrigated area
 IRGEFF=../../map/dat/irg_eff_/DS02____00000000${SUF}  # Irrigat. effic.
 CRPINT=../../map/dat/crp_int_/DS02____00000000${SUF}  # Crop intensity
 
 LNDMSK=../../map/dat/lnd_msk_/lndmsk${MAP}${SUF}     # land mask
 LNDARA=../../map/dat/lnd_ara_/lndara${MAP}${SUF}     # land area
-CRPARA=../../map/dat/crp_ara_/R08_____20000000${SUF} # cropland area
+CRPARA=../../map/dat/crp_ara_/R08_____${YEAR}0000${SUF} # cropland area
 ############################################################
 # Output (Edit here if you wish)
 ############################################################
@@ -44,14 +45,14 @@ DIRIRGFRCSGL=../../map/out/irg_frcs          # land area fraction for s crop
 #
 CRPINT1ST=${DIRCRPINT1ST}/${PRJRUNOUT}${YEAR}0000${SUF}
 CRPINT2ND=${DIRCRPINT2ND}/${PRJRUNOUT}${YEAR}0000${SUF}
-IRGARADBL=${DIRIRGARADBL}/${PRJRUNOUT}20000000${SUF}
-IRGARASGL=${DIRIRGARASGL}/${PRJRUNOUT}20000000${SUF}
-   RFDARA=${DIRRFDARA}/${PRJRUNOUT}20000000${SUF}
-   NONARA=${DIRNONARA}/${PRJRUNOUT}20000000${SUF}
-IRGFRCDBL=${DIRIRGFRCDBL}/${PRJRUNOUT}20000000${SUF}
-IRGFRCSGL=${DIRIRGFRCSGL}/${PRJRUNOUT}20000000${SUF}
-   RFDFRC=${DIRRFDFRC}/${PRJRUNOUT}20000000${SUF}
-   NONFRC=${DIRNONFRC}/${PRJRUNOUT}20000000${SUF}
+IRGARADBL=${DIRIRGARADBL}/${PRJRUNOUT}${YEAR}0000${SUF}
+IRGARASGL=${DIRIRGARASGL}/${PRJRUNOUT}${YEAR}0000${SUF}
+   RFDARA=${DIRRFDARA}/${PRJRUNOUT}${YEAR}0000${SUF}
+   NONARA=${DIRNONARA}/${PRJRUNOUT}${YEAR}0000${SUF}
+IRGFRCDBL=${DIRIRGFRCDBL}/${PRJRUNOUT}${YEAR}0000${SUF}
+IRGFRCSGL=${DIRIRGFRCSGL}/${PRJRUNOUT}${YEAR}0000${SUF}
+   RFDFRC=${DIRRFDFRC}/${PRJRUNOUT}${YEAR}0000${SUF}
+   NONFRC=${DIRNONFRC}/${PRJRUNOUT}${YEAR}0000${SUF}
 #
 LOG=temp.log
 ############################################################
@@ -91,6 +92,8 @@ if [ $OPT = "double" ]; then
   htmath $L sub $LNDARA $IRGARASGL $NONARA
   htmath $L sub $NONARA $IRGARADBL $NONARA
   htmath $L sub $NONARA $RFDARA    $NONARA
+  htmaskrplc $ARG $NONARA $NONARA lt 0.0 0.0001 $NONARA  > /dev/null # @kajiyama
+
   echo Non-cropland area: `htstat $ARG sum $NONARA`          >> $LOG
 # fraction of irrigation single
   htmath $L div $IRGARASGL $LNDARA $IRGFRCSGL

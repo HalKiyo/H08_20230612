@@ -13,13 +13,12 @@ SUF=.gl5
 PRJ=W5E5
 RUN=____
 IDXORG=DY
-YEARMIN=2019; YEARMAX=2019; YEAROUT=0000
+YEARMIN=2010; YEARMAX=2019; YEAROUT=0000
 ######################################################
 # Macro (Do not edit below unless you are an expert)
 ######################################################
 DIR=/home/kajiyama/H08/H08_20230612/met/dat
 SUBDIRS="Tair____ Qair____ PSurf___ Wind____ SWdown__ LWdown__ Snowf___ Prcp____ Rainf___"
-#SUBDIRS="Tair____"
 ######################################################
 # Job
 ######################################################

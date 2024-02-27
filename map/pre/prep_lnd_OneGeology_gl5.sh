@@ -1,8 +1,6 @@
 #!/bin/sh
 ############################################################
 #
-#
-#
 #     Original data availabe at www.OneGeology.org
 #     World CGMW 1:50M Geological Units Onshore
 #     PNG graphical map was converted into raster data
@@ -23,19 +21,7 @@ L2X=${DIRH08}/map/dat/l2x_l2y_/l2x.gl5.txt
 L2Y=${DIRH08}/map/dat/l2x_l2y_/l2y.gl5.txt
 LONLAT="-180 180 -90 90"
 SUF=.gl5
-#
-# For global 0.5 degree
-#
-#IN=../org/OneGeology/GSC.hlf.txt
-#LNDMSK=../../map/dat/lnd_msk_/lndmsk.WFDEI.hlf
-#
-#L=259200
-#XY="720 360"
-#L2X=${DIRH08}/map/dat/l2x_l2y_/l2x.hlf.txt
-#L2Y=${DIRH08}/map/dat/l2x_l2y_/l2y.hlf.txt
-#LONLAT="-180 180 -90 90"
-#SUF=.hlf
-#
+
 JOBDRAWALL=no    # this is to check the original data
 ############################################################
 # Input/Output

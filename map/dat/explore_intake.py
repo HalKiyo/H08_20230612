@@ -163,7 +163,6 @@ def explore(city_num):
     if riv_max > 0:
 
         # save file for display check
-        print(XX)
         display_data[rivnum == rivnum[XX, YY]] = 3
         display_data[city_mask == 1] =           4
         display_data[city_center == 1] =         5

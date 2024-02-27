@@ -37,7 +37,6 @@ fi
 YEAR=$YEARMIN
 while [ $YEAR -le $YEARMAX ]; do
   for MON in $MONS; do
-    #ASC=../../map/org/GSWP2/${PRJ}${RUN}${YEAR}${MON}00.one.txt
     ASC=../../map/org/GSWP2_Albedo/${PRJ}${RUN}${YEAR}${MON}00.one.txt #edited @Menaka
     ONE=../../map/dat/Albedo__/${PRJ}${RUN}${YEAR}${MON}00.one
     HLF=../../map/dat/Albedo__/${PRJ}${RUN}${YEAR}${MON}00.hlf

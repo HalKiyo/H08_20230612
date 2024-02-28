@@ -18,7 +18,7 @@ def explore_citymask(index):
 
     # lower limitation of population density
     # if lowlim>=1e-9, tokyo mask looks like doi & kato's result
-    lowlim = 0
+    lowlim = 100
 
     # initial grid threshold
     threshold = 100
@@ -170,7 +170,8 @@ def explore_citymask(index):
                         if mask[i, j] == 0:
                             # within grid range
                             if 0 <= i < lat_shape and 0<= j < lon_shape:
-                                search_lst.append([gwp_pop[i, j], i, j])
+                                search_lst.append([gwp_pop_density[i, j], i, j])
+                                # if gwp_pop is used, there is bug due to ocean land ara data
 
         ### add searched grid
         # empty check
@@ -299,10 +300,10 @@ def summarize():
 
 def main():
     # first round
-    for index in range(1, 901):
-        explore_citymask(index)
+    #for index in range(1, 901):
+    #    explore_citymask(index)
 
-    # second round
+    ## second round
     summary = summarize()
 
     # debug

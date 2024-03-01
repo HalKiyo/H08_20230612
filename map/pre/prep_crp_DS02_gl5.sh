@@ -19,8 +19,8 @@ L2Y=../../map/dat/l2x_l2y_/l2y.hlf.txt
 LONLAT="-180 180 -90 90"
 ARG="$L $XY $L2X $L2Y $LONLAT"
 SUF=.hlf
-MAP=.WFDEI #land mask for hlf
-MAP1=.CAMA
+MAPHLF=.WFDEI #land mask for hlf
+MAPGL5=.CAMA  #land mask for gl5
 ############################################################
 # Setting (Do not edit here unless you are an expert)
 ############################################################
@@ -34,8 +34,8 @@ IRGARAORG=../../map/org/DS02/irgara.DS02${SUF}       # Irrigated area
 IRGEFFORG=../../map/org/DS02/irgeff.DS02${SUF}       # Irrigated efficiency
 CRPINTORG=../../map/org/DS02/crpint.DS02${SUF}       # Crop intensity
 #
-LNDMSK=../../map/dat/lnd_msk_/lndmsk${MAP}${SUF}     # land mask
-LNDMSKGL5=../../map/dat/lnd_msk_/lndmsk${MAP1}.gl5 #${SUF}     # land mask gl5
+LNDMSKHLF=../../map/dat/lnd_msk_/lndmsk${MAPHLF}${SUF}     # land mask
+LNDMSKGL5=../../map/dat/lnd_msk_/lndmsk${MAPGL5}.gl5 #${SUF}     # land mask gl5
 
 ############################################################
 # Output (Do not edit here unless you are an expert)
@@ -77,25 +77,28 @@ echo Irrigated efficiency: `htstat $ARG sum $IRGEFFORG`
 # - crop intensity
 # - irrigated efficiency
 ############################################################
-htmask $ARG $IRGARAORG $LNDMSK eq 1 $IRGARA  > /dev/null
+htmask $ARG $IRGARAORG $LNDMSKHLF eq 1 $IRGARA  > /dev/null
 echo Irrigated area: `htstat $ARG sum $IRGARA`
 #
-htmask $ARG $CRPINTORG $LNDMSK eq 1 $CRPINT > /dev/null
+htmask $ARG $CRPINTORG $LNDMSKHLF eq 1 $CRPINT > /dev/null
 echo Crop intensity: `htstat $ARG sum $CRPINT`
 #
 htmask $ARG $IRGEFFORG $LNDMSK eq 1 $IRGEFF > /dev/null
 echo Irrigated efficiency: `htstat $ARG sum $IRGEFF`
-############################################################ gl5 @menaka
-prog_hlf2gl5 $L2X $L2Y $L2XGL5 $L2YGL5 $IRGARA $IRGARAGL5
+############################################################ gl5 @kajiyama
+prog_hlf2gl5 $L2X $L2Y $L2XGL5 $L2YGL5 $IRGARAORG $IRGARAGL5
 htmath $LGL5 div $IRGARAGL5 36 $IRGARAGL5 # divid by 36 grid uniform distribution  
-prog_hlf2gl5 $L2X $L2Y $L2XGL5 $L2YGL5 $IRGEFF $IRGEFFGL5
-prog_hlf2gl5 $L2X $L2Y $L2XGL5 $L2YGL5 $CRPINT $CRPINTGL5
+prog_hlf2gl5 $L2X $L2Y $L2XGL5 $L2YGL5 $IRGEFFORG $IRGEFFGL5
+prog_hlf2gl5 $L2X $L2Y $L2XGL5 $L2YGL5 $CRPINTORG $CRPINTGL5
 ############################################################
 htmask $ARGGL5 $IRGARAGL5 $LNDMSKGL5 eq 1  $IRGARAGL5  > /dev/null
-echo Irrigated area: `htstat $ARGGL5 sum $IRGARAGL5`
+echo Irrigated area:
+htstat $ARGGL5 sum $IRGARAGL5
 #
 htmask $ARGGL5 $CRPINTGL5 $LNDMSKGL5 eq 1 $CRPINTGL5 > /dev/null
-echo Crop intensity: `htstat $ARGGL5 sum $CRPINTGL5`
+echo Crop intensity:
+htstat $ARGGL5 sum $CRPINTGL5 | awk '{print $1/36}'
 #
 htmask $ARGGL5 $IRGEFFGL5 $LNDMSKGL5 eq 1 $IRGEFFGL5 > /dev/null
-echo Irrigated efficiency: `htstat $ARGGL5 sum $IRGEFFGL5`
+echo Irrigated efficiency:
+htstat $ARGGL5 sum $IRGEFFGL5 | awk '{print $1/36}'

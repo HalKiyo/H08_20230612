@@ -1,3 +1,4 @@
+source ~/.bashrc
 #!/bin/sh
 ############################################################
 #to  prepare
@@ -5,9 +6,9 @@
 ############################################################
 # settings
 ############################################################
-L=${LGL5}
-ARG=${ARGGL5}
-MAP=.WFDEI
+LGL5="9331200"
+ARGGL5="9331200 4320 2160 ../../map/dat/l2x_l2y_/l2x.gl5.txt ../../map/dat/l2x_l2y_/l2y.gl5.txt -180 180 -90 90"
+MAP=.CAMA
 SUF=.gl5
 ############################################################
 # in
@@ -59,24 +60,40 @@ fi
 if [ !  -f $DIRAAIS ]; then
   mkdir -p $DIRAAIS
 fi
+
+# debug
+DIRVAR=~/H08/H08_20230612/map/dat/aeigfrc_
+maxgl5 ${DIRVAR}/GMIA5___20050000.gl5
+# debug
+
 #
-htmath ${L} div $AEIG $AEI $FRCAEIG
-htmaskrplc ${ARG} $FRCAEIG $FRCAEIG eq 1.0E20 0 $FRCAEIG > $LOG
-htmath ${L} div $AAI  $AEI $FRCAAI
-htmath ${L} mul $AEIG $FRCAAI $AAIG
-htmath ${L} mul $AEIS $FRCAAI $AAIS
+htmath ${LGL5} div $AEIG $AEI $FRCAEIG
+htmaskrplc ${ARGGL5} $FRCAEIG $FRCAEIG eq 1.0E20 0 $FRCAEIG > $LOG
+htmath ${LGL5} div $AAI  $AEI $FRCAAI
+htmath ${LGL5} mul $AEIG $FRCAAI $AAIG
+htmath ${LGL5} mul $AEIS $FRCAAI $AAIS
+
+# debug
+DIRVAR=~/H08/H08_20230612/map/dat/aeigfrc_
+maxgl5 ${DIRVAR}/GMIA5___20050000.gl5
+# debug
 #
-htmaskrplc ${ARG} $FRCAEIG $LNDMSK eq 0 0 $FRCAEIGM >> $LOG
-htmaskrplc ${ARG} $AEI     $LNDMSK eq 0 0 $AEIM     >> $LOG
-htmaskrplc ${ARG} $AAI     $LNDMSK eq 0 0 $AAIM     >> $LOG
+htmaskrplc ${ARGGL5} $FRCAEIG $LNDMSK eq 0 0 $FRCAEIGM >> $LOG
+htmaskrplc ${ARGGL5} $AEI     $LNDMSK eq 0 0 $AEIM     >> $LOG
+htmaskrplc ${ARGGL5} $AAI     $LNDMSK eq 0 0 $AAIM     >> $LOG
+
+# debug
+DIRVAR=~/H08/H08_20230612/map/dat/aeigfrc_
+maxgl5 ${DIRVAR}/GMIA5___20050000.gl5
+# debug
 ############################################################
 # draw
 ############################################################
 gmt makecpt -T0/1/0.1 -Z > $CPT
-htdraw ${ARG} $FRCAEIG $CPT $EPS
+htdraw ${ARGGL5} $FRCAEIG $CPT $EPS
 htconv $EPS    $FIGFRCAEIG rot
 echo Fig: $FIGFRCAEIG
-htdraw ${ARG} $FRCAAI $CPT $EPS
+htdraw ${ARGGL5} $FRCAAI $CPT $EPS
 htconv $EPS    $FIGFRCAAI rot
 echo Fig: $FIGFRCAAI
 echo Log: $LOG

@@ -7,8 +7,8 @@
 # origin=  "in__3___20000000.txt"
 # orginout="out_3___20000000.txt"
 #
-# make ("in__3___20000000.gl5.org")
-# make ("out_3___20000000.gl5.org")
+# make ("in__3___20000000.gl5.org.txt")
+# make ("out_3___20000000.gl5.org.txt")
 # make ("in__3___20000000.gl5.txt.org")
 # make ("out_3___20000000.gl5.txt.org")
 #########################
@@ -64,12 +64,12 @@ for line in lines[0:-1]:
     ix,iy =  conv_latlon(lon,lat)
     binout[iy,ix]=num
 #--save
-binin.tofile("in__3___20000000.gl5.org")
-binout.tofile("out_3___20000000.gl5.org")
+binin.tofile("in__3___20000000.gl5")
+binout.tofile("out_3___20000000.gl5")
 #--
 #os.system("./prog_K14_gl5 "+os.getenv("L2XHLF")+" "+os.getenv("L2YHLF")+" "+os.getenv("L2XGL5")+" "+os.getenv("L2YGL5")+" "+"out_3___20000000.hlf out_3___20000000.gl5.org")
-os.system("../../pre/prog_K14_gl5 "+os.getenv("L2XHLF")+" "+os.getenv("L2YHLF")+" "+os.getenv("L2XGL5")+" "+os.getenv("L2YGL5")+" "+"out_3___20000000.hlf out_3___20000000.gl5.org")
+#os.system("../../pre/prog_K14_gl5 "+os.getenv("L2XHLF")+" "+os.getenv("L2YHLF")+" "+os.getenv("L2XGL5")+" "+os.getenv("L2YGL5")+" "+"out_3___20000000.hlf out_3___20000000.gl5.org")
 
 #--
-os.system("sh bin2txt.sh in__3___20000000.gl5.org in__3___20000000.gl5.txt.org")
-os.system("sh bin2txt.sh out_3___20000000.gl5.org out_3___20000000.gl5.txt.org")
+#os.system("sh bin2txt.sh in__3___20000000.gl5.org in__3___20000000.gl5.org.txt")
+#os.system("sh bin2txt.sh out_3___20000000.gl5.org out_3___20000000.gl5.org.txt")

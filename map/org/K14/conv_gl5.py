@@ -1,4 +1,18 @@
 #! bin/python 
+#########################
+# 2021/3 by Doi
+# make gl5 file with num
+# from original txt file(lon lat, num)
+#
+# origin=  "in__3___20000000.txt"
+# orginout="out_3___20000000.txt"
+#
+# make ("in__3___20000000.gl5.org")
+# make ("out_3___20000000.gl5.org")
+# make ("in__3___20000000.gl5.txt.org")
+# make ("out_3___20000000.gl5.txt.org")
+#########################
+#
 import numpy as np 
 import re
 import os 
@@ -23,7 +37,7 @@ def conv_xy(ix,iy):
 binin  = np.zeros([ny,nx],np.float32)
 binout = np.zeros([ny,nx],np.float32)
 #--location in---
-orgin="in__3___20000000.txt~"
+orgin="in__3___20000000.txt"
 with open(orgin, "r") as f:
     lines = f.readlines()
 #--
@@ -37,7 +51,7 @@ for line in lines[:-1]:
     binin[iy,ix]=num
 ######
 #--location in---
-orgout="out_3___20000000.txt~"
+orgout="out_3___20000000.txt"
 with open(orgout, "r") as f:
     lines = f.readlines()
 #--

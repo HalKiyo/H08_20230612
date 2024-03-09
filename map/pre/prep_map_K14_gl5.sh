@@ -57,8 +57,6 @@ htmaskrplc   $ARGGL5 $BINOUT $BINOUT le 0 1e+20 $BINOUT all > $ASCOUT
 ############################################################
 if [ !  -d $DIRCANORG ]; then  mkdir -p $DIRCANORG; fi
 if [ !  -d $DIRCANDES ]; then  mkdir -p $DIRCANDES; fi
-# for defalt K14 canal file
-#prog_map_K14_gl5 $BININ $BINOUT $LCANIMPORG $LCANIMPDES $RIVSEQ $LCANEXPORG $LCANEXPDES $LCANMRGORG $LCANMRGDES >> $LOG
 # for saritha canal file
-prog_map_K14_sar $BININ $BINOUT $LCANIMPORG $LCANIMPDES $RIVSEQ
+prog_map_K14_gl5 $BININ $BINOUT $LCANIMPORG $LCANIMPDES $RIVSEQ
 echo Log: $LOG

@@ -23,17 +23,15 @@ OPT=within
 ############################################################
 # in
 ############################################################
- ORGIN=../../map/org/K14/in__3___20000000.hlf.txt.org
-ORGOUT=../../map/org/K14/out_3___20000000.hlf.txt.org
+ ORGIN=../../map/org/K14/in__3___20000000.hlf.org.txt
+ORGOUT=../../map/org/K14/out_3___20000000.hlf.org.txt
 #
 RIVSEQ=../../map/out/riv_seq_/rivseq${MAP}.hlf
 ############################################################
-# out 
+# out
 ############################################################
  BININ=../../map/org/K14/in__3___20000000.hlf
 BINOUT=../../map/org/K14/out_3___20000000.hlf
- ASCIN=../../map/org/K14/in__3___20000000.hlf.txt
-ASCOUT=../../map/org/K14/out_3___20000000.hlf.txt
 #
 DIRCANORG=../../map/out/can_org_   # origin of canal water
 DIRCANDES=../../map/out/can_des_   # destination of canal water
@@ -58,8 +56,8 @@ htedit $ARGHLF lonlat $BININ 1.0E20 -121.25 37.25 >> $LOG
 ############################################################
 # job (print out non-zero points)
 ############################################################
-htmask   $ARGHLF $BININ  $BININ  ne 0 $BININ  all > $ASCIN
-htmask   $ARGHLF $BINOUT $BINOUT ne 0 $BINOUT all > $ASCOUT
+htmask   $ARGHLF $BININ  $BININ  ne 0 $BININ  all
+htmask   $ARGHLF $BINOUT $BINOUT ne 0 $BINOUT all
 ############################################################
 # convert
 ############################################################

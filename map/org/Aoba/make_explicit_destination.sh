@@ -6,6 +6,8 @@
 # load: /map/org/Aoba/Exisiting_destination_H08_rev3.txt
 # save: /map/org/Aoba/exisiting_destination.gl5
 #
+# SEQUENCE: 1-4, canal_id=14 has 4 origins
+#
 ############################################################
 # geography
 ############################################################

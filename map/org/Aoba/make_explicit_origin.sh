@@ -6,10 +6,6 @@
 # load: /map/org/Aoba/Exisiting_origin_H08_rev3.txt
 # save: /map/org/Aoba/exisiting_origin.gl5
 #
-# STATE=destionation
-# load: /map/org/Aoba/Exisiting_destination_H08_rev3.txt
-# save: /map/org/Aoba/exisiting_destination.gl5
-#
 ############################################################
 # geography
 ############################################################
@@ -19,8 +15,7 @@ L2Y=/home/kajiyama/H08/H08_20230612/map/dat/l2x_l2y_/l2y.gl5.txt
 ARG="9331200 4320 2160 $L2X $L2Y -180 180 -90 90"
 SUF=.gl5
 #
-#STATE=origin
-STATE=destination
+STATE=origin
 #
 ############################################################
 # input

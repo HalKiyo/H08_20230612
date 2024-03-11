@@ -7,10 +7,8 @@
 # origin=  "in__3___20000000.txt"
 # orginout="out_3___20000000.txt"
 #
-# make ("in__3___20000000.gl5.org.txt")
-# make ("out_3___20000000.gl5.org.txt")
-# make ("in__3___20000000.gl5.txt.org")
-# make ("out_3___20000000.gl5.txt.org")
+# make ("in__3___20000000.gl5")
+# make ("out_3___20000000.gl5")
 #########################
 #
 import numpy as np 
@@ -63,13 +61,17 @@ for line in lines[0:-1]:
     num  = float(line[3])
     ix,iy =  conv_latlon(lon,lat)
     binout[iy,ix]=num
-#--save
+
+#--save gl5 files
 binin.tofile("in__3___20000000.gl5")
 binout.tofile("out_3___20000000.gl5")
-#--
+
+#--prog_K14_gl5 is not correct reference program
+#--Don't use command below
 #os.system("./prog_K14_gl5 "+os.getenv("L2XHLF")+" "+os.getenv("L2YHLF")+" "+os.getenv("L2XGL5")+" "+os.getenv("L2YGL5")+" "+"out_3___20000000.hlf out_3___20000000.gl5.org")
 #os.system("../../pre/prog_K14_gl5 "+os.getenv("L2XHLF")+" "+os.getenv("L2YHLF")+" "+os.getenv("L2XGL5")+" "+os.getenv("L2YGL5")+" "+"out_3___20000000.hlf out_3___20000000.gl5.org")
 
-#--
+#--binary to text conversion
+#--It's unnessesary
 #os.system("sh bin2txt.sh in__3___20000000.gl5.org in__3___20000000.gl5.org.txt")
 #os.system("sh bin2txt.sh out_3___20000000.gl5.org out_3___20000000.gl5.org.txt")

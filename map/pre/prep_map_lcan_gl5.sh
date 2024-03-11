@@ -10,15 +10,13 @@
 ############################################################
 SUF=.gl5 #.hlf
 MAP=.CAMA #WFDEI for gl5 @kajiyama
-ARG=$ARGGL5 #$ARGHLF
+ARGGL5="9331200 4320 2160 ../../map/dat/l2x_l2y/l2x.gl5.txt ../../map/dat/l2x_l2y_/l2y.gl5.txt -180 180 -90 90"
 #
 OPT=within          # within or nolimit
-MAX=6               # maximum distance of implicit canal
+MAX=1               # maximum distance of implicit canal
 ############################################################
 # in (edit here )
 ############################################################
-#ELVMINORG=../../map/org/K14/ETOPO1__00000000${SUF}.txt
-#ELVMINORG=../../map/org/K14/ETOPO1__00000000.hlf.txt
 #
 RIVNUM=../../map/out/riv_num_/rivnum${MAP}${SUF}
 RIVARA=../../map/out/riv_ara_/rivara${MAP}${SUF}
@@ -28,8 +26,6 @@ RIVNXL=../../map/out/riv_nxl_/rivnxl${MAP}${SUF}
 # out
 ############################################################
 DIRELVMIN=../../map/dat/elv_min_
-#ELVMINHLF=${DIRELVMIN}/ETOPO1__00000000.hlf
-#ELVMINGL5=${DIRELVMIN}/ETOPO1__00000000${SUF} # for gl5 @menaka
 ELVMINGL5=${DIRELVMIN}/elevtn${MAP}${SUF} # cama for gl5 @kajiyama
 #
 DIRCANORG=../../map/out/can_org_   # origin of canal water
@@ -47,14 +43,6 @@ LOG=temp.log
 ############################################################
 # job
 ############################################################
-#htformat $ARGHLF asciiu binary ${ELVMINORG} ${ELVMINHLF}
-#echo $ARG
-#htformat $ARG asciiu binary ${ELVMINORG} ${ELVMIN} > $LOG
-# interpolate the elevation 
-#htlinear $ARGHLF $ARGGL5 ${ELVMINHLF} ${ELVMINGL5} > $LOG
-############################################################
-# job
-############################################################
 if [ ! -d $DIRELVMIN ]; then  mkdir $DIRELVMIN; fi
 if [ ! -d $DIRCANORG ]; then  mkdir $DIRCANORG; fi
 if [ ! -d $DIRCANDES ]; then  mkdir $DIRCANDES; fi
@@ -62,7 +50,7 @@ if [ ! -d $DIRCANSCO ]; then  mkdir $DIRCANSCO; fi
 if [ ! -d $DIRCANCNT ]; then  mkdir $DIRCANCNT; fi
 #
 #prog_map_lcan $ARG $ELVMIN $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES >> $LOG
-prog_map_lcan $ARG $ELVMINGL5 $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES >> $LOG
+prog_map_lcan $ARGGL5 $ELVMINGL5 $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES >> $LOG
 #
 #############################################################
 # check
@@ -70,8 +58,8 @@ prog_map_lcan $ARG $ELVMINGL5 $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG 
 FILES="$XCANORG $YCANORG $LCANORG $LCANDES $CANSCO $CANCNT"
 for FILE in $FILES; do
   echo $FILE >> $LOG
-  echo Sum `htstat $ARG sum $FILE` >> $LOG
-  echo Max `htstat $ARG max $FILE` >> $LOG
-  echo Min `htstat $ARG min $FILE` >> $LOG
+  echo Sum `htstat $ARGGL5 sum $FILE` >> $LOG
+  echo Max `htstat $ARGGL5 max $FILE` >> $LOG
+  echo Min `htstat $ARGGL5 min $FILE` >> $LOG
 done
 echo Log: $LOG

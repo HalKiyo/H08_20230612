@@ -35,7 +35,7 @@ IRGEFFORG=../../map/org/DS02/irgeff.DS02${SUF}       # Irrigated efficiency
 CRPINTORG=../../map/org/DS02/crpint.DS02${SUF}       # Crop intensity
 #
 LNDMSKHLF=../../map/dat/lnd_msk_/lndmsk${MAPHLF}${SUF}     # land mask
-LNDMSKGL5=../../map/dat/lnd_msk_/lndmsk${MAPGL5}.gl5 #${SUF}     # land mask gl5
+LNDMSKGL5=../../map/dat/lnd_msk_/lndmsk${MAPGL5}.gl5       # land mask gl5
 
 ############################################################
 # Output (Do not edit here unless you are an expert)

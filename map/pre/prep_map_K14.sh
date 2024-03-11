@@ -5,7 +5,7 @@
 #
 # ORGIN = ASCIN = in__3___20000000.txt
 # This is the list text file of existing canal location
-# It inclueds lon, lat, lcoordinate, canal number
+# The list contains lon, lat, lcoordinate, canal number
 ############################################################
 #settings
 ############################################################

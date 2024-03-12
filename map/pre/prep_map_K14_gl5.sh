@@ -3,14 +3,14 @@
 #to   prepare global canal data by Kitamura et al. (2014)
 #by   2016/01/31, hanasaki
 #
-#to   prepare Mcdonald canal data in top 20 city by Kato (2022)
-#to   prepare Hanasaki(2018) and shumilova(2018) 40 existing canals(2020)
+#to   prepare Mcdonald canal data in top 10 city by Kato (2020)
+#to   prepare Hanasaki(2018) and shumilova(2018) 43 existing canals by Saritha & Kato (2022)
 #
 ############################################################
 #settings
 ###########################################################
 MAP=.CAMA # @kajiyama
-MAX=6 # maximum distance of implicit canal
+MAX=1 # maximum distance of implicit canal
 OPT=within # within or nolimit
 SUF=.gl5
 #

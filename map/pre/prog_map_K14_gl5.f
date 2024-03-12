@@ -23,9 +23,8 @@ c temporary
       integer           i0tmp
       real              r1tmp(n0l)
 c in
-      real              r2in(n0l,n0ord)            !! original canal file TITECH
-c      real              r2out(n0l,n0ord)           !! original canal file TITECH
-      real              r1out(n0l)                 !! original canal file TITECH
+      real              r2in(n0l,n0ord)            !! binary file of destination (4320, 2160, 2)
+      real              r1out(n0l)                 !! binary file of origin (4320, 2160)
       real              r1lautorg(n0l)             !! automatic generated origin 
       real              r2lautdes(n0l,n0rec)       !! automatic generated destin
       real              r1seq(n0l)                 !! river sequence
@@ -108,6 +107,8 @@ c
       write(*,*) r2lautdes(i0ldbg,1)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c make look up table
+c id (origin of explicit) --> l
+c id (origin of explicit) --> seq
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       do i0l=1,n0l
         if(r1out(i0l).ne.p0mis)then
@@ -121,10 +122,12 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       end do
 
 c
-c      write(*,*) 'i1id2l',i1id2l(int(r2out(i0ldbg),1),1)
-c      write(*,*) i1id2seq(int(r2out(i0ldbg,1)),1)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c convert
+c canorg: map showing the l of origin
+c candes: map showing the l of destination
+c         Excluding delivering if rivseq is greater than that of origin
+c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
       do i0ord=1,n0ord
         do i0l=1,n0l
@@ -171,11 +174,12 @@ c
       do i0rec=1,n0recout
         write(*,*) 'distance: ',i0rec,'num of can: ',i1cnt(i0rec)
       end do
-      write(*,*) i0cntok
-      write(*,*) i0cntng
+      write(*,*) 'Number of valid canals: ',i0cntok
+      write(*,*) 'Number of errorneous canals: ',i0cntng
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c merge
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
+c origin: explicit canal exists
       do i0l=1,n0l
         do i0ord=1,n0ord
           if(r2lcanorg(i0l,i0ord).ne.0)then
@@ -184,7 +188,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
           end if
         end do
       end do
-c
+c origin: implicit canal only
       do i0l=1,n0l
         do i0ord=1,n0ord
           if(r2lcanorg(i0l,i0ord).eq.0.and.r1lautorg(i0l).ne.0)then
@@ -194,8 +198,8 @@ c
           end if
         end do
       end do
-c
-      r2lmrgdes=0.0 !! change
+c destination: explicit canal only
+      r2lmrgdes=0.0 !! changed by TITECH
       do i0l=1,n0l
         do i0rec=1,n0recout
           if(r2lcandes(i0l,i0rec).ne.0)then
@@ -204,12 +208,11 @@ c
           end if
         end do
       end do
-c !! change
-      do i0l=1,n0l    
-     
+c !! changed by TITECH
+c destination: implicit canal only
+      do i0l=1,n0l
         do i0rec=1,n0rec
           if(r2lmrgdes(i0l,i0rec).eq.0)then
-               
             do i0tmp=1,n0rec
               if(i0rec+i0tmp-1.le.n0recout)then
                 if(r2lautdes(i0l,i0tmp).ne.0)then
@@ -219,10 +222,8 @@ c !! change
               end if
             end do
             exit
-            
           end if
         end do
-       
       end do
 
 

@@ -22,26 +22,29 @@ ARGGL5="$LGL5 $XYGL5 $L2XGL5 $L2YGL5 $LONLATGL5"
 ############################################################
 # in
 ############################################################
-#
- BININ=../../map/org/Saritha/explicit_destination.bin
-BINOUT=../../map/dat/city_water_map/explicit_city_origin${SUF}
+# distination file of multiple origin
+ BININ=../../map/org/Aoba/explicit_destination.bin
+# origin file of 5min resolution
+BINOUT=../../map/org/Aoba/existing_origin${SUF}
 #
 RIVSEQ=../../map/out/riv_seq_/rivseq${MAP}${SUF}
 ############################################################
 # out 
 ############################################################
 #
- ASCIN=../../map/org/Saritha/explicit_destination.txt
-ASCOUT=../../map/org/Saritha/explicit_city_origin.txt
+# ASCIN=../../map/org/Saritha/explicit_origin.txt
+#ASCOUT=../../map/org/Saritha/explicit_destination.txt
 #
 DIRCANORG=../../map/out/can_org_   # origin of canal water
 DIRCANDES=../../map/out/can_des_   # destination of canal water
 #
-# Saritha existing 43 canal data
+# l coordinate of Saritha $ Aoba existing 43 canal data
 LCANEXPORG=$DIRCANORG/canorg.l.canal.ext${SUF}
 LCANEXPDES=$DIRCANDES/candes.l.canal.ext.bin
+# l coordinate of CaMa implicit aqueduct
 LCANIMPORG=$DIRCANORG/canorg.l.${OPT}.${MAX}${MAP}${SUF}
 LCANIMPDES=$DIRCANDES/candes.l.${OPT}.${MAX}${MAP}.bin
+# l coordinate of merged aqueduct
 LCANMRGORG=$DIRCANORG/canorg.l.merged.ext.${MAX}${MAP}${SUF}
 LCANMRGDES=$DIRCANDES/candes.l.merged.ext.${MAX}${MAP}.bin
 #
@@ -50,13 +53,13 @@ LOG=temp.log
 # job (print out non-zero points) gl5
 ############################################################
 #
-htmaskrplc   $ARGGL5 $BININ  $BININ  le 0 1e+20 $BININ  all > $ASCIN
-htmaskrplc   $ARGGL5 $BINOUT $BINOUT le 0 1e+20 $BINOUT all > $ASCOUT
+htmaskrplc   $ARGGL5 $BININ  $BININ  le 0 1e+20 $BININ  all
+htmaskrplc   $ARGGL5 $BINOUT $BINOUT le 0 1e+20 $BINOUT all
 ############################################################
 # convert
 ############################################################
 if [ !  -d $DIRCANORG ]; then  mkdir -p $DIRCANORG; fi
 if [ !  -d $DIRCANDES ]; then  mkdir -p $DIRCANDES; fi
-# for saritha canal file
-prog_map_K14_gl5 $BININ $BINOUT $LCANIMPORG $LCANIMPDES $RIVSEQ
+# fortran program for saritha & aoba canal file
+prog_map_K14_gl5 $BININ $BINOUT $LCANIMPORG $LCANIMPDES $RIVSEQ  $LCANEXPORG $LCANEXPDES $LCANMRGORG $LCANMRGDES >> $LOG
 echo Log: $LOG

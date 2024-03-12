@@ -6,16 +6,15 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
 c
       integer           n0l
-      integer           n0rec         !! # of cells to deliver water
+      integer           n0rec         !! # of cells to deliver water of implicit
       integer           n0recout      !! to output
-      integer           n0ord
-      real              p0mis
-      parameter        (n0l=9331200) 
-      parameter        (n0rec=120)  
-      parameter        (n0recout=120) 
-c      parameter        (n0ord=8)
+      integer           n0ord         !! number of origin grid to one destination grid
+      real              p0mis         !! missing value
+      parameter        (n0l=9331200)
+      parameter        (n0rec=120)
+      parameter        (n0recout=120)
       parameter        (n0ord=2)
-      parameter        (p0mis=1.0E20) 
+      parameter        (p0mis=1.0E20)
 c index
       integer           i0l
       integer           i0rec
@@ -26,10 +25,10 @@ c temporary
 c in
       real              r2in(n0l,n0ord)            !! original canal file TITECH
 c      real              r2out(n0l,n0ord)           !! original canal file TITECH
-      real              r1out(n0l)           !! original canal file TITECH
-      real              r1lautorg(n0l)       !! automatic generated origin 
-      real              r2lautdes(n0l,n0rec) !! automatic generated destin
-      real              r1seq(n0l)           !! river sequence
+      real              r1out(n0l)                 !! original canal file TITECH
+      real              r1lautorg(n0l)             !! automatic generated origin 
+      real              r2lautdes(n0l,n0rec)       !! automatic generated destin
+      real              r1seq(n0l)                 !! river sequence
       character*128     c0in
       character*128     c0out
       character*128     c0lautorg
@@ -37,9 +36,9 @@ c      real              r2out(n0l,n0ord)           !! original canal file TITEC
       character*128     c0seq
 c out
       real              r2lcanorg(n0l,n0ord)       !! converted canal file
-      real              r2lcandes(n0l,n0recout) !! converted canal file
+      real              r2lcandes(n0l,n0recout)    !! converted canal file
       real              r2lmrgorg(n0l,n0ord)       !! merged origin 
-      real              r2lmrgdes(n0l,n0recout) !! merged destication
+      real              r2lmrgdes(n0l,n0recout)    !! merged destication
       real              r2catorg(n0l,n0ord)
       real              r2catdes(n0l,n0recout)
       character*128     c0lcanorg
@@ -54,11 +53,10 @@ c
       integer           i1cnt(n0recout)
       integer           i0cntok
       integer           i0cntng
-      integer           i1id2l(n0l)   !! converter id --> l
-      integer           i1id2seq(n0l) !! converter id --> sequence
+      integer           i1id2l(n0l)                 !! converter id --> l
+      integer           i1id2seq(n0l)               !! converter id --> sequence
       integer           i0ldbg
-c      data              i0ldbg/7501/ 
-      data              i0ldbg/20756/ 
+      data              i0ldbg/20756/
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c argument
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 

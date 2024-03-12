@@ -11,8 +11,8 @@ c
       integer           n0ord         !! number of origin grid to one destination grid
       real              p0mis         !! missing value
       parameter        (n0l=9331200)
-      parameter        (n0rec=20)
-      parameter        (n0recout=20)  !! n0rec must be equal to n0recout
+      parameter        (n0rec=101)
+      parameter        (n0recout=101)  !! n0rec must be equal to n0recout
       parameter        (n0ord=2)
       parameter        (p0mis=1.0E20)
 c index

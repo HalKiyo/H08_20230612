@@ -3,7 +3,7 @@
 ############################################################
 PRJ=W5E5		# Project name
 RUN=LR__                # Run name 
-YEARMIN=2019		# start year
+YEARMIN=2010		# start year
 YEARMAX=2019		# end year  
 SECINT=86400            # interval
 LDBG=1290817            # debugging point

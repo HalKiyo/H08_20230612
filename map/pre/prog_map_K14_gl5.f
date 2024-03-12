@@ -6,13 +6,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
 c
       integer           n0l
-      integer           n0rec         !! # of cells to deliver water of implicit
+      integer           n0rec         !! distance from origin grid to destination
       integer           n0recout      !! to output
       integer           n0ord         !! number of origin grid to one destination grid
       real              p0mis         !! missing value
       parameter        (n0l=9331200)
-      parameter        (n0rec=120)
-      parameter        (n0recout=120)
+      parameter        (n0rec=20)
+      parameter        (n0recout=20)  !! n0rec must be equal to n0recout
       parameter        (n0ord=2)
       parameter        (p0mis=1.0E20)
 c index
@@ -80,7 +80,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call read_binary(n0l,c0out,    r1out)
       call read_binary(n0l,c0seq,    r1seq)
       call read_binary(n0l,c0lautorg,r1lautorg)
-c
+c load 3 dimension destination data
+      write(*,*) 'c0in',c0in
       open(15,file=c0in,access='DIRECT',recl=n0l*4)
       do i0ord=1,n0ord
         read(15,rec=i0ord)(r1tmp(i0l),i0l=1,n0l)
@@ -90,9 +91,8 @@ c
       end do
       close(15)
 
-      write(*,*) c0lautdes
+      write(*,*) 'c0lautdes',c0lautdes
       open(15,file=c0lautdes,access='DIRECT',recl=n0l*4)
-c      do i0rec=1,n0rec
       do i0rec=1,n0rec
         read(15,rec=i0rec)(r1tmp(i0l),i0l=1,n0l)
         do i0l=1,n0l
@@ -102,9 +102,9 @@ c      do i0rec=1,n0rec
       close(15)
 c
       write(*,*) 'r2in',r2in(i0ldbg,1)
-      write(*,*) r1out(i0ldbg)
-      write(*,*) r1lautorg(i0ldbg)
-      write(*,*) r2lautdes(i0ldbg,1)
+      write(*,*) 'r1out',r1out(i0ldbg)
+      write(*,*) 'r1lautorg',r1lautorg(i0ldbg)
+      write(*,*) 'r2lautdes',r2lautdes(i0ldbg,1)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c make look up table
 c id (origin of explicit) --> l
@@ -116,11 +116,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
           if(i0id.ne.0)then
             i1id2l(i0id)=i0l
             i1id2seq(i0id)=int(r1seq(i0l))
-            write(*,*) i1id2l(i0id),i1id2seq(i0id)
           end if
         end if
       end do
-
 c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
 c convert
@@ -230,8 +228,9 @@ c destination: implicit canal only
       write(*,*) 'r2lcanorg',r2lcanorg(i0ldbg,1)
       write(*,*) 'r2lmrgorg',r2lmrgorg(i0ldbg,1)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c write
+c write explicit
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
+c origin
       open(16,file=c0lcanorg,access='DIRECT',recl=n0l*4)
       do i0ord=1,n0ord
         do i0l=1,n0l
@@ -240,7 +239,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         write(16,rec=i0ord)(r1tmp(i0l),i0l=1,n0l)
       end do
       close(16)
-c
+c destination
       open(16,file=c0lcandes,access='DIRECT',recl=n0l*4)
       do i0rec=1,n0recout
         do i0l=1,n0l
@@ -250,8 +249,9 @@ c
       end do
       close(16)
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
-c write
+c write merged
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 
+c origin
       open(16,file=c0lmrgorg,access='DIRECT',recl=n0l*4)
       do i0ord=1,n0ord
         do i0l=1,n0l
@@ -260,7 +260,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         write(16,rec=i0ord)(r1tmp(i0l),i0l=1,n0l)
       end do
       close(16)
-c
+c desitination
       open(16,file=c0lmrgdes,access='DIRECT',recl=n0l*4)
       do i0rec=1,n0recout
         do i0l=1,n0l

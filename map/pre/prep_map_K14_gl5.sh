@@ -29,22 +29,21 @@ ARGGL5="$LGL5 $XYGL5 $L2XGL5 $L2YGL5 $LONLATGL5"
 BINOUT=../../map/org/Aoba/existing_origin${SUF}
 #
 RIVSEQ=../../map/out/riv_seq_/rivseq${MAP}${SUF}
-############################################################
-# out 
-############################################################
-#
-# ASCIN=../../map/org/Saritha/explicit_origin.txt
-#ASCOUT=../../map/org/Saritha/explicit_destination.txt
 #
 DIRCANORG=../../map/out/can_org_   # origin of canal water
 DIRCANDES=../../map/out/can_des_   # destination of canal water
 #
-# l coordinate of Saritha $ Aoba existing 43 canal data
-LCANEXPORG=$DIRCANORG/canorg.l.canal.ext${SUF}
-LCANEXPDES=$DIRCANDES/candes.l.canal.ext.bin
 # l coordinate of CaMa implicit aqueduct
 LCANIMPORG=$DIRCANORG/canorg.l.${OPT}.${MAX}${MAP}${SUF}
 LCANIMPDES=$DIRCANDES/candes.l.${OPT}.${MAX}${MAP}.bin
+############################################################
+# out 
+############################################################
+#
+# l coordinate of Saritha $ Aoba existing 43 canal data
+LCANEXPORG=$DIRCANORG/canorg.l.canal.ext${SUF}
+LCANEXPDES=$DIRCANDES/candes.l.canal.ext.bin
+#
 # l coordinate of merged aqueduct
 LCANMRGORG=$DIRCANORG/canorg.l.merged.ext.${MAX}${MAP}${SUF}
 LCANMRGDES=$DIRCANDES/candes.l.merged.ext.${MAX}${MAP}.bin
@@ -61,6 +60,7 @@ LOG=temp.log
 ############################################################
 if [ !  -d $DIRCANORG ]; then  mkdir -p $DIRCANORG; fi
 if [ !  -d $DIRCANDES ]; then  mkdir -p $DIRCANDES; fi
+#
 # fortran program for saritha & aoba canal file
 prog_map_K14_gl5 $BININ $BINOUT $LCANIMPORG $LCANIMPDES $RIVSEQ  $LCANEXPORG $LCANEXPDES $LCANMRGORG $LCANMRGDES >> $LOG
 

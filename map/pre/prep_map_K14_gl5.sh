@@ -16,8 +16,9 @@ SUF=.gl5
 #
 LGL5="9331200"
 XYGL5="4320 2160"
-L2XGL5=${DIRH08}/map/dat/l2x_l2y_/l2x.gl5.txt
-L2YGL5=${DIRH08}/map/dat/l2x_l2y_/l2y.gl5.txt
+L2XGL5=/home/kajiyama/H08/H08_20230612/map/dat/l2x_l2y_/l2x.gl5.txt
+L2YGL5=/home/kajiyama/H08/H08_20230612/map/dat/l2x_l2y_/l2y.gl5.txt
+LONLATGL5="-180 180 -90 90"
 ARGGL5="$LGL5 $XYGL5 $L2XGL5 $L2YGL5 $LONLATGL5"
 ############################################################
 # in
@@ -53,8 +54,8 @@ LOG=temp.log
 # job (print out non-zero points) gl5
 ############################################################
 #
-htmaskrplc   $ARGGL5 $BININ  $BININ  le 0 1e+20 $BININ  all
-htmaskrplc   $ARGGL5 $BINOUT $BINOUT le 0 1e+20 $BINOUT all
+#htmaskrplc   $ARGGL5 $BININ  $BININ  le 0 1e+20 $BININ
+#htmaskrplc   $ARGGL5 $BINOUT $BINOUT le 0 1e+20 $BINOUT
 ############################################################
 # convert
 ############################################################
@@ -62,4 +63,5 @@ if [ !  -d $DIRCANORG ]; then  mkdir -p $DIRCANORG; fi
 if [ !  -d $DIRCANDES ]; then  mkdir -p $DIRCANDES; fi
 # fortran program for saritha & aoba canal file
 prog_map_K14_gl5 $BININ $BINOUT $LCANIMPORG $LCANIMPDES $RIVSEQ  $LCANEXPORG $LCANEXPDES $LCANMRGORG $LCANMRGDES >> $LOG
+
 echo Log: $LOG

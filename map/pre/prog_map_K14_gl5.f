@@ -53,8 +53,8 @@ c
       integer           i1cnt(n0recout)
       integer           i0cntok
       integer           i0cntng
-      integer           i1id2l(n0l)                 !! converter id --> l
-      integer           i1id2seq(n0l)               !! converter id --> sequence
+      integer           i1id2l(n0l)                !! converter id --> l
+      integer           i1id2seq(n0l)              !! converter id --> sequence
       integer           i0ldbg
       data              i0ldbg/20756/
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc 

@@ -11,15 +11,15 @@ RUN=____            # Run name
 #YEARDAM=2000        # Dams completed by this year is included.
 #LST=../../map/org/H06/damlst.WFDEI.hlf.txt
 #
-PRJ=GRan            # Project name
-RUN=D_L_            # Run name
-YEARDAM=2019        # Dams completed by this year is included.
-LST=../../map/org/GRanD/GRanD_L.txt
-#
 #PRJ=GRan            # Project name
-#RUN=D_M_            # Run name
+#RUN=D_L_            # Run name
 #YEARDAM=2019        # Dams completed by this year is included.
-#LST=../../map/org/GRanD/GRanD_M.txt
+#LST=../../map/org/GRanD/GRanD_L.txt
+#
+PRJ=GRan            # Project name
+RUN=D_M_            # Run name
+YEARDAM=2019        # Dams completed by this year is included.
+LST=../../map/org/GRanD/GRanD_M.txt
 ############################################################
 # Geography (Edit here if you change spatial domain/resolution)
 ############################################################

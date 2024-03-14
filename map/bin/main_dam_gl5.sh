@@ -10,17 +10,16 @@ PRJ=GRan; RUN=D_L_              # PRJ/RUN for dam_cov/dam_gov
 
 PRJDIS=W5E5                     # Project name for discharge simulation
 RUNDIS=LR__                     # Run name for discharge simulation
-YEARDAMMIN=2000                    # Dams completed by this year is included
-YEARDAMMAX=2000                    # Dams completed by this year is included
+YEARDAMMIN=2010                    # Dams completed by this year is included
+YEARDAMMAX=2019                    # Dams completed by this year is included
 YEARDIS=0000                    # Discharge simulation of this year is used
-CNTMAX=10                       # maximum downstream grid cells
-#DAMDBG=2232                     # Debugging dam
+CNTMAX=60                       # maximum downstream grid cells
 DAMDBG=5140                     # Debugging dam
 ############################################################
 # Macro (Do not edit here unless you are an expert)
 ############################################################
 OPT=all                         # Option for prog_damalc
-RECMAX=507                      # max records for H06
+#RECMAX=507                      # max records for H06
 RECMAX=983                      # max records for GRanD L
 ############################################################
 # Geographical settings (Edit here if you change spatial domain/resolution)
@@ -70,11 +69,12 @@ if [ ! -d $DIRDAMDOM ]; then mkdir -p $DIRDAMDOM; fi
 ############################################################
 # Job (prepare log file)
 ############################################################
+DIRLOG=./
 
 if [ ! -d $DIRLOG    ]; then
   mkdir $DIRLOG
 fi
-LOG=${DIRLOG}/dam${MAP}${SUF}.log
+LOG=${DIRLOG}dam${MAP}${SUF}.log
 if [ -f $LOG ]; then
   rm $LOG
 fi

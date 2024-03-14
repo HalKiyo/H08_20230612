@@ -11,8 +11,8 @@ c
       integer           n0ord         !! number of origin grid to one destination grid
       real              p0mis         !! missing value
       parameter        (n0l=9331200)
-      parameter        (n0rec=101)
-      parameter        (n0recout=101)  !! n0rec must be equal to n0recout
+      parameter        (n0rec=120)
+      parameter        (n0recout=120)  !! n0rec must be equal to n0recout
       parameter        (n0ord=2)
       parameter        (p0mis=1.0E20)
 c index
@@ -139,6 +139,7 @@ c
       i0cntok=0
       i0cntng=0
       do i0rec=1,n0recout
+        i1cnt(i0rec)=0
         do i0l=1,n0l
           do i0ord=1,n0ord
             if(r2in(i0l,i0ord).ne.0.0.and.r2in(i0l,i0ord).ne.p0mis)then
@@ -160,7 +161,9 @@ c
                     r2lcanorg(i0l,i0ord)=0.0
                     i0cntng=i0cntng+1
                   end if
-                  i1cnt(i0rec)=i1cnt(i0rec)+1
+                  if(i0ord.eq.1)then
+                    i1cnt(i0rec)=i1cnt(i0rec)+1
+                  end if
                 end if
                 r2in(i0l,i0ord)=0.0
               end if

@@ -18,7 +18,7 @@ PRJSIM=W5E5             # Project name of simulation
 RUNSIM=LR__             # Run     name of simulation
 PRJMET=W5E5             # Project name of meteorological input
 RUNMET=____             # Run     name of meteorological input
-YEARMIN=2019
+YEARMIN=2010
 YEARMAX=2019
 YEAROUT=0000
 ############################################################

@@ -14,24 +14,24 @@ LONLATGL5="-180 180 -90 90"
 ARGGL5="$LGL5 $XYGL5 $L2XGL5 $L2YGL5 $LONLATGL5"
 SUFGL5=.gl5
 MAPGL5=.CAMA
-
-#5minx5min of tokyo (.tk5)
-LTK5=1728
-XYTK5="36 48"
-L2XTK5=${DIRH08}/map/dat/l2x_l2y_/l2x.tk5.txt
-L2YTK5=${DIRH08}/map/dat/l2x_l2y_/l2y.tk5.txt
-LONLATTK5="138 141 34 38"
-ARGTK5="$LTK5 $XYTK5 $L2XTK5 $L2YTK5 $LONLATTK5"
-SUFTK5=.tk5
-MAPTK5=.CAMA
+#
+SUFRGN=.ln5
+MAPRGN=.CAMA
+#
+LRGN=1728
+XYRGN="48 36"
+LONLATRGN="-3 1 50 53"
+L2XRGN=${DIRH08}/map/dat/l2x_l2y_/l2x${SUFRGN}.txt
+L2YRGN=${DIRH08}/map/dat/l2x_l2y_/l2y${SUFRGN}.txt
+ARGRGN="$LRGN $XYRGN $L2XRGN $L2YRGN $LONLATRGN"
 
 ########################################################
 # Output (Do not edit here unless you are an expert)
 ########################################################
 DIRRIVNXL=../../out/riv_nxl_
 #
-MSKNXL=$DIRRIVNXL/masked${MAPGL5}${SUFGL5}
-NEWNXL=$DIRRIVNXL/rivnxl${MAPTK5}${SUFTK5}
+MSKNXL=$DIRRIVNXL/masked${SUFRGN}${MAPGL5}${SUFGL5}
+NEWNXL=$DIRRIVNXL/rivnxl${MAPRGN}${SUFRGN}
 
 ########################################################
 # Job (prepare output directory)
@@ -40,12 +40,12 @@ if [ ! -d ${DIRRIVNXL} ]; then   mkdir -p ${DIRRIVNXL}; fi
 ########################################################
 # Job (make files)
 ########################################################
-htcreate $LTK5 0 $NEWNXL
-for i in $(seq 1 $LTK5); do
+htcreate $LRGN 0 $NEWNXL
+for i in $(seq 1 $LRGN); do
     echo $i
 
-    # obtain [lon lat] of [l(i) value] in tk5 coordinate
-    TMP1=`htid $ARGTK5 l $i`
+    # obtain [lon lat] of [l(i) value] in RGN coordinate
+    TMP1=`htid $ARGRGN l $i`
     IFS=' ' read -ra ARR1 <<< $TMP1
     CURRENTLON=${ARR1[0]}
     CURRENTLAT=${ARR1[1]}
@@ -61,16 +61,16 @@ for i in $(seq 1 $LTK5); do
         NEXTLON=${ARR2[0]}
         NEXTLAT=${ARR2[1]}
 
-        # obtain [l value] of [nxtlon nxtlat] value in tk5 coordinate
-        TMP3=`htid $ARGTK5 lonlat $NEXTLON $NEXTLAT`
+        # obtain [l value] of [nxtlon nxtlat] value in RGN coordinate
+        TMP3=`htid $ARGRGN lonlat $NEXTLON $NEXTLAT`
         IFS=' ' read -ra ARR3 <<< $TMP3
-        LCOORDINATETK5=${ARR3[2]}
+        LCOORDINATERGN=${ARR3[2]}
 
         # print information
         echo $CURRENTLON $CURRENTLAT
         echo $NEXTLON $NEXTLAT
 
-        # replace [river next l] value in tk5 coordinat at [lon lat]
-        htedit $ARGTK5 lonlat $NEWNXL $LCOORDINATETK5 $CURRENTLON $CURRENTLAT
+        # replace [river next l] value in RGN coordinat at [lon lat]
+        htedit $ARGRGN lonlat $NEWNXL $LCOORDINATERGN $CURRENTLON $CURRENTLAT
     fi
 done

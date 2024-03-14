@@ -1,7 +1,5 @@
 import os
 import numpy as np
-import matplotlib.pyplot as plt
-import cartopy.crs as ccrs
 
 def main():
     # change the flag to True to overwrite
@@ -10,15 +8,15 @@ def main():
     # basic information
     h08dir = '/home/kajiyama/H08/H08_20230612'
     SUF = '.gl5'
-    tag = '.tk5'
+    tag = '.ln5'
     dtype = 'float32'
     gl5shape = (2160, 4320)
 
-    # tokyo region "138, 141, 34, 38"
-    one = 138
-    two = 141
-    three = 34
-    four = 38
+    # region
+    one = -3
+    two = 1
+    three = 50
+    four = 53
     upperindex = (90 - four) * 12
     lowerindex = (90 - three) * 12
     leftindex = (180 + one) * 12
@@ -39,7 +37,7 @@ def main():
             tokyo = data[upperindex:lowerindex, leftindex:rightindex]
             if save_flag is True:
                 tokyo.astype(np.float32).tofile(savefile)
-        print("var done")
+        print(f"{var} done")
 
 def find_files_with_word_in_filename(directory, word1, word2):
     """

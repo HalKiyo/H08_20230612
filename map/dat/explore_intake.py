@@ -42,9 +42,9 @@ def explore(city_num):
     riv_dis = riv_dis/(year_end - year_start)
 
     # canal map
-    can_in_path = f"{root_dir}/map/org/K14/in__3___20000000{SUF}"
+    can_in_path = f"{root_dir}/map/org/Aoba/existing_origin{SUF}"
     can_in = np.fromfile(can_in_path, dtype=dtype).reshape(lat_num, lon_num)
-    can_out_path = f"{root_dir}/map/org/K14/out_3___20000000{SUF}"
+    can_out_path = f"{root_dir}/map/org/Aoba/existing_destination_1{SUF}"
     can_out = np.fromfile(can_out_path, dtype=dtype).reshape(lat_num, lon_num)
 
     # elevation map

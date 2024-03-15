@@ -8,15 +8,15 @@ def main():
     # basic information
     h08dir = '/home/kajiyama/H08/H08_20230612'
     SUF = '.gl5'
-    tag = '.pr5'
+    tag = '.ls5'
     dtype = 'float32'
     gl5shape = (2160, 4320)
 
     # region
-    one = 0
-    two = 6
-    three = 46
-    four = 52
+    one = -120
+    two = -116
+    three = 32
+    four = 36
     upperindex = (90 - four) * 12
     lowerindex = (90 - three) * 12
     leftindex = (180 + one) * 12

@@ -10,11 +10,11 @@
 PRJ=W5E5		# Project name
 RUN=N_C_               # Run name
 #RUN=LECD
-YEARMIN=2019            # 
+YEARMIN=2010            # 
 YEARMAX=2019            # 
 SECINT=86400            # interval
 LDBG=3163328              # debugging point (high plains)
-MAX=6
+MAX=1
 #
 PRJMET=W5E5             # Project name of meteorological data
 RUNMET=____             # Run     name of meteorological data
@@ -116,29 +116,29 @@ ENVFLW=../../riv/out/env_out_/${PRJLR__}${RUNLR__}${SUF}MO
 #
 # reservoir settings shown in Hanasaki et al 2008, 2010, and 2013
 #
-      DAMID_=../../map/dat/dam_id__/H06_____20000000${SUF}FX
-      DAMPRP=../../map/dat/dam_prp_/H06_____20000000${SUF}FX
-      DAMCAP=../../map/dat/dam_cap_/H06_____20000000${SUF}FX
-      DAMSRF=NO
-   DAMMON1ST=../../riv/out/fld2dro_/${PRJLR__}${RUNLR__}00000000${SUF}
-      DAMALC=../../map/out/dam_alc_/${PRJLR__}${RUNLR__}${SUF}ID
-DAMRIVOUTFIX=../../riv/out/riv_out_/${PRJLR__}${RUNLR__}00000000${SUF}
-DAMDEMAGRFIX=../../lnd/out/DemAgr__/${PRJN_C_}${RUNN_C_}00000000${SUF}FX
-      MSRCAP=../../map/dat/msr_cap_/H10_____20000000${SUF}FX # Med res capacity
-      MSRAFC=../../map/dat/dam_afc_/temp${SUF}FX
+#      DAMID_=../../map/dat/dam_id__/H06_____20000000${SUF}FX
+#      DAMPRP=../../map/dat/dam_prp_/H06_____20000000${SUF}FX
+#      DAMCAP=../../map/dat/dam_cap_/H06_____20000000${SUF}FX
+#      DAMSRF=NO
+#   DAMMON1ST=../../riv/out/fld2dro_/${PRJLR__}${RUNLR__}00000000${SUF}
+#      DAMALC=../../map/out/dam_alc_/${PRJLR__}${RUNLR__}${SUF}ID
+#DAMRIVOUTFIX=../../riv/out/riv_out_/${PRJLR__}${RUNLR__}00000000${SUF}
+#DAMDEMAGRFIX=../../lnd/out/DemAgr__/${PRJN_C_}${RUNN_C_}00000000${SUF}FX
+#      MSRCAP=../../map/dat/msr_cap_/H10_____20000000${SUF}FX # Med res capacity
+#      MSRAFC=../../map/dat/dam_afc_/temp${SUF}FX
 #
 # reservoir settings shown in Hanasaki et al 2018
 #
-      DAMID_=../../map/dat/dam_id__/GRanD_L_20000000${SUF}FX
-      DAMPRP=../../map/dat/dam_prp_/GRanD_L_20000000${SUF}FX
-      DAMCAP=../../map/dat/dam_cap_/GRanD_L_20000000${SUF}FX
-      DAMSRF=NO
-   DAMMON1ST=../../riv/out/fld2dro_/${PRJLR__}${RUNLR__}00000000${SUF}
-      DAMALC=../../map/out/dam_alc_/${PRJLR__}${RUNLR__}${SUF}ID
-DAMRIVOUTFIX=../../riv/out/riv_out_/${PRJLR__}${RUNLR__}00000000${SUF}
-DAMDEMAGRFIX=../../lnd/out/DemAgr__/${PRJN_C_}${RUNN_C_}00000000${SUF}FX
-      MSRCAP=../../map/dat/dam_cap_/GRanD_M_20000000${SUF}FX # Med res capacity
-      MSRAFC=../../map/dat/dam_afc_/GRanD_M_20000000${SUF}FX # Med res area
+#      DAMID_=../../map/dat/dam_id__/GRanD_L_20000000${SUF}FX
+#      DAMPRP=../../map/dat/dam_prp_/GRanD_L_20000000${SUF}FX
+#      DAMCAP=../../map/dat/dam_cap_/GRanD_L_20000000${SUF}FX
+#      DAMSRF=NO
+#   DAMMON1ST=../../riv/out/fld2dro_/${PRJLR__}${RUNLR__}00000000${SUF}
+#      DAMALC=../../map/out/dam_alc_/${PRJLR__}${RUNLR__}${SUF}ID
+#DAMRIVOUTFIX=../../riv/out/riv_out_/${PRJLR__}${RUNLR__}00000000${SUF}
+#DAMDEMAGRFIX=../../lnd/out/DemAgr__/${PRJN_C_}${RUNN_C_}00000000${SUF}FX
+#      MSRCAP=../../map/dat/dam_cap_/GRanD_M_20000000${SUF}FX # Med res capacity
+#      MSRAFC=../../map/dat/dam_afc_/GRanD_M_20000000${SUF}FX # Med res area
 #
 # disable reservoir operation
 #
@@ -267,8 +267,8 @@ OPTDAMWBC=no     # no for not execute water balance calculation
 # Parameter for NNBW (Edit here if you wish)
 ############################################################
 #
-OPTNNBS=no        # non-local & non-renewable water source (surface water)
-OPTNNBG=no        # non-local & non-renewable water source (groundwater)
+#OPTNNBS=no        # non-local & non-renewable water source (surface water)
+#OPTNNBG=no        # non-local & non-renewable water source (groundwater)
 #
 OPTNNBS=yes       # non-local & non-renewable water source (surface water)
 OPTNNBG=yes       # non-local & non-renewable water source (groundwater)

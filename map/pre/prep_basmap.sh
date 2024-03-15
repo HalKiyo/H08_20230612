@@ -29,16 +29,22 @@
 #SUF=.gl1
 
 #5minx5min of tokyo (.tk5)
-L=1728
-XY="36 48"
-LONLAT="138 141 34 38"
-SUF=.tk5
+#L=1728
+#XY="36 48"
+#LONLAT="138 141 34 38"
+#SUF=.tk5
 
 #5minx5min of london (.ln5)
-L=1728
-XY="48 36"
-LONLAT="-3 1 50 53"
-SUF=.ln5
+#L=1728
+#XY="48 36"
+#LONLAT="-3 1 50 53"
+#SUF=.ln5
+
+#5minx5min of paris (.pr5)
+L=5184
+XY="72 72"
+LONLAT="0 6 46 52"
+SUF=.pr5
 
 ############################################################
 # Output (Do not edit here unless you are an expert)

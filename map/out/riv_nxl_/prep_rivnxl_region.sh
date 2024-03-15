@@ -16,8 +16,6 @@ SUFGL5=.gl5
 MAPGL5=.CAMA
 NUM=29
 CITYNUM=$(printf "%08d" ${NUM})
-echo $CITYNUM
-exit
 #
 SUFRGN=.ln5
 MAPRGN=.CAMA

@@ -1,9 +1,7 @@
 """
 Author Doi @ 20210331
-modified by Kajiyama @20230913
 modified by kajiyama @20240224
 + inter basin water transfer should be prepared using shumilova 2018
-+ intake point should be .gl5 file for each cities
 
 explore maximum intake point around city mask automatically
 """
@@ -96,6 +94,9 @@ def explore(city_num):
     can_check = city_mask*can_out
     #print(np.sum(can_check)) # 0
 
+    # display data
+    display_data = np.zeros((lat_num, lon_num))
+
     # if canal exists
     if np.sum(can_check)>0:
         canal = 'canal_yes'
@@ -120,16 +121,18 @@ def explore(city_num):
                     for q in range(-can_exp, can_exp):
                         X = can_ind[0, C] + p
                         Y = can_ind[1, C] + q
+                        display_data[X, Y] = 1
                         # maximum or not check
                         if riv_dis[X,Y]/1000. > riv_max:
                             # update riv
                             riv_max = riv_dis[X,Y]/1000.
                             XX = X
                             YY = Y
+                        if rivnum[X, Y] not in cty_rivnum:
+                            display_data[X, Y] = 2
 
     # if no canal
     else:
-        display_data = np.zeros((lat_num, lon_num))
         canal = 'canal_no'
 
         # explore grids
@@ -167,7 +170,7 @@ def explore(city_num):
         display_data[city_mask == 1] =           4
         display_data[city_center == 1] =         5
         display_data[XX, YY] =                   6
-        #display_data.astype(np.float32).tofile('./cty_int_/intake_display.gl5')
+        display_data.astype(np.float32).tofile(f'./cty_int_/fig/intake_display_{city_num:08}{SUF}')
 
         # save file for binary
         intake = np.zeros((lat_num, lon_num))
@@ -219,7 +222,7 @@ def save_txt(ext, city_num):
 
 
 def main():
-    loop_num = 900 # total city number (1-900)
+    #loop_num = 900 # total city number (1-900)
     for city_num in range(1, 901, 1):   ##cheak city number##
         explore(city_num)
 

@@ -116,20 +116,19 @@ def explore(city_num):
 
             # canal grid loop
             for C in range(can_ind.shape[1]):
+                display_data[can_out==can_check[can_ind[0, C],can_ind[1, C]]] = 1
                 # explore grids around canal
                 for p in range(-can_exp, can_exp):
                     for q in range(-can_exp, can_exp):
                         X = can_ind[0, C] + p
                         Y = can_ind[1, C] + q
-                        display_data[X, Y] = 1
+                        display_data[X, Y] = 2
                         # maximum or not check
                         if riv_dis[X,Y]/1000. > riv_max:
                             # update riv
                             riv_max = riv_dis[X,Y]/1000.
                             XX = X
                             YY = Y
-                        if rivnum[X, Y] not in cty_rivnum:
-                            display_data[X, Y] = 2
 
     # if no canal
     else:
@@ -166,7 +165,7 @@ def explore(city_num):
     if riv_max > 0:
 
         # save file for display check
-        display_data[rivnum == rivnum[XX, YY]] = 3
+        #display_data[rivnum == rivnum[XX, YY]] = 3
         display_data[city_mask == 1] =           4
         display_data[city_center == 1] =         5
         display_data[XX, YY] =                   6

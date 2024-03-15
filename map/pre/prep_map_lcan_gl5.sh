@@ -49,7 +49,6 @@ if [ ! -d $DIRCANDES ]; then  mkdir $DIRCANDES; fi
 if [ ! -d $DIRCANSCO ]; then  mkdir $DIRCANSCO; fi
 if [ ! -d $DIRCANCNT ]; then  mkdir $DIRCANCNT; fi
 #
-#prog_map_lcan $ARG $ELVMIN $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES >> $LOG
 prog_map_lcan $ARGGL5 $ELVMINGL5 $RIVNUM $RIVARA $RIVSEQ $RIVNXL $LCANORG $XCANORG $YCANORG $CANSCO $CANCNT $MAX $OPT $LCANDES >> $LOG
 #
 #############################################################

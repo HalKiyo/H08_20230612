@@ -14,6 +14,10 @@ LONLATGL5="-180 180 -90 90"
 ARGGL5="$LGL5 $XYGL5 $L2XGL5 $L2YGL5 $LONLATGL5"
 SUFGL5=.gl5
 MAPGL5=.CAMA
+NUM=29
+CITYNUM=$(printf "%08d" ${NUM})
+echo $CITYNUM
+exit
 #
 SUFRGN=.ln5
 MAPRGN=.CAMA
@@ -30,7 +34,7 @@ ARGRGN="$LRGN $XYRGN $L2XRGN $L2YRGN $LONLATRGN"
 ########################################################
 DIRRIVNXL=../../out/riv_nxl_
 #
-MSKNXL=$DIRRIVNXL/masked${SUFRGN}${MAPGL5}${SUFGL5}
+MSKNXL=$DIRRIVNXL/masked/masked${CITYNUM}${MAPGL5}${SUFGL5}
 NEWNXL=$DIRRIVNXL/rivnxl${MAPRGN}${SUFRGN}
 
 ########################################################

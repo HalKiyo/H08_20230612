@@ -59,10 +59,16 @@
 #SUF=.ch5
 
 #5minx5min of paris (.ls5)
-L=1296
-XY="36 36"
-LONLAT="17 20 -35 -32"
-SUF=.ct5
+#L=1296
+#XY="36 36"
+#LONLAT="17 20 -35 -32"
+#SUF=.ct5
+
+#5minx5min of paris (.ls5)
+L=4032
+XY="84 48"
+LONLAT="-47 -40 -24 -20"
+SUF=.ro5
 
 ############################################################
 # Output (Do not edit here unless you are an expert)

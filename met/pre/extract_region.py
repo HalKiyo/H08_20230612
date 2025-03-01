@@ -8,36 +8,37 @@ def main():
     # basic information
     h08dir = '/home/kajiyama/H08/H08_20230612'
     SUF = '.gl5'
-    tag = '.ro5'
+    tag = '.tk5'
     dtype = 'float32'
     gl5shape = (2160, 4320)
 
     # region
-    one = -47
-    two = -40
-    three = -24
-    four = -20
+    one = 138
+    two = 141
+    three = 34
+    four = 38
     upperindex = (90 - four) * 12
     lowerindex = (90 - three) * 12
     leftindex = (180 + one) * 12
     rightindex = (180 + two) * 12
-    print(f"upperindex {upperindex}, lowerindex{lowerindex}, leftindex{leftindex}, rightindex{rightindex}")
+    print(f'upperindex {upperindex}, lowerindex{lowerindex}, leftindex{leftindex}, rightindex{rightindex}')
 
     varlist = ['LWdown__', 'PSurf___', 'Rainf___', 'SWdown__', 'Wind____', 'Prcp____', 'Qair____', 'Snowf___', 'Tair____']
 
-    for var in varlist:
-        metdir = h08dir + '/met/dat/' + var
-        search_word1 = 'W5E5____2019'
-        search_word2 = '.gl5'
-        matching_files = find_files_with_word_in_filename(metdir, search_word1, search_word2)
-        for file in matching_files:
-            loadfile = file
-            savefile = file.replace(SUF, tag)
-            data = np.fromfile(loadfile, dtype=dtype).reshape(gl5shape)
-            tokyo = data[upperindex:lowerindex, leftindex:rightindex]
-            if save_flag is True:
-                tokyo.astype(np.float32).tofile(savefile)
-        print(f"{var} done")
+    for year in (2010, 2019):
+        for var in varlist:
+            metdir = h08dir + '/met/dat/' + var
+            search_word1 = f'W5E5____{year}'
+            search_word2 = '.gl5'
+            matching_files = find_files_with_word_in_filename(metdir, search_word1, search_word2)
+            for file in matching_files:
+                loadfile = file
+                savefile = file.replace(SUF, tag)
+                data = np.fromfile(loadfile, dtype=dtype).reshape(gl5shape)
+                cropped = data[upperindex:lowerindex, leftindex:rightindex]
+                if save_flag is True:
+                    cropped.astype(np.float32).tofile(savefile)
+            print(f"{year} {var} done")
 
 def find_files_with_word_in_filename(directory, word1, word2):
     """

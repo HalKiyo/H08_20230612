@@ -57,19 +57,27 @@ function iplmet() {
     httime $LRGN ${IN}DY ${2} ${2} ${IN}YR
 }
 
-# $1=VAR, $2=YEAR
-#VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____ Tair____ Rainf___"
-#YEARS="1979 .. 2019"
+for YEAR in {1987..1989}; do
+    iplmet LWdown__ $YEAR &
+    iplmet SWdown__ $YEAR &
+    iplmet Prcp____ $YEAR &
+    iplmet Snowf___ $YEAR &
+    iplmet PSurf___ $YEAR &
+    iplmet Qair____ $YEAR &
+    iplmet Wind____ $YEAR &
+    iplmet Tair____ $YEAR &
+    iplmet Rainf___ $YEAR &
+    wait
+done
 
-YEAR=2003
-iplmet LWdown__ $YEAR &
-iplmet SWdown__ $YEAR &
-iplmet Prcp____ $YEAR &
-iplmet Snowf___ $YEAR &
-iplmet PSurf___ $YEAR &
-iplmet Qair____ $YEAR &
-iplmet Wind____ $YEAR &
-iplmet Tair____ $YEAR &
-iplmet Rainf___ $YEAR &
-
-wait
+#YEAR=2001
+#iplmet LWdown__ $YEAR &
+#iplmet SWdown__ $YEAR &
+#iplmet Prcp____ $YEAR &
+#iplmet Snowf___ $YEAR &
+#iplmet PSurf___ $YEAR &
+#iplmet Qair____ $YEAR &
+#iplmet Wind____ $YEAR &
+#iplmet Tair____ $YEAR &
+#iplmet Rainf___ $YEAR &
+#wait

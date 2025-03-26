@@ -3,18 +3,19 @@
 ############################################################
 # Setting
 ##################################j##########################
-YEARMIN=2010
-YEARMAX=2018
 # Tair is calculated by downscaling_Tair.py
-#VARS="Rainf___" # execute after prep_Rainf.sh
-#VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____"
-#VARS="Tair____"
-VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____ Tair____ Rainf___"
+#VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____ Tair____ Rainf___"
+VARS="Snowf___"
 ############################################################
 # Original data
 ############################################################
 PRJRUNMET=W5E5____
-MONS="01 02 03 04 05 06 07 08 09 10 11 12"
+#YEARS="2000 2001 2002 2003 2004 2005"
+YEARS="2001"
+#MONS="01 02 03 04 05 06 07 08 09 10 11 12"
+MONS="06"
+#DAYS="01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31"
+DAYS="13"
 ############################################################
 # gmt parameter
 ############################################################
@@ -42,12 +43,9 @@ SUFRGN=.gl5
 ############################################################
 for VAR in $VARS; do
     DIR="/home/kajiyama/H08/H08_20230612/met/dat/${VAR}/"   # original data
-    YEAR=$YEARMIN
-    while [ $YEAR -le $YEARMAX ]; do
+    for YEAR in $YEARS; do
         for MON in $MONS; do
-            DAY=1
-            DAYMAX=`htcal $YEAR $MON`
-            while [ $DAY -le $DAYMAX ]; do
+            for DAY in $DAYS; do
                 DAY=`echo $DAY | awk '{printf("%2.2d",$1)}'`
                 echo $DIR $YEAR $MON $DAY
 #
@@ -69,12 +67,10 @@ for VAR in $VARS; do
                 gmt grd2xyz ${DIR}${ID}temp.grd > $XYZ
                 htformat   $ARGRGN ascii3 binary $XYZ $BIN
 #
-                DAY=`expr $DAY + 1`
             done
         done
         IN=${DIR}${PRJRUNMET}${SUFRGN}
         httime $LRGN ${IN}DY ${YEAR} ${YEAR} ${IN}MO
         httime $LRGN ${IN}DY ${YEAR} ${YEAR} ${IN}YR
-        YEAR=`expr $YEAR + 01`
     done
 done

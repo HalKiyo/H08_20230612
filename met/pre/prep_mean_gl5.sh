@@ -13,7 +13,7 @@ SUF=.gl5
 PRJ=W5E5
 RUN=____
 IDXORG=DY
-YEARMIN=2010; YEARMAX=2019; YEAROUT=0000
+YEARMIN=2005; YEARMAX=2019; YEAROUT=0000
 ######################################################
 # Macro (Do not edit below unless you are an expert)
 ######################################################

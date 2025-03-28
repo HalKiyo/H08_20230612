@@ -2,7 +2,7 @@
 
 # === setting === #
 VARS="LWdown__ SWdown__ Prcp____ Snowf___ PSurf___ Qair____ Wind____ Tair____ Rainf___"
-YEAR="2001"
+YEAR="1989"
 START_DATE="0101"
 END_DATE="1231"
 PREFIX="W5E5____"

@@ -57,7 +57,7 @@ function iplmet() {
     httime $LRGN ${IN}DY ${2} ${2} ${IN}YR
 }
 
-YEARS="1999"
+YEARS="2001"
 for YEAR in $YEARS; do
     iplmet LWdown__ $YEAR &
     iplmet SWdown__ $YEAR &

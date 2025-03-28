@@ -7,7 +7,7 @@
 ############################################################
 
 PRJ="W5E5"                          # project
-RUN="LR__"                          # run
+RUN="LECD"                          # run
 #RUN="N_C_"
 #RUN="LECD"
 #RUN="NECD"
@@ -45,9 +45,9 @@ OPTNNB=new
 #YEAREND=2019; MONEND=12; DAYEND=00  # year, month, day of final   state
 #DAYS=365; TIME=31536000
 #
-YEAR=2010;    MON=00;    DAY=00     # year, month, day to report
-YEARINI=2009; MONINI=12; DAYINI=00  # year, month, day of initial state
-YEAREND=2010; MONEND=12; DAYEND=00  # year, month, day of final   state
+YEAR=2019;    MON=00;    DAY=00     # year, month, day to report
+YEARINI=2018; MONINI=12; DAYINI=00  # year, month, day of initial state
+YEAREND=2019; MONEND=12; DAYEND=00  # year, month, day of final   state
 DAYS=365; TIME=31536000
 #
 #YEAR=2079;    MON=00;    DAY=00     # year, month, day to report

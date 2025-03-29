@@ -6,7 +6,7 @@ import time
 
 # --- Global Settings ---
 p0mis = 1.0e20  # Value for missing data
-NUM_PROCESSES = 4  # Manually specify the number of CPU cores to use
+NUM_PROCESSES = 20  # Manually specify the number of CPU cores to use
 
 # --- Directory and File Settings ---
 PRJ = "W5E5"
@@ -21,8 +21,8 @@ DIRS = [
     "SWdown__",
     "Tair____",
 ]
-YEARMIN = 2000
-YEARMAX = 2001
+YEARMIN = 1980
+YEARMAX = 2018
 MONTHS = [f"{m:02d}" for m in range(1, 13)]  # 01 to 12
 WORK_DIR = "/home/kajiyama/H08/H08_20230612/met/dat"
 

@@ -8,7 +8,7 @@ DIRLIB  = ../../lib/
 DIRRIV  = ../../riv/bin/
 DIRDAM  = ../../dam/bin/
 DIRCPL  = ../../cpl/bin/
-OBJS    = main main_fix main_gl5 main_tk5
+OBJS    = main main_fix main_gl5 main_tk5 main_g5o
 ############################################################
 #	Macro (Settings)
 ############################################################
@@ -16,9 +16,18 @@ OBJS    = main main_fix main_gl5 main_tk5
 	$(FC) -c ${FCFLAGS} $<
 .F.o:
 	${FC} -c ${FCFLAGS} -I${INC} $<
+calc_leakyb.o: calc_leakyb.f
+	$(FC) -c ${FCFLAGS} -qopenmp ${INC} $<
 ############################################################
 #	Dependency
 ############################################################
+TARGET5    = main_g5o
+COMPONENT5 = ${DIRLND}calc_leakyb.o ${DIRLND}calc_ts_nxt.o \
+             ${DIRLIB}read_binary.o ${DIRLIB}wrte_binary.o \
+             ${DIRLIB}read_result.o \
+             ${DIRLIB}wrte_bints2.o \
+             ${DIRLIB}igetday.o     ${DIRRIV}calc_spinup.o \
+             ${DIRLIB}conv_rhtoqa.o ${DIRLIB}conv_rstors.o
 TARGET4    = main_tk5
 COMPONENT4 = ${DIRLND}calc_leakyb.o ${DIRLND}calc_ts_nxt.o \
              ${DIRLIB}read_binary.o ${DIRLIB}wrte_binary.o \
@@ -58,6 +67,8 @@ $(TARGET3) : $(TARGET3).o $(COMPONENT3)
 	$(FC) -o $@ $@.o $(COMPONENT3)
 $(TARGET4) : $(TARGET4).o $(COMPONENT4)
 	$(FC) -o $@ $@.o $(COMPONENT4)
+$(TARGET5) : $(TARGET5).o $(COMPONENT5)
+	$(FC) -o $@ $@.o $(COMPONENT5)
 all : $(OBJS)
 clean : 
 	rm -f *.o *~ temp*
